@@ -278,13 +278,11 @@ library(jsonlite)</code></pre>
 <pre><code>## The following object is masked from &#39;package:purrr&#39;:
 ## 
 ##     flatten</code></pre>
-<pre class="r"><code>token &lt;- &quot;B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&quot;
-
-res=GET(&#39;https://developer.nps.gov/api/v1/parks?&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
+<pre class="r"><code>res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
 
 
 
-data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()</code></pre>
+data = res %&gt;%  content(&quot;text&quot;) %&gt;%  jsonlite::fromJSON() %&gt;%  as_tibble()</code></pre>
 
 
 
