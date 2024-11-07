@@ -1,0 +1,11 @@
+---
+title: "Home"
+author: "Miriam Lachs"
+date: "2024-11-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
