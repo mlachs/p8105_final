@@ -3,8 +3,9 @@ output_dir: "."
 navbar:
   title: "Home"
   right:
-    - icon: fa-github fa-lg
-      href: http://github.com/mlachs/
+    - text: "Miriam"
+      href: ml5222.html
+
 output:
   html_document:
     theme: cosmo

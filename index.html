@@ -34,8 +34,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -250,10 +248,7 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="http://github.com/mlachs/">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
+  <a href="ml5222.html">Miriam</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -278,13 +273,11 @@ library(jsonlite)</code></pre>
 <pre><code>## The following object is masked from &#39;package:purrr&#39;:
 ## 
 ##     flatten</code></pre>
-<pre class="r"><code>token &lt;- &quot;B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&quot;
-
-res=GET(&#39;https://developer.nps.gov/api/v1/parks?&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
+<pre class="r"><code>res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
 
 
 
-data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()</code></pre>
+data = res %&gt;%  content(&quot;text&quot;) %&gt;%  jsonlite::fromJSON() %&gt;%  as_tibble()</code></pre>
 
 
 
