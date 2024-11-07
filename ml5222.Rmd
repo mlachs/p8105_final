@@ -19,7 +19,6 @@ data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 ```
 
 ```{r}
-data$data
-
+NPS_data=data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_')
 ```
 
