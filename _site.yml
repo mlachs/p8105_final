@@ -1,0 +1,10 @@
+name: "Home"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - icon: fa-github fa-lg
+      href: http://github.com/mlachs/
+output:
+  html_document:
+    theme: cosmo
