@@ -2,7 +2,7 @@
 title: "mos2128"
 author: "Mari Sanders"
 date: "`r Sys.Date()`"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
