@@ -9,3 +9,40 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
+
+```{r}
+library(tidyverse)
+library(httr)
+
+res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
+
+
+
+data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
+
+NPS_data=data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_')
+```
+
+```{r}
+visitation_data <- 
+  read_csv("data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv") %>% 
+  janitor::clean_names()
+```
+
+```{r}
+visitation_data %>% 
+  group_by(park_type, month) %>% 
+  summarize(total_visitation = sum(recreation_visits)) %>% 
+  ggplot(aes(x = as.factor(month), y = total_visitation, color = park_type, group = park_type)) + 
+  geom_line(linewidth = 0.7)
+  
+```
+
+```{r}
+visitation_data %>% 
+  group_by(park_type, year) %>% 
+  summarize(total_visitation = sum(recreation_visits)) %>% 
+  ggplot(aes(x = as.factor(year), y = total_visitation, color = park_type, group = park_type)) + 
+  geom_line(linewidth = 0.7) +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+

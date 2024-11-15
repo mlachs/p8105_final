@@ -11,7 +11,7 @@
 
 <meta name="author" content="Mari Sanders" />
 
-<meta name="date" content="2024-11-07" />
+<meta name="date" content="2024-11-15" />
 
 <title>mos2128</title>
 
@@ -34,11 +34,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<<<<<<< HEAD
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
-=======
->>>>>>> 7d1fdfdea97574e7d217cf8f62c2cab26a9a8f35
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -253,17 +248,10 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-<<<<<<< HEAD
-  <a href="http://github.com/mlachs/">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-=======
   <a href="ml5222.html">Miriam</a>
 </li>
 <li>
   <a href="project_proposal.html">Proposal</a>
->>>>>>> 7d1fdfdea97574e7d217cf8f62c2cab26a9a8f35
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -276,12 +264,49 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">mos2128</h1>
 <h4 class="author">Mari Sanders</h4>
-<h4 class="date">2024-11-07</h4>
+<h4 class="date">2024-11-15</h4>
 
 </div>
 
 
+<pre class="r"><code>library(tidyverse)
+library(httr)
 
+res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
+
+
+
+data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()
+
+NPS_data=data %&gt;% unnest(data) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;)</code></pre>
+<pre class="r"><code>visitation_data &lt;- 
+  read_csv(&quot;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&quot;) %&gt;% 
+  janitor::clean_names()</code></pre>
+<pre><code>## Rows: 101419 Columns: 35
+## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (10): ParkName, UnitCode, ParkType, Region, State, ParkNameTotal, UnitCo...
+## dbl  (3): Year, Month, YearTotal
+## num (22): RecreationVisits, NonRecreationVisits, RecreationHours, NonRecreat...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>visitation_data %&gt;% 
+  group_by(park_type, month) %&gt;% 
+  summarize(total_visitation = sum(recreation_visits)) %&gt;% 
+  ggplot(aes(x = as.factor(month), y = total_visitation, color = park_type, group = park_type)) + 
+  geom_line(linewidth = 0.7)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;park_type&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>visitation_data %&gt;% 
+  group_by(park_type, year) %&gt;% 
+  summarize(total_visitation = sum(recreation_visits)) %&gt;% 
+  ggplot(aes(x = as.factor(year), y = total_visitation, color = park_type, group = park_type)) + 
+  geom_line(linewidth = 0.7) +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;park_type&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 
 
 
