@@ -270,15 +270,29 @@ $(document).ready(function () {
 
 
 <p>Space where Miriam is working</p>
-<pre class="r"><code>library(tidyverse)
-library(httr)
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(httr)
 
 res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
 
-
-
 data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()</code></pre>
-<pre class="r"><code>NPS_data=data %&gt;% unnest(data) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;)</code></pre>
+<pre class="r"><code>NPS_data_parks=data %&gt;% unnest(data) %&gt;% select(fullName,description,latitude,longitude,activities,states,entranceFees,operatingHours,designation) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;) %&gt;% unnest(operatingHours,names_sep = &#39;_&#39;) </code></pre>
+<pre class="r"><code>NPS_data_parks %&gt;%select(fullName,entranceFees_cost,entranceFees_title,states) %&gt;% 
+  mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %&gt;% 
+filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% distinct() %&gt;% group_by(states) %&gt;% 
+  summarise(meanFee=mean(entranceFees_cost,na.rm = TRUE)) %&gt;% 
+ggplot(aes(x=states,y=meanFee))+geom_point()</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 
 
 
