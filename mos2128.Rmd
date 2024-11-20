@@ -8,11 +8,13 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(plotly)
+library(httr)
 ```
 
 ```{r}
-library(tidyverse)
-library(httr)
+
+
 
 res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
 
@@ -20,23 +22,89 @@ res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSO
 
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 
-NPS_data=data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_')
+NPS_data=data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(topics,names_sep = '_') %>% 
+  janitor::clean_names()
 ```
 
 ```{r}
 visitation_data <- 
   read_csv("data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv") %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>% 
+  mutate(unit_code = tolower(unit_code)) %>% 
+  rename(park_code = unit_code, 
+         full_name = park_name)
+
+combined_data <- visitation_data %>%
+  right_join(NPS_data %>% select(park_code, full_name, latitude, longitude),
+            by = c("park_code"))
+
 ```
+
 
 ```{r}
 visitation_data %>% 
   group_by(park_type, month) %>% 
   summarize(total_visitation = sum(recreation_visits)) %>% 
-  ggplot(aes(x = as.factor(month), y = total_visitation, color = park_type, group = park_type)) + 
-  geom_line(linewidth = 0.7)
-  
+plot_ly(x = ~as.factor(month), y = ~total_visitation, type = "scatter", mode = "lines", color = ~park_type)
+
+visit_summary <- 
+  visitation_data %>% 
+  group_by(park_type, month) %>% 
+  summarize(total_tent = sum(tent_campers), 
+            backcountry_visits = sum(backcountry), 
+            total_rv = sum(rv_campers))
+
+
+tent_campers_plot <- plot_ly(visit_summary, 
+                             x = ~as.factor(month), 
+                             y = ~total_tent, 
+                             type = "scatter", 
+                             mode = "lines", 
+                             color = ~park_type,
+                             legendgroup = ~park_type) %>%
+  layout(title = "Tent Campers")
+
+backcountry_plot <- plot_ly(visit_summary, 
+                            x = ~as.factor(month), 
+                            y = ~backcountry_visits, 
+                            type = "scatter",
+                            mode = "lines",
+                            color = ~park_type,
+                           legendgroup = ~park_type,
+                           showlegend = FALSE) %>%
+  layout(title = "Backcountry")
+
+rv_campers_plot <- plot_ly(visit_summary, 
+                           x = ~as.factor(month), 
+                           y = ~total_rv, 
+                           type = "scatter", 
+                           mode = "lines",
+                           color = ~park_type,
+                          legendgroup = ~park_type,
+                          showlegend = FALSE) %>%
+  layout(title = "RV Campers")
+
+subplot(
+  tent_campers_plot, 
+  backcountry_plot, 
+  rv_campers_plot, 
+  nrows = 2,  
+  shareX = TRUE, 
+  shareY = TRUE   
+)
 ```
+
+```{r}
+visitation_data %>% 
+  mutate(season = case_when(
+    month %in% c(12,1,2) ~ "Winter", 
+    month %in% c(3,4,5) ~ "Spring", 
+    month %in% c(6,7,8) ~ "Summer", 
+    TRUE ~ "Fall"
+  )) %>% 
+  plot_ly(x = ~season, y = ~recreation_visits, type = "box")
+```
+
 
 ```{r}
 visitation_data %>% 
@@ -44,5 +112,19 @@ visitation_data %>%
   summarize(total_visitation = sum(recreation_visits)) %>% 
   ggplot(aes(x = as.factor(year), y = total_visitation, color = park_type, group = park_type)) + 
   geom_line(linewidth = 0.7) +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+```{r}
+visitation_data %>% 
+  mutate(season = case_when(
+    month %in% c(12,1,2) ~ "Winter", 
+    month %in% c(3,4,5) ~ "Spring", 
+    month %in% c(6,7,8) ~ "Summer", 
+    TRUE ~ "Fall"
+  )) %>% 
+  group_by(season) %>% 
+  summarize(total_tent = sum(tent_campers), 
+            backcountry_visits = sum(backcountry), 
+            total_rv = sum(rv_campers))
 ```
 
