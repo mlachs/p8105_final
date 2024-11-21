@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(plotly)
 library(httr)
+library(leaflet)
 ```
 
 ```{r}
@@ -23,7 +24,11 @@ res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSO
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 
 NPS_data=data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(topics,names_sep = '_') %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>% 
+  mutate(
+    latitude = as.numeric(latitude), 
+    longitude = as.numeric(longitude)
+  )
 ```
 
 ```{r}
@@ -176,6 +181,14 @@ visitation_data %>%
     values_to = "mean", 
     names_prefix = "mean_"
   ) %>% 
-  plot_ly(x = ~season, y =~mean, color = ~type_visit)
+  plot_ly(x = ~season, y = ~mean, color = ~type_visit)
 ```
 
+```{r}
+leaflet(data = NPS_data) %>% 
+  addTiles() %>% 
+  addMarkers(~longitude, ~latitude) %>%
+  setView(lng = -98.583, lat = 39.828, zoom = 4)
+```
+
+regression with entrance fees, activities, park_type ?
