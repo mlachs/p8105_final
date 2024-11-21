@@ -23,12 +23,10 @@ res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSO
 
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 
-NPS_data=data %>% unnest(data) %>% select(fullName,description,latitude,longitude,activities,states,entranceFees,operatingHours,activities, designation, parkCode, topics) %>%  unnest(activities, names_sep = '_') %>% unnest(entranceFees,names_sep = '_') %>% unnest(operatingHours,names_sep = '_') %>% unnest(topics, names_sep = "_") %>%  janitor::clean_names() %>% 
+NPS_data=data %>% unnest(data) %>% select(fullName,latitude,longitude,activities,states, parkCode) %>%  janitor::clean_names() %>% 
   mutate(
     latitude = as.numeric(latitude), 
-    longitude = as.numeric(longitude),
-    activities_name = factor(activities_name), 
-    topics_name = factor(topics_name)
+    longitude = as.numeric(longitude)
   )
 ```
 
@@ -184,13 +182,74 @@ visitation_data %>%
   plot_ly(x = ~season, y = ~mean, color = ~type_visit)
 ```
 
-```{r}
+map of all national parks in US
+
+```{r,eval = FALSE}
 leaflet(data = NPS_data) %>% 
   addTiles() %>% 
   addMarkers(~longitude, ~latitude) %>%
   setView(lng = -98.583, lat = 39.828, zoom = 4)
 ```
 
-model to predict visitation based on entrance fees, activities, park_type ?
+Mean recreation visit by park type (separate plots for each park type)
+```{r}
+park_types <- unique(visitation_data$park_type)
+plots <- list()
+for (i in seq_along(park_types)) {
+plots[[i]] <- visitation_data %>% 
+    filter(park_type == park_types[i]) %>% 
+    mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ "Winter", 
+      month %in% c(3, 4, 5) ~ "Spring", 
+      month %in% c(6, 7, 8) ~ "Summer", 
+      TRUE ~ "Fall"
+    )) %>% 
+    group_by(season) %>%
+    summarize(avg_visits = mean(recreation_visits, na.rm = TRUE)) %>%
+    ggplot(aes(x = season, y = avg_visits, fill = season)) +
+    geom_col() +
+    ggtitle(paste("Average Visits by Season for", park_types[i])) 
+} 
+plots
+```
+
+National Preserves has pretty similar avg visits across seasons 
+
+Average visitation by type and park_type (separate graph for each park_type)
+
+```{r}
+park_types <- unique(visitation_data$park_type)
+plots <- list()
+
+for (i in seq_along(park_types)) {
+  visit_summary <- visitation_data %>% 
+    filter(park_type == park_types[i]) %>% 
+    mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ "Winter", 
+      month %in% c(3, 4, 5) ~ "Spring", 
+      month %in% c(6, 7, 8) ~ "Summer", 
+      TRUE ~ "Fall"
+    )) %>% 
+    group_by(season) %>% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %>% 
+    pivot_longer(
+      cols = starts_with("mean_"), 
+      names_to = "type_visit", 
+      values_to = "mean", 
+      names_prefix = "mean_"
+    )
+  
+
+  plots[[i]] <- ggplot(visit_summary, aes(x = season, y = mean)) + 
+    geom_col() + facet_grid(~type_visit) +
+    ggtitle(paste("Average Visits by Season for", park_types[i]))
+}
+
+plots
+```
 
 
