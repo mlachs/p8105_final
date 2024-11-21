@@ -14,12 +14,7 @@ library(leaflet)
 ```
 
 ```{r}
-
-
-
 res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
-
-
 
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 
@@ -44,6 +39,7 @@ combined_data <- right_join(NPS_data, visitation_data, by = c("park_code"))
 ```
 
 faceted plot with rv, tent, and backcountry visits
+
 ```{r}
 visitation_data %>% 
   group_by(park_type, month) %>% 
@@ -98,6 +94,7 @@ subplot(
 ```
 
 visits by season boxplot
+
 ```{r}
 visitation_data %>% 
   mutate(season = case_when(
@@ -192,6 +189,7 @@ leaflet(data = NPS_data) %>%
 ```
 
 Mean recreation visit by park type (separate plots for each park type)
+
 ```{r}
 park_types <- unique(visitation_data$park_type)
 plots <- list()
