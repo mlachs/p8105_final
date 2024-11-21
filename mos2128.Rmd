@@ -40,7 +40,7 @@ combined_data <- visitation_data %>%
 
 ```
 
-
+faceted plot with rv, tent, and backcountry visits
 ```{r}
 visitation_data %>% 
   group_by(park_type, month) %>% 
@@ -51,7 +51,7 @@ visit_summary <-
   visitation_data %>% 
   group_by(park_type, month) %>% 
   summarize(total_tent = sum(tent_campers), 
-            backcountry_visits = sum(backcountry), 
+            total_backcountry = sum(backcountry), 
             total_rv = sum(rv_campers))
 
 
@@ -66,7 +66,7 @@ tent_campers_plot <- plot_ly(visit_summary,
 
 backcountry_plot <- plot_ly(visit_summary, 
                             x = ~as.factor(month), 
-                            y = ~backcountry_visits, 
+                            y = ~total_backcountry, 
                             type = "scatter",
                             mode = "lines",
                             color = ~park_type,
@@ -94,6 +94,7 @@ subplot(
 )
 ```
 
+visits by season boxplot
 ```{r}
 visitation_data %>% 
   mutate(season = case_when(
@@ -105,6 +106,7 @@ visitation_data %>%
   plot_ly(x = ~season, y = ~recreation_visits, type = "box")
 ```
 
+total visitation by year
 
 ```{r}
 visitation_data %>% 
@@ -113,6 +115,8 @@ visitation_data %>%
   ggplot(aes(x = as.factor(year), y = total_visitation, color = park_type, group = park_type)) + 
   geom_line(linewidth = 0.7) +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
+
+total visitation by season 
 
 ```{r}
 visitation_data %>% 
@@ -125,6 +129,53 @@ visitation_data %>%
   group_by(season) %>% 
   summarize(total_tent = sum(tent_campers), 
             backcountry_visits = sum(backcountry), 
-            total_rv = sum(rv_campers))
+            total_rv = sum(rv_campers)) %>% 
+  pivot_longer(
+    total_tent:total_rv, 
+    values_to = "total_visit", 
+    names_to = "type_visit",
+    names_prefix = "total_"
+  ) %>% 
+  plot_ly(x = ~season, y = ~total_visit, color = ~type_visit, type = "bar")
+```
+
+mean visitation by park type and season 
+
+```{r}
+visitation_data %>% 
+  mutate(season = case_when(
+    month %in% c(12,1,2) ~ "Winter", 
+    month %in% c(3,4,5) ~ "Spring", 
+    month %in% c(6,7,8) ~ "Summer", 
+    TRUE ~ "Fall"
+  )) %>% 
+  group_by(park_type, season) %>% 
+  mutate(
+    mean_total = mean(recreation_visits, na.rm = TRUE)
+  ) %>% 
+    plot_ly(x = ~season, y = ~mean_total, color = ~park_type)
+```
+
+mean visitation season and visit type 
+
+```{r}
+visitation_data %>% 
+  mutate(season = case_when(
+    month %in% c(12,1,2) ~ "Winter", 
+    month %in% c(3,4,5) ~ "Spring", 
+    month %in% c(6,7,8) ~ "Summer", 
+    TRUE ~ "Fall"
+  )) %>% 
+  group_by(season) %>% 
+  summarize(mean_tent = mean(tent_campers), 
+            mean_backcountry = mean(backcountry), 
+            mean_rv = mean(rv_campers)) %>% 
+  pivot_longer(
+    mean_tent:mean_rv, 
+    names_to = "type_visit", 
+    values_to = "mean", 
+    names_prefix = "mean_"
+  ) %>% 
+  plot_ly(x = ~season, y =~mean, color = ~type_visit)
 ```
 
