@@ -23,11 +23,12 @@ res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSO
 
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 
-NPS_data=data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(topics,names_sep = '_') %>% 
-  janitor::clean_names() %>% 
+NPS_data=data %>% unnest(data) %>% select(fullName,description,latitude,longitude,activities,states,entranceFees,operatingHours,activities, designation, parkCode, topics) %>%  unnest(activities, names_sep = '_') %>% unnest(entranceFees,names_sep = '_') %>% unnest(operatingHours,names_sep = '_') %>% unnest(topics, names_sep = "_") %>%  janitor::clean_names() %>% 
   mutate(
     latitude = as.numeric(latitude), 
-    longitude = as.numeric(longitude)
+    longitude = as.numeric(longitude),
+    activities_name = factor(activities_name), 
+    topics_name = factor(topics_name)
   )
 ```
 
@@ -37,11 +38,10 @@ visitation_data <-
   janitor::clean_names() %>% 
   mutate(unit_code = tolower(unit_code)) %>% 
   rename(park_code = unit_code, 
-         full_name = park_name)
+         full_name = park_name) %>% 
+  select(full_name, park_code, park_type, region, state, year, month, recreation_visits, tent_campers, rv_campers, tent_campers, backcountry)
 
-combined_data <- visitation_data %>%
-  right_join(NPS_data %>% select(park_code, full_name, latitude, longitude),
-            by = c("park_code"))
+combined_data <- right_join(NPS_data, visitation_data, by = c("park_code"))
 
 ```
 
@@ -191,4 +191,6 @@ leaflet(data = NPS_data) %>%
   setView(lng = -98.583, lat = 39.828, zoom = 4)
 ```
 
-regression with entrance fees, activities, park_type ?
+model to predict visitation based on entrance fees, activities, park_type ?
+
+
