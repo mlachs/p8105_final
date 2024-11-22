@@ -10,14 +10,26 @@ Space where Miriam is working
 ```{r}
 library(tidyverse)
 library(httr)
+library(plotly)
+res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
 
+data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
+```
+
+
+```{r eval=FALSE}
 res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
 
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 ```
 
 ```{r}
-NPS_data_parks=data %>% unnest(data) %>% select(fullName,description,latitude,longitude,activities,states,entranceFees,operatingHours,designation) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_') %>% unnest(operatingHours,names_sep = '_') 
+NPS_data_parks=data %>% unnest(data) %>% select(fullName,parkCode,description,latitude,longitude,activities,states,entranceFees,operatingHours,designation) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_') %>% unnest(operatingHours,names_sep = '_') 
+
+NPS_data_visits=read_csv('data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv')
+
+NPS_Full=NPS_data_parks %>%   mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %>% 
+mutate(parkCode=str_to_upper(parkCode))%>% full_join(NPS_data_visits,by=join_by('parkCode'=='UnitCode'))
 ```
 
 ```{r}
@@ -26,5 +38,65 @@ NPS_data_parks %>%select(fullName,entranceFees_cost,entranceFees_title,states) %
 filter(entranceFees_title=='Entrance - Per Person') %>% distinct() %>% group_by(states) %>% 
   summarise(meanFee=mean(entranceFees_cost,na.rm = TRUE)) %>% 
 ggplot(aes(x=states,y=meanFee))+geom_point()
+```
+
+```{r}
+NPS_Full %>% 
+  filter(entranceFees_title=='Entrance - Per Person') %>% 
+  select(fullName,entranceFees_cost,RecreationVisitsTotal,Year,states) %>% distinct() %>% 
+  group_by(fullName,entranceFees_cost,states) %>% 
+  summarise(avg_visit=mean(RecreationVisitsTotal)) %>% 
+  ggplot(aes(x=entranceFees_cost,y=avg_visit,colour = states))+geom_point()
+```
+
+```{r}
+NPS_Full %>% group_by(fullName,UnitCodeTotal) %>% summarise(n_act=(n_distinct(activities_name)), totalvisit=mean(RecreationVisitsTotal)) %>% ggplot(aes(x=n_act,y=totalvisit))+geom_point()
+```
+
+```{r}
+NPS_Full %>% group_by(fullName)%>% summarise(n=n_distinct(entranceFees_title)) %>% view()
+```
+
+```{r}
+NPS_Full %>% 
+  filter(entranceFees_title=='Entrance - Per Person') %>% 
+  select(fullName,entranceFees_cost,RecreationVisits) %>% group_by(fullName,entranceFees_cost) %>% 
+  summarise(avg_visit=mean(RecreationVisits)) %>% 
+  ggplot(aes(x=entranceFees_cost,y=avg_visit))+geom_point()+stat_smooth(method = 'lm')
+
+```
+
+```{r}
+NPS_Full %>%
+  filter(entranceFees_title=='Entrance - Per Person') %>% 
+  group_by(fullName) %>% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%>%   lm(avg_visit~ activities_count,data=.) %>% broom::tidy()
+```
+
+```{r}
+NPS_Full %>%
+  filter(entranceFees_title=='Entrance - Per Person') %>% 
+  group_by(fullName) %>% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%>% ggplot(aes(x=activities_count,y=avg_visit))+geom_point()+stat_smooth(method = 'lm')
+```
+
+```{r}
+NPS_Full %>% distinct(fullName,Month,Year,RecreationVisits,ParkType) %>% group_by(ParkType) %>% summarise(total_visit=sum(RecreationVisits)/n_distinct(fullName)) %>% 
+  mutate(ParkType=fct_reorder(ParkType,total_visit)) %>% 
+  ggplot(aes(x=as.factor(ParkType),y=total_visit))+geom_col() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+```{r}
+NPS_Full %>% distinct(fullName,activities_name,ParkType) %>% group_by(ParkType) %>% summarise(total_act=n_distinct(activities_name)) %>% 
+  mutate(ParkType=fct_reorder(ParkType,total_act)) %>% 
+  ggplot(aes(x=as.factor(ParkType),y=total_act))+geom_col() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
