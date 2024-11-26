@@ -1,0 +1,162 @@
+---
+title: "JC6452"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r importing data, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(httr)
+library(plotly)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+```{r}
+res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
+
+data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
+```
+
+```{r initial setup}
+NPS_data=data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_')
+public_use_data = read.csv("data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv")
+```
+
+# Wildlife Relevant Datset Cleaning
+```{r}
+#main dataset
+wildlife_relevant_public_use = 
+  public_use_data %>% 
+  janitor::clean_names() %>%
+  mutate(
+    recreation_visits = as.numeric(str_replace_all(recreation_visits,",","")),
+    concessioner_camping = as.numeric(str_replace_all(concessioner_camping,",","")),
+    tent_campers = as.numeric(str_replace_all(tent_campers,",","")),
+    rv_campers = as.numeric(str_replace_all(rv_campers,",","")), 
+    backcountry = as.numeric(str_replace_all(backcountry,",","")),
+    recreation_visits_total = as.numeric(str_replace_all(recreation_visits_total,",","")),
+    concessioner_camping_total = as.numeric(str_replace_all(concessioner_camping_total,",","")),
+    tent_campers_total = as.numeric(str_replace_all(tent_campers_total,",","")),
+    rv_campers_total = as.numeric(str_replace_all(rv_campers_total,",","")), 
+    backcountry_total = as.numeric(str_replace_all(backcountry_total,",",""))
+  )
+  
+
+#supplemental dataset
+wildlife_relevant_NPS_data = 
+  NPS_data %>% 
+  janitor::clean_names() %>% 
+  select(park_code, full_name, states, activities_name, entrance_fees_cost, entrance_fees_description) %>% 
+  mutate(
+    park_code = str_to_upper(park_code)
+  )
+```
+
+# NY Popular Parks for Recreation based on yearly visits
+```{r} 
+wildlife_relevant_public_use %>%
+  distinct(year, state, park_name, .keep_all = TRUE) %>% 
+  filter(state == "NY") %>% 
+  mutate(text_label = str_c("Year: ", year, " Recreation Visits: ", recreation_visits_total)) %>% 
+  plot_ly(x  = ~year, y = ~recreation_visits_total, color = ~park_name, text = ~text_label, mode = 'lines+markers')  %>% 
+  layout(title = 'Popular Parks for Recreation Visits in NY state', xaxis = list(title = 'Year'), yaxis = list(title = 'Number of Recreation Visits'))
+  
+```
+#Most Visited Parks in New York State in 2023
+```{r}
+wildlife_relevant_public_use %>%
+  distinct(year, state, park_name, .keep_all = TRUE) %>% 
+  filter(state == "NY", year == 2023) %>% 
+  select(park_name, recreation_visits_total) %>% 
+  arrange(desc(recreation_visits_total)) %>% 
+  knitr::kable()
+```
+# Revenue generated from Statue of Liberty
+```{r}
+NY_public_use= 
+  wildlife_relevant_public_use %>% 
+  filter(state == "NY") %>% 
+  select(park_name, unit_code, year, month, recreation_visits, tent_campers, rv_campers, backcountry, concessioner_camping)
+
+NY_NPS = 
+  wildlife_relevant_NPS_data %>% 
+  filter(states =="NY") %>% 
+  
+  )
+
+relevant = inner_join(NY_public_use, NY_NPS, by = c("unit_code" = "park_code")) %>% 
+  distinct(year, states, park_name, .keep_all = TRUE)
+```
+
+# Seasonal trends and correaltion analysis between total visits and all camping use
+
+```{r}
+seasonal_camping = 
+  wildlife_relevant_public_use %>% 
+  filter(state == "NY") %>% 
+  select(year, month, recreation_visits, tent_campers, rv_campers, backcountry) %>% 
+  mutate(season = 
+           case_when(
+             month %in% c(12, 1, 2) ~ "Winter",
+             month %in% c(3,4,5) ~ "Spring",
+             month %in% c(6,7,8) ~ "Summmer", 
+             month %in% c(9,10,11) ~ "Fall")
+  ) %>% 
+  group_by(year, season) %>% 
+  summarise(
+    total_visit = sum(recreation_visits, na.rm = TRUE),
+    tent_camping = sum(tent_campers, na.rm = TRUE),
+    rv_camping = sum(rv_campers, na.rm = TRUE),
+    backcountry_camping = sum(backcountry, na.rm = TRUE)
+  ) %>% 
+  mutate(
+    total_camping = tent_camping + rv_camping + backcountry_camping)
+```
+#NY Seasonal Trends in Camping in NY
+```{r}
+seasonal_camping %>%
+  ggplot(aes(x = year, y = total_camping, color = season, group = season)) +
+  geom_line(size = 1) +
+  labs(title = "Seasonal Trends for Camping", x = 'Year', y = 'Total Visits for Camping')+
+  theme_minimal()
+```
+## Seasonal Peaks
+```{r}
+seasonal_camping %>% 
+  group_by(season) %>% 
+  summarise(
+    avg_visit = mean(total_visit, na.rm = TRUE),
+    avg_camping = mean(total_camping, na.rm = TRUE)
+  ) %>% 
+  knitr::kable()
+```
+
+```{r}
+library(leaflet)
+leaflet(data = NPS_data) %>% 
+  addTiles() %>% 
+  addMarkers(~longitude, ~latitude) 
+```
+

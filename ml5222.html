@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Miriam Lachs" />
+
+<meta name="date" content="2024-11-07" />
+
+<title>ml5222</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="ml5222.html">Miriam</a>
+</li>
+<li>
+  <a href="project_proposal.html">Proposal</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">ml5222</h1>
+<h4 class="author">Miriam Lachs</h4>
+<h4 class="date">2024-11-07</h4>
+
+</div>
+
+
+<p>Space where Miriam is working</p>
+<pre class="r"><code>library(tidyverse)
+library(httr)
+library(plotly)
+res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
+
+data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()</code></pre>
+<pre class="r"><code>res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
+
+data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()</code></pre>
+<pre class="r"><code>NPS_data_parks=data %&gt;% unnest(data) %&gt;% select(fullName,parkCode,description,latitude,longitude,activities,states,entranceFees,operatingHours,designation) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;) %&gt;% unnest(operatingHours,names_sep = &#39;_&#39;) 
+
+NPS_data_visits=read_csv(&#39;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&#39;)</code></pre>
+<pre><code>## Rows: 101419 Columns: 35
+## ── Column specification ────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (10): ParkName, UnitCode, ParkType, Region, State, ParkNameTotal, UnitCo...
+## dbl  (3): Year, Month, YearTotal
+## num (22): RecreationVisits, NonRecreationVisits, RecreationHours, NonRecreat...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>NPS_Full=NPS_data_parks %&gt;%   mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %&gt;% 
+mutate(parkCode=str_to_upper(parkCode))%&gt;% full_join(NPS_data_visits,by=join_by(&#39;parkCode&#39;==&#39;UnitCode&#39;))</code></pre>
+<pre><code>## Warning in full_join(., NPS_data_visits, by = join_by(&quot;parkCode&quot; == &quot;UnitCode&quot;)): Detected an unexpected many-to-many relationship between `x` and
+## `y`.
+## ℹ Row 1 of `x` matches multiple rows in `y`.
+## ℹ Row 289 of `y` matches multiple rows in `x`.
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   &quot;many-to-many&quot;` to silence this warning.</code></pre>
+<pre class="r"><code>NPS_data_parks %&gt;%select(fullName,entranceFees_cost,entranceFees_title,states) %&gt;% 
+  mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %&gt;% 
+filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% distinct() %&gt;% group_by(states) %&gt;% 
+  summarise(meanFee=mean(entranceFees_cost,na.rm = TRUE)) %&gt;% 
+ggplot(aes(x=states,y=meanFee))+geom_point()</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% 
+  filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
+  select(fullName,entranceFees_cost,RecreationVisitsTotal,Year,states) %&gt;% distinct() %&gt;% 
+  group_by(fullName,entranceFees_cost,states) %&gt;% 
+  summarise(avg_visit=mean(RecreationVisitsTotal)) %&gt;% 
+  ggplot(aes(x=entranceFees_cost,y=avg_visit,colour = states))+geom_point()</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;,
+## &#39;entranceFees_cost&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the
+## scale range (`geom_point()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% group_by(fullName,UnitCodeTotal) %&gt;% summarise(n_act=(n_distinct(activities_name)), totalvisit=mean(RecreationVisitsTotal)) %&gt;% ggplot(aes(x=n_act,y=totalvisit))+geom_point()</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;. You can override
+## using the `.groups` argument.</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values or values outside the
+## scale range (`geom_point()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% group_by(fullName)%&gt;% summarise(n=n_distinct(entranceFees_title)) %&gt;% view()</code></pre>
+<pre class="r"><code>NPS_Full %&gt;% 
+  filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
+  select(fullName,entranceFees_cost,RecreationVisits) %&gt;% group_by(fullName,entranceFees_cost) %&gt;% 
+  summarise(avg_visit=mean(RecreationVisits)) %&gt;% 
+  ggplot(aes(x=entranceFees_cost,y=avg_visit))+geom_point()+stat_smooth(method = &#39;lm&#39;)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;. You can override
+## using the `.groups` argument.
+## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 6 rows containing non-finite outside the scale range
+## (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the
+## scale range (`geom_point()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;%
+  filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
+  group_by(fullName) %&gt;% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%&gt;%   lm(avg_visit~ activities_count,data=.) %&gt;% broom::tidy()</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   term             estimate std.error statistic    p.value
+##   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+## 1 (Intercept)         2743.    21119.     0.130 0.897     
+## 2 activities_count    3654.      781.     4.68  0.00000946</code></pre>
+<pre class="r"><code>NPS_Full %&gt;%
+  filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
+  group_by(fullName) %&gt;% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%&gt;% ggplot(aes(x=activities_count,y=avg_visit))+geom_point()+stat_smooth(method = &#39;lm&#39;)</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 6 rows containing non-finite outside the scale range
+## (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the
+## scale range (`geom_point()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% distinct(fullName,Month,Year,RecreationVisits,ParkType) %&gt;% group_by(ParkType) %&gt;% summarise(total_visit=sum(RecreationVisits)/n_distinct(fullName)) %&gt;% 
+  mutate(ParkType=fct_reorder(ParkType,total_visit)) %&gt;% 
+  ggplot(aes(x=as.factor(ParkType),y=total_visit))+geom_col() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))</code></pre>
+<pre><code>## Warning: There was 1 warning in `mutate()`.
+## ℹ In argument: `ParkType = fct_reorder(ParkType, total_visit)`.
+## Caused by warning:
+## ! `fct_reorder()` removing 1 missing value.
+## ℹ Use `.na_rm = TRUE` to silence this message.
+## ℹ Use `.na_rm = FALSE` to preserve NAs.</code></pre>
+<pre><code>## Warning: Removed 1 row containing missing values or values outside the scale
+## range (`geom_col()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% distinct(fullName,activities_name,ParkType) %&gt;% group_by(ParkType) %&gt;% summarise(total_act=n_distinct(activities_name)) %&gt;% 
+  mutate(ParkType=fct_reorder(ParkType,total_act)) %&gt;% 
+  ggplot(aes(x=as.factor(ParkType),y=total_act))+geom_col() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
