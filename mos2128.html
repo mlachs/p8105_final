@@ -11,7 +11,7 @@
 
 <meta name="author" content="Mari Sanders" />
 
-<meta name="date" content="2024-11-15" />
+<meta name="date" content="2024-11-26" />
 
 <title>mos2128</title>
 
@@ -264,7 +264,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">mos2128</h1>
 <h4 class="author">Mari Sanders</h4>
-<h4 class="date">2024-11-15</h4>
+<h4 class="date">2024-11-26</h4>
 
 </div>
 
@@ -283,7 +283,7 @@ NPS_data=data %&gt;% unnest(data) %&gt;% unnest(activities,names_sep = &#39;_&#3
   read_csv(&quot;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&quot;) %&gt;% 
   janitor::clean_names()</code></pre>
 <pre><code>## Rows: 101419 Columns: 35
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (10): ParkName, UnitCode, ParkType, Region, State, ParkNameTotal, UnitCo...
 ## dbl  (3): Year, Month, YearTotal
@@ -296,16 +296,16 @@ NPS_data=data %&gt;% unnest(data) %&gt;% unnest(activities,names_sep = &#39;_&#3
   summarize(total_visitation = sum(recreation_visits)) %&gt;% 
   ggplot(aes(x = as.factor(month), y = total_visitation, color = park_type, group = park_type)) + 
   geom_line(linewidth = 0.7)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;park_type&#39;. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;park_type&#39;. You can override
+## using the `.groups` argument.</code></pre>
 <p><img src="mos2128_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code>visitation_data %&gt;% 
   group_by(park_type, year) %&gt;% 
   summarize(total_visitation = sum(recreation_visits)) %&gt;% 
   ggplot(aes(x = as.factor(year), y = total_visitation, color = park_type, group = park_type)) + 
   geom_line(linewidth = 0.7) +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;park_type&#39;. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;park_type&#39;. You can override
+## using the `.groups` argument.</code></pre>
 <p><img src="mos2128_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 
 

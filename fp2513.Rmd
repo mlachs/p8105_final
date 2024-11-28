@@ -13,7 +13,7 @@ library(httr)
 library(jsonlite)
 
 
-res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
+res=GET('https://developer.nps.gov/api/v1/newsreleases?limit=10000&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
 
 
 
@@ -25,8 +25,137 @@ data %>%
   janitor::clean_names() %>% 
   select(data) %>% 
   unnest(data) %>% 
-  select(fullName, entranceFees) %>% 
-  unnest(entranceFees) %>% 
   view()
 ```
+
+Look at newreleases 
+Looking potentially at coverage across the years see how the distribution of coverage changes if it does (map visualisation)
+
+Topics covered each year (overall and within regions), text analysis
+
+Historic traffic counts to see how it correlates to boom in automobiles?
+Public use Statistics and how that changes over time
+With the 
+
+Text Analysis of news releases
+```{r}
+library(tm)
+library(tidytext)
+library(stringr)
+library(dplyr)
+library(ggplot2)
+
+text_data = data %>% 
+  janitor::clean_names() %>% 
+  select(data) %>% 
+  unnest(data) %>% 
+  select(title, abstract, relatedParks, releaseDate)
+
+clean_text = function(text) {
+  text <- tolower(text)
+  text <- removePunctuation(text)
+  text <- removeNumbers(text)
+  text <- stripWhitespace(text)
+  text <- removeWords(text, stopwords("en"))
+  return(text)
+}
+
+text_data$cleaned_title = sapply(text_data$title, clean_text)
+
+tidy_titles = text_data %>%
+  unnest_tokens(word, cleaned_title)
+```
+
+```{r}
+library(wordcloud)
+
+word_count = tidy_titles %>%
+  count(word, sort = TRUE)
+
+wordcloud(words = word_count$word, freq = word_count$n, min.freq = 20)
+```
+
+```{r}
+sentiments = tidy_titles %>%
+  inner_join(get_sentiments("bing")) %>%
+  count(word, sentiment, sort = TRUE)
+
+sentiments %>%
+  group_by(sentiment) %>%
+  top_n(10) %>%
+  ungroup() %>%
+  ggplot(aes(x = reorder(word, n), y = n, fill = sentiment)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~sentiment, scales = "free_y") +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "Top Words by Sentiment in Titles", x = "Words", y = "Frequency")
+```
+
+```{r}
+library(topicmodels)
+library(tm)
+library(reshape2)
+
+docu_term_matrix = DocumentTermMatrix(VCorpus(VectorSource(text_data$cleaned_title)))
+
+lda_model = LDA(docu_term_matrix, k = 3, control = list(seed = 1234))
+topics = tidy(lda_model, matrix = "beta")
+
+top_terms = topics %>%
+  group_by(topic) %>%
+  top_n(10, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_terms
+
+```
+
+
+Historic Traffic Data
+
+```{r}
+his_traffic_df = read_csv(file = "data/Query Builder for Traffic Counts (1985 - Last Calendar Year).csv", 
+                           na = c("NA", ",", ".")) %>% 
+  janitor::clean_names() %>% 
+  filter(park_name %in% c("Fire Island NS", "Gateway NRA", "Saratoga NHP", "Upper Delaware S&RR", "Vanderbilt Mansion NHS"))
+
+ggplot(his_traffic_df, aes(x = year, y = traffic_count_total, color = traffic_counter)) +
+  geom_point() +
+  geom_smooth(method = "loess", se = FALSE) +
+  labs(title = "Traffic Count Totals by Year for Selected Parks in New York",
+       x = "Year",
+       y = "Total Traffic Count",
+       color = "Traffic Counter") +
+  theme_minimal() +
+  facet_wrap(~ park_name, scales = "free_y")
+
+```
+
+
+```{r}
+his_traffic_df = 
+  read_csv(file = "data/Query Builder for Traffic Counts (1985 - Last Calendar Year).csv", na = c("NA", ",", ".")) %>% 
+  janitor::clean_names() 
+
+his_traffic_df %>% 
+  select(park_name) %>% 
+  distinct() %>% 
+  pull()
+print(unique_park_names)
+```
+
+
+Compare east and west coast trends specifically between New York and California which is really popular with natioanl parks looking at traffic, visitation trends historically 
+
+What can we gain knowledge about?
+
+Maybe even create a map in the end of america that plots interactive points of the parks and plotly will show you
+The name of the park, year with most traffic and count and year with least traffic and count 
+regression on expected traffic ? whether we expect to go down or up 
+how many traffic cameras 
+
+
+Help us understand traffic distribution better traffic laws and if we need to do anything about helping the roads 
 
