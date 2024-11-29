@@ -116,10 +116,10 @@ top_terms
 Historic Traffic Data
 
 ```{r}
-his_traffic_df = read_csv(file = "data/Query Builder for Traffic Counts (1985 - Last Calendar Year).csv", 
+his_traffic_df = read_csv(file = "data/(east) Query Builder for Traffic Counts (1985 - Last Calendar Year).csv", 
                            na = c("NA", ",", ".")) %>% 
   janitor::clean_names() %>% 
-  filter(park_name %in% c("Fire Island NS", "Gateway NRA", "Saratoga NHP", "Upper Delaware S&RR", "Vanderbilt Mansion NHS"))
+  filter(park_name %in% c("Fire Island NS", "Gateway NRA", "Saratoga NHP"))
 
 ggplot(his_traffic_df, aes(x = year, y = traffic_count_total, color = traffic_counter)) +
   geom_point() +
@@ -158,4 +158,114 @@ how many traffic cameras
 
 
 Help us understand traffic distribution better traffic laws and if we need to do anything about helping the roads 
+
+
+
+```{r}
+geo_coord_df = 
+  read_csv(file = "data/NPS_-_Points_of_Interest_(POIs)_-_Geographic_Coordinate_System.csv", na = c("NA", ",", ".")) %>% 
+  janitor::clean_names() %>% 
+  select(x, y, poiname, maplabel, poitype, unitname, seasonal, seasdesc) %>%
+  filter(poitype %in% c('Parking Lot','Parking - Disabled', 'Driving Tour', 'Electric Vehicle Parking', 'Four-wheel Drive Trail'))
+
+```
+
+
+```{r}
+library(plotly)
+
+poitype_colors = c("Parking Lot" = "red", 
+                    "Parking - Disabled" = "green",
+                    "Driving Tour" = "violet", 
+                    "Electric Vehicle Parking" = "gold",
+                    "Four-wheel Drive Trail" = "blue")
+
+geo_coord_df$color = poitype_colors[geo_coord_df$poitype]
+
+plot_ly(data = geo_coord_df) %>%
+  add_trace(
+    type = "scattergeo",
+    mode = "markers",
+    lon = ~x,
+    lat = ~y,
+    text = ~paste(maplabel, "<br>", unitname),
+    marker = list(
+      size = 10,
+      opacity = 0.7,
+      color = ~color  
+    )
+  ) %>%
+  layout(
+    geo = list(
+      projection = list(type = 'albers usa'),  
+      scope = 'usa',  
+      showland = TRUE,
+      landcolor = 'lightgrey',  
+      countrycolor = 'white',
+    title = "Locations on the Map of America"
+  ))
+```
+
+
+```{r}
+library(tigris)
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(viridis)
+
+# Convert geo_coord_df to spatial dataframe with latitude/longitude coordinates
+map_geo_coord_df = st_as_sf(geo_coord_df, coords = c("x", "y"), crs = 4326)
+
+# Get US states shapefile (boundary) and ensure CRS is correct
+US_states = states(cb = TRUE)
+US_states_sf = st_as_sf(US_states)
+
+# Transform coordinate reference system (if necessary)
+US_states_sf = st_transform(US_states_sf, crs = 4326)
+
+# Spatial join between parking lot coordinates and US states polygons
+map_geo_coord_sf = st_join(map_geo_coord_df, US_states_sf)
+
+# Filter for Parking Lots and remove missing state names
+map_geo_coord_sf = map_geo_coord_sf %>%
+  filter(poitype == "Parking Lot") %>%
+  filter(!is.na(NAME))
+
+# Count parking lots per state
+parking_lots_per_state = map_geo_coord_sf %>%
+  group_by(NAME) %>%
+  summarise(parking_lots = n(), .groups = "drop")
+
+# Now we need to merge parking_lots_per_state with US_states_sf using st_join
+# First, convert parking_lots_per_state to a spatial object with the same CRS as US_states_sf
+# Create a dummy geometry for the parking_lots_per_state data (this will allow the spatial join)
+parking_lots_sf = parking_lots_per_state %>%
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
+  st_transform(crs = st_crs(US_states_sf))  # Make sure the CRS matches
+
+# Now we can join parking_lots_sf with US_states_sf using st_join
+US_states_sf = st_join(US_states_sf, parking_lots_sf, left = TRUE)
+
+# Plot the map with parking lots colored by state
+ggplot(data = US_states_sf) +
+  geom_sf(aes(fill = parking_lots), color = "black") +  # Color states by parking lot count
+  scale_fill_viridis_c(option = "plasma", na.value = "grey90", name = "Parking Lots") +  # Color scale
+  theme_minimal() +  # Clean theme
+  labs(title = "Number of Parking Lots per State",
+       subtitle = "States Colored by Parking Lot Count") +
+  theme(
+    legend.position = "right",  # Position the legend
+    plot.title = element_text(size = 20, face = "bold"),
+    plot.subtitle = element_text(size = 15)
+  ) +
+  coord_sf(
+    xlim = c(-125, -65),  # Set longitude limits for the continental US
+    ylim = c(24, 50),     # Set latitude limits for the mainland US
+    expand = FALSE         # Don't expand the limits beyond the state boundaries
+  )
+
+
+```
 
