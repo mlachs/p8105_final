@@ -18,12 +18,13 @@ res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSO
 
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 
-NPS_data=data %>% unnest(data) %>% select(fullName,latitude,longitude,activities,states, parkCode) %>%  janitor::clean_names() %>% 
+NPS_data=data %>% unnest(data) %>% select(fullName,latitude,longitude,topics, activities,states, parkCode) %>%  janitor::clean_names() %>% 
   mutate(
     latitude = as.numeric(latitude), 
     longitude = as.numeric(longitude)
-  )
-```
+  ) %>% unnest(activities, names_sep = "_") %>% 
+  unnest(topics, names_sep = "_")
+``` 
 
 ```{r}
 visitation_data <- 
@@ -34,7 +35,7 @@ visitation_data <-
          full_name = park_name) %>% 
   select(full_name, park_code, park_type, region, state, year, month, recreation_visits, tent_campers, rv_campers, tent_campers, backcountry)
 
-combined_data <- right_join(NPS_data, visitation_data, by = c("park_code"))
+combined_data <- full_join(NPS_data, visitation_data, by = c("park_code"))
 
 ```
 
@@ -213,6 +214,14 @@ plots
 
 National Preserves has pretty similar avg visits across seasons 
 
+```{r}
+combined_data %>% 
+  filter(park_type == "National Preserve") %>% 
+  group_by(activities_name) %>% distinct(activities_name) %>% knitr::kable()
+```
+
+National Preserves has skiing, cross country skiing and snowshoeing, which might be the reason why there is a higher average visit in winter than any other park type.
+
 Average visitation by type and park_type (separate graph for each park_type)
 
 ```{r}
@@ -249,3 +258,148 @@ for (i in seq_along(park_types)) {
 
 plots
 ```
+
+Regional Comparisons 
+
+```{r}
+region_data <- combined_data %>% 
+  mutate(region = case_when(
+    states %in% c("CT", "RI", "NH", "VT", "NJ", "NY", "PA", "MD", "ME", "MA") ~ "northeast", 
+    states %in% c("IL","IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD") ~ "midwest", 
+    states %in% c("FL", "GA", "NC", "SC", "VA", "DE", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX", "DC") ~ "south", 
+    states %in% c("AK", "CA", "HI", "OR", "WA") ~ "west"
+  ))
+```
+
+Northeast
+
+```{r}
+region_data %>%
+  filter(region == "northeast") %>% drop_na() %>% 
+  distinct(park_type) %>% knitr::kable()
+region_data %>%
+  filter(region == "northeast") %>% distinct(activities_name) 
+
+region_data %>%
+  filter(region == "northeast") %>% 
+  mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ "Winter", 
+      month %in% c(3, 4, 5) ~ "Spring", 
+      month %in% c(6, 7, 8) ~ "Summer", 
+      TRUE ~ "Fall"
+    )) %>% 
+    group_by(season) %>% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %>% 
+    pivot_longer(
+      cols = starts_with("mean_"), 
+      names_to = "type_visit", 
+      values_to = "mean", 
+      names_prefix = "mean_"
+    ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
+```
+
+Midwest 
+
+```{r}
+region_data %>%
+  filter(region == "midwest") %>%
+  drop_na() %>% 
+  distinct(park_type) %>% knitr::kable()
+region_data %>%
+  filter(region == "midwest") %>% distinct(activities_name) 
+
+region_data %>%
+  filter(region == "midwest") %>% 
+  mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ "Winter", 
+      month %in% c(3, 4, 5) ~ "Spring", 
+      month %in% c(6, 7, 8) ~ "Summer", 
+      TRUE ~ "Fall"
+    )) %>% 
+    group_by(season) %>% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %>% 
+    pivot_longer(
+      cols = starts_with("mean_"), 
+      names_to = "type_visit", 
+      values_to = "mean", 
+      names_prefix = "mean_"
+    ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
+```
+
+
+South 
+```{r}
+region_data %>%
+  filter(region == "south") %>%
+  drop_na() %>% 
+  distinct(park_type) %>% 
+  knitr::kable()
+region_data %>%
+  filter(region == "south") %>%
+  distinct(activities_name) 
+
+region_data %>%
+  filter(region == "south") %>% 
+  mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ "Winter", 
+      month %in% c(3, 4, 5) ~ "Spring", 
+      month %in% c(6, 7, 8) ~ "Summer", 
+      TRUE ~ "Fall"
+    )) %>% 
+    group_by(season) %>% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %>% 
+    pivot_longer(
+      cols = starts_with("mean_"), 
+      names_to = "type_visit", 
+      values_to = "mean", 
+      names_prefix = "mean_"
+    ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
+```
+
+west 
+
+```{r}
+region_data %>% filter(region == "west") %>% drop_na() %>% 
+  distinct(park_type) %>% knitr::kable()
+region_data %>% filter(region == "west") %>% distinct(activities_name) 
+
+region_data %>% 
+  filter(region == "west") %>% 
+  mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ "Winter", 
+      month %in% c(3, 4, 5) ~ "Spring", 
+      month %in% c(6, 7, 8) ~ "Summer", 
+      TRUE ~ "Fall"
+    )) %>% 
+    group_by(season) %>% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %>% 
+    pivot_longer(
+      cols = starts_with("mean_"), 
+      names_to = "type_visit", 
+      values_to = "mean", 
+      names_prefix = "mean_"
+    ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
+```
+
+Comparing Regions 
+```{r}
+region_data %>% group_by(region) %>% 
+  summarize(avg_visitation = mean(recreation_visits, na.rm = TRUE))
+```
+
