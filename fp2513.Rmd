@@ -207,6 +207,8 @@ plot_ly(data = geo_coord_df) %>%
 ```
 
 
+Colored ggplot based on state and count of parking lots per state
+
 ```{r}
 library(tigris)
 library(sf)
@@ -253,8 +255,133 @@ ggplot(data = US_states_sf) +
   geom_sf(aes(fill = parking_lots), color = "black") +  # Color states by parking lot count
   scale_fill_viridis_c(option = "plasma", na.value = "grey90", name = "Parking Lots") +  # Color scale
   theme_minimal() +  # Clean theme
-  labs(title = "Number of Parking Lots per State",
+  labs(title = "Number of Parking Lots in National Parks per State",
        subtitle = "States Colored by Parking Lot Count") +
+  theme(
+    legend.position = "right",  # Position the legend
+    plot.title = element_text(size = 20, face = "bold"),
+    plot.subtitle = element_text(size = 15)
+  ) +
+  coord_sf(
+    xlim = c(-125, -65),  # Set longitude limits for the continental US
+    ylim = c(24, 50),     # Set latitude limits for the mainland US
+    expand = FALSE         # Don't expand the limits beyond the state boundaries
+  )
+
+```
+
+
+Interactive Plotly that shows state name and count parking lots below
+
+```{r}
+library(tigris)
+library(sf)
+library(dplyr)
+library(viridis)
+library(plotly)
+
+# Convert geo_coord_df to spatial dataframe with latitude/longitude coordinates
+map_geo_coord_df = st_as_sf(geo_coord_df, coords = c("x", "y"), crs = 4326)
+
+# Get US states shapefile (boundary) and ensure CRS is correct
+US_states = states(cb = TRUE)
+US_states_sf = st_as_sf(US_states)
+
+# Transform coordinate reference system (if necessary)
+US_states_sf = st_transform(US_states_sf, crs = 4326)
+
+# Spatial join between parking lot coordinates and US states polygons
+map_geo_coord_sf = st_join(map_geo_coord_df, US_states_sf, join = st_within)
+
+# Filter for Parking Lots and remove missing state names
+map_geo_coord_sf = map_geo_coord_sf %>%
+  filter(poitype == "Parking Lot") %>%
+  filter(!is.na(NAME))
+
+# Count parking lots per state
+parking_lots_per_state = map_geo_coord_sf %>%
+  group_by(NAME) %>%
+  summarise(parking_lots = n(), .groups = "drop")
+
+# Convert parking_lots_per_state to a regular dataframe (no geometry)
+parking_lots_per_state_df = as.data.frame(parking_lots_per_state)
+
+# Merge the parking_lots_per_state data with US_states_sf using left_join
+US_states_sf = US_states_sf %>%
+  left_join(parking_lots_per_state_df, by = "NAME")
+
+# Prepare the data for plotting with plotly
+US_states_sf_df = as.data.frame(US_states_sf)
+US_states_sf_df$geometry = NULL  # Remove the geometry for plotly
+
+# Check if NAME column is present
+print(names(US_states_sf_df))
+
+# Create an interactive plotly map
+plot_ly(data = US_states_sf_df, type = "choropleth",
+        locations = ~STUSPS, locationmode = "USA-states",
+        z = ~parking_lots, text = ~paste("State:", NAME, "<br>Parking Lots:", parking_lots),
+        colorscale = "Viridis", reversescale = TRUE,
+        marker = list(line = list(color = "black", width = 0.5))) %>%
+  colorbar(title = "Parking Lots") %>%
+  layout(title = "Number of Parking Lots in National Parks per State",
+         geo = list(scope = 'usa',
+                    projection = list(type = 'albers usa'),
+                    showlakes = TRUE,
+                    lakecolor = toRGB('white')))
+
+```
+
+
+
+```{r}
+
+# Convert geo_coord_df to spatial dataframe with latitude/longitude coordinates
+map_geo_coord_df = st_as_sf(geo_coord_df, coords = c("x", "y"), crs = 4326)
+
+# Get US states shapefile (boundary) and ensure CRS is correct
+US_states = states(cb = TRUE)
+US_states_sf = st_as_sf(US_states)
+
+# Transform coordinate reference system (if necessary)
+US_states_sf = st_transform(US_states_sf, crs = 4326)
+
+# Spatial join between geo_coord_df and US states polygons
+map_geo_coord_sf = st_join(map_geo_coord_df, US_states_sf)
+
+# Filter for "Parking Lot" and remove rows with missing state names
+map_geo_coord_sf = map_geo_coord_sf %>%
+  filter(poitype == "Parking Lot") %>%
+  filter(!is.na(NAME))  # Ensure no missing state names
+
+# Count unique national parks per state (based on unique unitname)
+national_parks_per_state = map_geo_coord_sf %>%
+  group_by(NAME) %>%
+  summarise(national_parks = n_distinct(unitname), .groups = "drop")
+
+# Count the number of parking lots per state
+parking_lots_per_state = map_geo_coord_sf %>%
+  group_by(NAME) %>%
+  summarise(parking_lots = n(), .groups = "drop")
+
+# Merge the parking lots and national parks counts into one regular dataframe
+state_counts = left_join(parking_lots_per_state, national_parks_per_state, by = "NAME") %>%
+  mutate(ratio = parking_lots / national_parks)  # Calculate the ratio of parking lots to national parks
+
+# Convert the state_counts dataframe into a spatial object (no geometry, just the counts)
+state_counts_sf = st_as_sf(state_counts, coords = c("x", "y"), crs = 4326)
+
+# Now, merge the ratio data with the spatial states data using st_join
+# Ensure we don't lose the geometry during this join
+US_states_sf = st_join(US_states_sf, state_counts, by = "NAME")
+
+# Plot the map with states colored by the parking lot to national park ratio
+ggplot(data = US_states_sf) +
+  geom_sf(aes(fill = ratio), color = "black") +  # Color states by the ratio
+  scale_fill_viridis_c(option = "plasma", na.value = "grey90", name = "Parking Lot to National Park Ratio") +  # Color scale
+  theme_minimal() +  # Clean theme
+  labs(title = "Ratio of Parking Lots to National Parks per State",
+       subtitle = "States Colored by Ratio of Parking Lots to National Parks") +
   theme(
     legend.position = "right",  # Position the legend
     plot.title = element_text(size = 20, face = "bold"),
@@ -268,4 +395,81 @@ ggplot(data = US_states_sf) +
 
 
 ```
+
+
+If want to explore the traffic, issue is that there are many different types of national parks. Some that will inherently need more parking / traffic than others. But that is hard to quantify. 
+
+Attempt to do it on a smaller scale than instead the whole of america 
+
+
+```{r}
+read_csv(file = "data/(east) Query Builder for Traffic Counts (1985 - Last Calendar Year).csv", 
+                           na = c("NA", ",", ".")) %>% 
+  janitor::clean_names() %>% 
+  distinct(park_name_total) %>% 
+  print(n = 34)
+```
+
+```{r}
+# Ensure all parks have corresponding states
+park_to_state = tibble::tibble(
+  park_name_total = c(
+    "Acadia NP", "Allegheny Portage Railroad NHS", "Appomattox Court House NHP", 
+    "Assateague Island NS", "Booker T. Washington NM", "Cape Cod NS", 
+    "Colonial NHP", "Delaware Water Gap NRA", "Fire Island NS", 
+    "Fort McHenry NM & HS", "Fort Necessity NB", "Fredericksburg & Spotsylvania NMP", 
+    "Gateway NRA", "Gauley River NRA", "George Washington Birthplace NM", 
+    "Gettysburg NMP", "Home of Franklin D. Roosevelt NHS", "Hopewell Furnace NHS", 
+    "Johnstown Flood NMEM", "Katahdin Woods and Waters NM", 
+    "Martin Van Buren NHS", "Minute Man NHP", "Morristown NHP", 
+    "New River Gorge NP & PRES", "Paterson Great Falls NHP", "Petersburg NB", 
+    "Richmond NBP", "Saint-Gaudens NHP", "Saratoga NHP", "Shenandoah NP", 
+    "Steamtown NHS", "Upper Delaware S&RR", "Valley Forge NHP", 
+    "Vanderbilt Mansion NHS"
+  ),
+  state = c(
+    "ME", "PA", "VA", "MD", "VA", "MA", "VA", "NJ", "NY", "MD", "PA", "VA", 
+    "WV", "WV", "VA", "PA", "NY", "PA", "PA", "PA", "ME", "NY", "MA", "NJ", 
+    "VA", "VA", "NH", "NY", "VA", "PA", "PA", "PA", "NY", "PA"  # Add the missing state(s) here
+  )
+)
+
+# Check that lengths match
+length(park_to_state$park_name_total)
+length(park_to_state$state)
+
+
+traffic_counts_df = his_traffic_df %>%
+  left_join(park_to_state, by = "park_name_total")
+
+# Check the result
+head(traffic_counts_df)
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Calculate median traffic_count_total for each state and year
+mean_traffic_counts_by_state_year = traffic_counts_df %>%
+  group_by(state, year) %>%
+  summarise(mean_traffic_count = mean(traffic_count_total, na.rm = TRUE), .groups = "drop")
+
+# Plot the data with faceting by state
+ggplot(mean_traffic_counts_by_state_year, aes(x = year, y = mean_traffic_count)) +
+  geom_line() +
+  facet_wrap(~ state, scales = "free_y") +
+  theme_minimal() +
+  labs(title = "Mean Traffic Count by State and Year",
+       x = "Year",
+       y = "Mean Traffic Count") +
+  theme(
+    strip.text = element_text(size = 10, face = "bold"),
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+```
+
 
