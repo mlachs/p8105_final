@@ -249,5 +249,3 @@ for (i in seq_along(park_types)) {
 
 plots
 ```
-
-
