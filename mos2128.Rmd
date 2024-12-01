@@ -260,15 +260,28 @@ plots
 ```
 
 Regional Comparisons 
+```{r}
+region_data <- visitation_data %>% 
+  mutate(region = case_when(
+    state %in% c("CT", "RI", "NH", "VT", "NJ", "NY", "PA", "MD", "ME", "MA") ~ "northeast", 
+    state %in% c("IL","IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD") ~ "midwest", 
+    state %in% c("FL", "GA", "NC", "SC", "VA", "DE", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX", "DC") ~ "south", 
+    state %in% c("AK", "CA", "HI", "OR", "WA", "AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY") ~ "west",
+    state %in% c("VI", "AS", "GU", "PR") ~ "u.s. territory",
+    TRUE ~ "no state data"
+  ))
+```
 
 ```{r}
 region_data <- combined_data %>% 
   mutate(region = case_when(
-    states %in% c("CT", "RI", "NH", "VT", "NJ", "NY", "PA", "MD", "ME", "MA") ~ "northeast", 
-    states %in% c("IL","IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD") ~ "midwest", 
-    states %in% c("FL", "GA", "NC", "SC", "VA", "DE", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX", "DC") ~ "south", 
-    states %in% c("AK", "CA", "HI", "OR", "WA") ~ "west"
-  ))
+    state %in% c("CT", "RI", "NH", "VT", "NJ", "NY", "PA", "MD", "ME", "MA") ~ "northeast", 
+    state %in% c("IL","IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD") ~ "midwest", 
+    state %in% c("FL", "GA", "NC", "SC", "VA", "DE", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX", "DC") ~ "south", 
+    state %in% c("AK", "CA", "HI", "OR", "WA", "AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY") ~ "west",
+    state %in% c("VI", "AS", "GU", "PR") ~ "u.s. territory",
+    state == TRUE ~ "no state data"
+  )) %>% select(c(-full_name.y, -topics_id, -topics_name, -activities_id))
 ```
 
 Northeast
@@ -394,12 +407,49 @@ region_data %>%
       names_to = "type_visit", 
       values_to = "mean", 
       names_prefix = "mean_"
-    ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
+    ) %>% ggplot(aes(x = season, y = mean)) + 
+  geom_col() +  
+  facet_grid(~type_visit)
 ```
 
 Comparing Regions 
+
 ```{r}
 region_data %>% group_by(region) %>% 
-  summarize(avg_visitation = mean(recreation_visits, na.rm = TRUE))
+  summarize(avg_visitation = mean(recreation_visits, na.rm = TRUE)) %>% 
+  arrange(desc(avg_visitation))
+
+region_long <- region_data %>%
+  pivot_longer(cols = c(recreation_visits, tent_campers, rv_campers, backcountry), 
+               names_to = "visit_type", 
+               values_to = "count") %>% view()
+region_data %>%
+  group_by(region) %>%
+  summarize(
+    mean_tent = mean(tent_campers, na.rm = TRUE),
+    mean_backcountry = mean(backcountry, na.rm = TRUE),
+    mean_rv = mean(rv_campers, na.rm = TRUE)
+  ) %>%
+  pivot_longer(
+    cols = starts_with("mean_"),
+    names_to = "type_visit",
+    values_to = "mean",
+    names_prefix = "mean_"
+  ) %>% ggplot(aes(x = region, y = mean)) + geom_col() + facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  
+```
+
+```{r}
+region_data %>% 
+  filter(region == "u.s. territory") %>% 
+  distinct(activities_name) 
+  
+region_data %>% 
+  filter(region == "no state data") %>%  
+  distinct(activities_name)
+
+region_data %>% 
+  group_by(region) %>% 
+  summarize(parks = n_distinct(park_code)) %>% knitr::kable()
 ```
 
