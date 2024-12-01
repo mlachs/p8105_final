@@ -104,7 +104,6 @@ plots[[i]] <- visitation_data %>%
     geom_col() +
     ggtitle(paste("Average Visits by Season for", park_types[i])) 
 } 
-plots
 ```
 
 Most of the parks have a similar trend in average visitation, where summer is the highest and winter is the lowest. 
@@ -211,7 +210,7 @@ plots[17]
 plots[18]
 ```
 
-National Historic Sites, National Memorials, National Battlefield Parks, International Historic Sites all had no faceted average visits. These four park types do not have any `rv_campers, `backcountry` or `tent_campers`. 
+National Historic Sites, National Memorials, National Battlefield Parks, International Historic Sites all had no faceted average visits. These four park types do not have any `rv_campers`, `backcountry` or `tent_campers`. 
 
 
 
@@ -410,7 +409,7 @@ region_data %>%
   facet_grid(~type_visit)
 ```
 
-#Comparing Regions 
+# Comparing Regions 
 
 ```{r}
 region_data %>% group_by(region) %>% 
@@ -433,7 +432,7 @@ region_data %>%
     names_to = "type_visit",
     values_to = "mean",
     names_prefix = "mean_"
-  ) %>% ggplot(aes(x = region, y = mean)) + geom_col() + facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  ) %>% ggplot(aes(x = region, y = mean)) + geom_col() + facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
   
 ```
 
