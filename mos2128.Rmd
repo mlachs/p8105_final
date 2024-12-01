@@ -37,6 +37,7 @@ visitation_data <-
 combined_data <- full_join(NPS_data, visitation_data, by = c("park_code"))
 ``` 
 
+# Trends across Time
 
 ## Total Trend by Park Type Across Months
 
@@ -172,6 +173,7 @@ plots <- list()
 
 for (i in seq_along(park_types)) {
   visit_summary <- visitation_data %>% 
+    drop_na() %>% 
     filter(park_type == park_types[i]) %>% 
     mutate(season = case_when(
       month %in% c(12, 1, 2) ~ "Winter", 
@@ -191,35 +193,52 @@ for (i in seq_along(park_types)) {
       values_to = "mean", 
       names_prefix = "mean_"
     ) 
-  
-
   plots[[i]] <- ggplot(visit_summary, aes(x = season, y = mean)) + 
-    geom_col() + facet_grid(~type_visit) +
-    ggtitle(paste("Average Visits by Season for", park_types[i]))
-}
-
-plots
-
-park_types <- unique(visitation_data$park_type)
-plots <- list()
-for (i in seq_along(park_types)) {
-plots[[i]] <- visitation_data %>% 
-    filter(park_type == park_types[i]) %>% 
-    mutate(season = case_when(
-      month %in% c(12, 1, 2) ~ "Winter", 
-      month %in% c(3, 4, 5) ~ "Spring", 
-      month %in% c(6, 7, 8) ~ "Summer", 
-      TRUE ~ "Fall"
-    )) %>% 
-    group_by(season) %>%
-    summarize(avg_visits = mean(recreation_visits, na.rm = TRUE)) %>%
-    ggplot(aes(x = season, y = avg_visits, fill = season)) +
-    geom_col() +
-    ggtitle(paste("Average Visits by Season for", park_types[i])) 
+    geom_col() + 
+    facet_grid(~type_visit) +
+    ggtitle(paste("Average Visits by Season for", park_types[i])) + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 } 
-plots
+
 ```
 
+## No Visitation
+
+```{r}
+plots[4]
+plots[8]
+plots[17]
+plots[18]
+```
+
+National Historic Sites, National Memorials, National Battlefield Parks, International Historic Sites all had no faceted average visits. These four park types do not have any `rv_campers, `backcountry` or `tent_campers`. 
+
+
+
+## Only Backcountry Visitation 
+
+```{r}
+plots[16]
+plots[15]
+plots[6]
+```
+
+`National Reserve` only had backcountry visitation in spring. `National Military Park` had backcountry visitation in all seasons, with mean visitation being highest in spring. `National Battlefield` had backcountry visitation in all seasons, with mean visitation being lowest in summer and highest in spring. 
+
+## No RV Visitation
+
+```{r}
+plots[13]
+```
+
+National Wild and Scienic River has `backcountry` and `tent` visitation, no `rv` visitation. Interestingly though, the mean `tent` visitation is low for all seasons, with a slight peak in summer. 
+
+## 
+```{r}
+plots[14]
+```
+
+This plot was interesting because the park type `Park (Other)` has high `tent` mean visitation, `rv` visitation, but low `backcountry` visitation. It is the highest in spring and summer. 
 
 
 map of all national parks in US
@@ -232,11 +251,12 @@ leaflet(data = NPS_data) %>%
 ```
 
 
-Average visitation by type and park_type (separate graph for each park_type)
 
 
 
-Regional Comparisons 
+
+# Regional Comparisons 
+
 ```{r}
 region_data <- visitation_data %>% 
   mutate(region = case_when(
@@ -261,7 +281,7 @@ region_data <- combined_data %>%
   )) %>% select(c(-full_name.y, -topics_id, -topics_name, -activities_id))
 ```
 
-Northeast
+## Northeast
 
 ```{r}
 region_data %>%
@@ -292,7 +312,7 @@ region_data %>%
     ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
 ```
 
-Midwest 
+## Midwest 
 
 ```{r}
 region_data %>%
@@ -325,7 +345,8 @@ region_data %>%
 ```
 
 
-South 
+## South 
+
 ```{r}
 region_data %>%
   filter(region == "south") %>%
@@ -358,7 +379,7 @@ region_data %>%
     ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
 ```
 
-west 
+## West 
 
 ```{r}
 region_data %>% filter(region == "west") %>% drop_na() %>% 
@@ -389,7 +410,7 @@ region_data %>%
   facet_grid(~type_visit)
 ```
 
-Comparing Regions 
+#Comparing Regions 
 
 ```{r}
 region_data %>% group_by(region) %>% 
