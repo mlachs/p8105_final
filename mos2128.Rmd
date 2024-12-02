@@ -167,7 +167,6 @@ There are `r activities_count` activities offered at this park type. It makes se
 
 ##Average Visitation by Visit and Park Type 
 
-
 ```{r}
 park_types <- unique(visitation_data$park_type)
 plots <- list()
@@ -313,7 +312,7 @@ northeast_plot <- region_data %>%
     ) %>% ggplot(aes(x = season, y = mean)) + 
   geom_col() +  
   facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
-  labs(title = "Visitation in Northeastern Region of U.S. by Season", 
+  labs(title = "Visitation in Northeast by Season", 
        x = "Season", 
        y = "Average Visitation")
 ```
@@ -351,7 +350,7 @@ midwest_plot <-
     ) %>% ggplot(aes(x = season, y = mean)) + 
   geom_col() +  
   facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
-  labs(title = "Visitation in Midwestern Region of U.S. by Season", 
+  labs(title = "Visitation in Midwest by Season", 
        x = "Season", 
        y = "Average Visitation")
 ```
@@ -392,7 +391,7 @@ south_plot <-
     ) %>% ggplot(aes(x = season, y = mean)) + 
   geom_col() +  
   facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
-  labs(title = "Visitation in Southern Region of U.S. by Season", 
+  labs(title = "Visitation South by Season", 
        x = "Season", 
        y = "Average Visitation")
 ```
@@ -427,24 +426,49 @@ west_plot <-
     ) %>% ggplot(aes(x = season, y = mean)) + 
   geom_col() +  
   facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
-  labs(title = "Visitation in Western Region of U.S. by Season", 
+  labs(title = "Visitation in West by Season", 
        x = "Season", 
        y = "Average Visitation") 
 
 northeast_plot + midwest_plot + south_plot + west_plot
 ```
 
+Across all regions, it seems that summer has the highest visitation across regions, with the exception of backcountry hiking, which has a peak in spring. 
+
+For the Northeastern U.S. tent camping is by far the most popular visitation type. Interestingly, in this region of the United Sattes, there was hardly any visitation in winter in all three visitation types. This might be due to the fact that the Northeastern U.S. typically has colder temperatures and possibly snow during this time. 
+
+For the Midwestern U.S., tent camping is the most popular visitation type, especially in the summer, but it is closely followed by backcountry hiking in summer. RV camping does seem to be higher in the midwest than in the northeastern region, especially during the summer. As before, there is hardly any visitation in the winter, and actually none for rv camping. This again might be due to weather conditions not permitting outdoor activities such as these. 
+For the Southern U.S., tent camping has the highest average visitation in the summer time, closely followed by rv camping. In the south, rv camping is much more popular than in other regions around the U.S. Backcountry is lower, but does have an almost even spread among the seasons. This could be due to the more temperate conditions in the winter and other times of the year, allowing individuals to enjoy this activity year round. 
+
+For the Western U.S., ten camping once again has the highest average visitatino across all seasons. Interestingly, backcountry hiking and rv camping are equal in the summer time in this region. This region has some visitation in the winter, but less than the southern region. 
+
 # Comparing Regions 
 
 ```{r}
 region_data %>% group_by(region) %>% 
   summarize(avg_visitation = mean(recreation_visits, na.rm = TRUE)) %>% 
-  arrange(desc(avg_visitation))
+  arrange(desc(avg_visitation)) %>% knitr::kable()
 
 region_long <- region_data %>%
   pivot_longer(cols = c(recreation_visits, tent_campers, rv_campers, backcountry), 
                names_to = "visit_type", 
-               values_to = "count") %>% view()
+               values_to = "count") 
+```
+
+The western region of the U.S. seems to have the highest average visitation of all regions, followed by the southern region.
+
+
+Looking at the amount of parks in each region will be helpful to determine if this is due to the fact that there are more parks in this region, or if there is something else going on. 
+
+```{r}
+region_data %>% 
+  group_by(region) %>% 
+  summarize(parks = n_distinct(park_code)) %>% knitr::kable()
+```
+
+From this table, we can see that actually the southern region has the most amount of parks in this dataset, followed by the western region. So this trend is visitation is not just due to the amount of parks in a specific region. 
+
+```{r}
 region_data %>%
   group_by(region) %>%
   summarize(
@@ -458,20 +482,9 @@ region_data %>%
     values_to = "mean",
     names_prefix = "mean_"
   ) %>% ggplot(aes(x = region, y = mean)) + geom_col() + facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-  
 ```
 
-```{r}
-region_data %>% 
-  filter(region == "u.s. territory") %>% 
-  distinct(activities_name) 
-  
-region_data %>% 
-  filter(region == "no state data") %>%  
-  distinct(activities_name)
+Now looking at the specific visits by region, we can see once again that west has the highest mean visitation among all the regions, with its highest being tent camping. Unsurprisingly, we see that the south has the second highest mean visitation. Interestingly, in backcountry hiking, the midwest has the second highest mean visitation, despite the fact that it has one of the lowest amount of parks in the dataset. 
 
-region_data %>% 
-  group_by(region) %>% 
-  summarize(parks = n_distinct(park_code)) %>% knitr::kable()
-```
+
 
