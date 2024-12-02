@@ -1,12 +1,10 @@
 ---
-title: "Home"
+title: "National Parks Service Research Project"
 output: html_document
 ---
 
-# **National Parks Service Research Project**
-
 ## **Studying Impacts on Visitation for the National Parks in the U.S.**
 
-There are over 400 parks in the United States a this time. In 2023, there were 325.5 million recreation visits, an increase from 2022. Visitation at the parks has been increasing since the dip in visitation during 2020 and 2021, with closure of parks due to the COVID-19 Pandemic (NPS, 2024).
+There are over 400 parks in the United States at this time. In 2023, there were 325.5 million recreation visits, an increase from 2022. Visitation at the parks has been increasing since the dip in visitation during 2020 and 2021, with closure of parks due to the COVID-19 Pandemic (NPS, 2024).
 
 ## 
