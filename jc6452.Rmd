@@ -1,7 +1,8 @@
 ---
-title: "JC6452"
+title: "Exploring NY State Park"
 output: 
   html_document:
+    code_folding: "hide"
     toc: true
     toc_float: true
 editor_options: 
@@ -13,6 +14,7 @@ editor_options:
 library(tidyverse)
 library(httr)
 library(plotly)
+library(leaflet)
 
 knitr::opts_chunk$set(
 	echo = TRUE,
@@ -33,18 +35,19 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-```{r}
+```{r, echo = FALSE, message = FALSE}
 res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
 
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
 ```
 
 ```{r initial setup}
-NPS_data=data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_')
+NPS_data = data %>% unnest(data) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_')
 public_use_data = read.csv("data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv")
 ```
 
-# Wildlife Relevant Datset Cleaning
+### Data Cleaning
+
 ```{r}
 #main dataset
 wildlife_relevant_public_use = 
@@ -68,14 +71,42 @@ wildlife_relevant_public_use =
 wildlife_relevant_NPS_data = 
   NPS_data %>% 
   janitor::clean_names() %>% 
-  select(park_code, full_name, states, activities_name, entrance_fees_cost, entrance_fees_description) %>% 
+  select(park_code, full_name, states, activities_name, entrance_fees_cost, entrance_fees_description,latitude, longitude, designation) %>% 
   mutate(
-    park_code = str_to_upper(park_code)
+    park_code = str_to_upper(park_code),
+    entrance_fees_cost = as.numeric(entrance_fees_cost),
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
   )
 ```
 
+# Interactive Map of NY State Park
+
+```{r}
+NY_only = 
+  wildlife_relevant_NPS_data %>% 
+  filter(states == "NY")
+
+map <- leaflet(NY_only) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(
+    ~longitude, ~latitude,
+    radius = 5,
+    color = "green",
+    popup = ~paste("Name:", full_name,
+                            "<br> Designation:", designation),
+    label = ~paste("Name:", full_name,
+                            "Designation:", designation)
+  ) %>%
+  setView(lng = -74.0060, lat = 40.7128, zoom = 7)  # Center the map around New York State
+
+# Display the map
+map
+```
+
 # NY Popular Parks for Recreation based on yearly visits
-```{r} 
+
+```{r, message = FALSE}
 wildlife_relevant_public_use %>%
   distinct(year, state, park_name, .keep_all = TRUE) %>% 
   filter(state == "NY") %>% 
@@ -84,8 +115,11 @@ wildlife_relevant_public_use %>%
   layout(title = 'Popular Parks for Recreation Visits in NY state', xaxis = list(title = 'Year'), yaxis = list(title = 'Number of Recreation Visits'))
   
 ```
-#Most Visited Parks in New York State in 2023
-```{r}
+Ever wondered what parks were most popular around you? The plot on demonstrates some popular visits for recreation visits that people chose around NY state. We have identified that the Gateway National Recreation Area has been the most popular. Following are the two following National Monument, Castle Clinton and Statue of Liberty. The dip in 2012-2013 and 2020 accurately reflects the context during that time period: the economic recession in 2012-2013 and the pandemic in 2020 impacted this drop. To see more interesting patterns in the parks with lower visitation visit, zoom into the smaller range.
+
+# Most Visited Parks in New York State in 2023
+
+```{r, message = FALSE}
 wildlife_relevant_public_use %>%
   distinct(year, state, park_name, .keep_all = TRUE) %>% 
   filter(state == "NY", year == 2023) %>% 
@@ -93,26 +127,51 @@ wildlife_relevant_public_use %>%
   arrange(desc(recreation_visits_total)) %>% 
   knitr::kable()
 ```
-# Revenue generated from Statue of Liberty
-```{r}
-NY_public_use= 
+To see the recent trends in 
+
+# Seasonal Popular Parks in NY state
+
+```{r, message = FALSE}
+seasonal_camping = 
   wildlife_relevant_public_use %>% 
   filter(state == "NY") %>% 
-  select(park_name, unit_code, year, month, recreation_visits, tent_campers, rv_campers, backcountry, concessioner_camping)
+  select(year, month, park_name, recreation_visits, tent_campers, rv_campers, backcountry) %>% 
+  mutate(season = 
+           case_when(
+             month %in% c(12, 1, 2) ~ "Winter",
+             month %in% c(3,4,5) ~ "Spring",
+             month %in% c(6,7,8) ~ "Summmer", 
+             month %in% c(9,10,11) ~ "Fall")
+  ) %>% 
+  group_by(year, season, park_name) %>% 
+  summarise(
+    total_visit = sum(recreation_visits, na.rm = TRUE),
+    tent_camping = sum(tent_campers, na.rm = TRUE),
+    rv_camping = sum(rv_campers, na.rm = TRUE),
+    backcountry_camping = sum(backcountry, na.rm = TRUE)
+  ) %>% 
+  mutate(
+    total_camping = tent_camping + rv_camping + backcountry_camping)
 
-NY_NPS = 
-  wildlife_relevant_NPS_data %>% 
-  filter(states =="NY") %>% 
-  
+seasonal_camping %>%
+  ggplot(aes(x = reorder(park_name, total_visit), y = total_visit, color = season))+ 
+  geom_violin() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust =1, hjust = 1, size = 8)) +
+  labs(
+    title = "NY State Park Seasonal Visitation",
+    x = "Park Name",
+    y = "Total Visit"
   )
-
-relevant = inner_join(NY_public_use, NY_NPS, by = c("unit_code" = "park_code")) %>% 
-  distinct(year, states, park_name, .keep_all = TRUE)
+  
 ```
+
+
+
 
 # Seasonal trends and correaltion analysis between total visits and all camping use
 
-```{r}
+```{r, message = FALSE}
 seasonal_camping = 
   wildlife_relevant_public_use %>% 
   filter(state == "NY") %>% 
@@ -134,16 +193,18 @@ seasonal_camping =
   mutate(
     total_camping = tent_camping + rv_camping + backcountry_camping)
 ```
-#NY Seasonal Trends in Camping in NY
-```{r}
+
+# NY Seasonal Trends in Camping in NY
+
+```{r, message = FALSE}
 seasonal_camping %>%
   ggplot(aes(x = year, y = total_camping, color = season, group = season)) +
   geom_line(size = 1) +
   labs(title = "Seasonal Trends for Camping", x = 'Year', y = 'Total Visits for Camping')+
   theme_minimal()
 ```
-## Seasonal Peaks
-```{r}
+
+```{r, echo = FALSE, message = FALSE}
 seasonal_camping %>% 
   group_by(season) %>% 
   summarise(
@@ -153,10 +214,34 @@ seasonal_camping %>%
   knitr::kable()
 ```
 
-```{r}
-library(leaflet)
-leaflet(data = NPS_data) %>% 
-  addTiles() %>% 
-  addMarkers(~longitude, ~latitude) 
-```
+# Revenue generated from Vanderbilit Mansion NHS over the years
 
+```{r, message = FALSE}
+NY_public_use= 
+  wildlife_relevant_public_use %>% 
+  filter(state == "NY") %>% 
+  select(park_name, unit_code, year, month, recreation_visits, tent_campers, rv_campers, backcountry, concessioner_camping)
+
+NY_NPS = 
+  wildlife_relevant_NPS_data %>% 
+  filter(states =="NY") %>% 
+  select(park_code, full_name, entrance_fees_cost)
+
+joint_df = left_join(NY_public_use, NY_NPS, by = c("unit_code" = "park_code")) %>% 
+  distinct(year, month, park_name, .keep_all = TRUE)
+
+joint_df %>% 
+  filter(park_name == "Vanderbilt Mansion NHS") %>% 
+  mutate(revenue = recreation_visits* entrance_fees_cost) %>% 
+  select(year, month, recreation_visits, revenue) %>% 
+  group_by(year) %>% 
+  summarise(
+    annual_revenue = sum(revenue)
+  ) %>% 
+  ggplot(aes(x = year, y = annual_revenue)) +
+  geom_line(color = "red") +
+  labs(
+    title = "Annual Revenue generated from visitors of Vanderbilt Mansion NHS in NY State", 
+    x = "Year",
+    y = "Revenue ($)")
+```

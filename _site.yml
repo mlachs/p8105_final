@@ -9,6 +9,10 @@ navbar:
       href: project_proposal.html
     - text: "Mari"
       href: mos2128.html
+    - text: "Lizy"
+      href: jc6452.html
+    - text: "Project Report"
+      href: Project_Report.html  
 
 output:
   html_document:
