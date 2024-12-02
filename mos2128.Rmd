@@ -11,6 +11,7 @@ library(tidyverse)
 library(plotly)
 library(httr)
 library(leaflet)
+library(patchwork)
 ```
 
 ## Data Importing and Cleaning 
@@ -49,7 +50,8 @@ plot_ly(x = ~as.factor(month), y = ~total_visitation, type = "scatter", mode = "
 
 visitation_data %>% 
   group_by(park_type) %>% 
-  summarize(parks = n_distinct(full_name)) %>% knitr::kable()
+  summarize(parks = n_distinct(full_name)) %>%
+  arrange(desc(parks))  %>%  knitr::kable()
 ```
 
 As seen in the graph, national parks have the highest total visitation among all park types. Interestingly, there more national monuments, national historic sites, and national historic parks than national parks, even though all of these have less total visitation than national parks. 
@@ -257,7 +259,7 @@ leaflet(data = NPS_data) %>%
 # Regional Comparisons 
 
 ```{r}
-region_data <- visitation_data %>% 
+region_data_vists <- visitation_data %>% 
   mutate(region = case_when(
     state %in% c("CT", "RI", "NH", "VT", "NJ", "NY", "PA", "MD", "ME", "MA") ~ "northeast", 
     state %in% c("IL","IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD") ~ "midwest", 
@@ -289,7 +291,7 @@ region_data %>%
 region_data %>%
   filter(region == "northeast") %>% distinct(activities_name) 
 
-region_data %>%
+northeast_plot <- region_data %>%
   filter(region == "northeast") %>% 
   mutate(season = case_when(
       month %in% c(12, 1, 2) ~ "Winter", 
@@ -308,7 +310,12 @@ region_data %>%
       names_to = "type_visit", 
       values_to = "mean", 
       names_prefix = "mean_"
-    ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
+    ) %>% ggplot(aes(x = season, y = mean)) + 
+  geom_col() +  
+  facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  labs(title = "Visitation in Northeastern Region of U.S. by Season", 
+       x = "Season", 
+       y = "Average Visitation")
 ```
 
 ## Midwest 
@@ -321,7 +328,8 @@ region_data %>%
 region_data %>%
   filter(region == "midwest") %>% distinct(activities_name) 
 
-region_data %>%
+midwest_plot <- 
+  region_data %>%
   filter(region == "midwest") %>% 
   mutate(season = case_when(
       month %in% c(12, 1, 2) ~ "Winter", 
@@ -340,7 +348,12 @@ region_data %>%
       names_to = "type_visit", 
       values_to = "mean", 
       names_prefix = "mean_"
-    ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
+    ) %>% ggplot(aes(x = season, y = mean)) + 
+  geom_col() +  
+  facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  labs(title = "Visitation in Midwestern Region of U.S. by Season", 
+       x = "Season", 
+       y = "Average Visitation")
 ```
 
 
@@ -356,7 +369,8 @@ region_data %>%
   filter(region == "south") %>%
   distinct(activities_name) 
 
-region_data %>%
+south_plot <- 
+  region_data %>%
   filter(region == "south") %>% 
   mutate(season = case_when(
       month %in% c(12, 1, 2) ~ "Winter", 
@@ -375,7 +389,12 @@ region_data %>%
       names_to = "type_visit", 
       values_to = "mean", 
       names_prefix = "mean_"
-    ) %>% ggplot(aes(x = season, y = mean)) + geom_col() +  facet_grid(~type_visit)
+    ) %>% ggplot(aes(x = season, y = mean)) + 
+  geom_col() +  
+  facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  labs(title = "Visitation in Southern Region of U.S. by Season", 
+       x = "Season", 
+       y = "Average Visitation")
 ```
 
 ## West 
@@ -385,7 +404,8 @@ region_data %>% filter(region == "west") %>% drop_na() %>%
   distinct(park_type) %>% knitr::kable()
 region_data %>% filter(region == "west") %>% distinct(activities_name) 
 
-region_data %>% 
+west_plot <- 
+  region_data %>% 
   filter(region == "west") %>% 
   mutate(season = case_when(
       month %in% c(12, 1, 2) ~ "Winter", 
@@ -406,7 +426,12 @@ region_data %>%
       names_prefix = "mean_"
     ) %>% ggplot(aes(x = season, y = mean)) + 
   geom_col() +  
-  facet_grid(~type_visit)
+  facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  labs(title = "Visitation in Western Region of U.S. by Season", 
+       x = "Season", 
+       y = "Average Visitation") 
+
+northeast_plot + midwest_plot + south_plot + west_plot
 ```
 
 # Comparing Regions 
