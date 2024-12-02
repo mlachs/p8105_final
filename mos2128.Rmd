@@ -18,7 +18,7 @@ library(patchwork)
 
 ## Data Importing and Cleaning 
 
-```{r}
+```{r, warning= FALSE}
 res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
 
 data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
@@ -44,7 +44,7 @@ combined_data <- full_join(NPS_data, visitation_data, by = c("park_code"))
 
 ## Total Trend by Park Type Across Months
 
-```{r}
+```{r, warning = FALSE}
 visitation_data %>% 
   group_by(park_type, month) %>% 
   summarize(total_visitation = sum(recreation_visits)) %>% 
@@ -290,7 +290,7 @@ region_data %>%
   filter(region == "northeast") %>% drop_na() %>% 
   distinct(park_type) %>% knitr::kable()
 region_data %>%
-  filter(region == "northeast") %>% distinct(activities_name) 
+  filter(region == "northeast") %>% distinct(activities_name) %>% head() %>% knitr::kable()
 
 northeast_plot <- region_data %>%
   filter(region == "northeast") %>% 
@@ -327,7 +327,8 @@ region_data %>%
   drop_na() %>% 
   distinct(park_type) %>% knitr::kable()
 region_data %>%
-  filter(region == "midwest") %>% distinct(activities_name) 
+  filter(region == "midwest") %>% distinct(activities_name) %>% 
+  head() %>%  knitr::kable()
 
 midwest_plot <- 
   region_data %>%
@@ -368,7 +369,9 @@ region_data %>%
   knitr::kable()
 region_data %>%
   filter(region == "south") %>%
-  distinct(activities_name) 
+  distinct(activities_name) %>% 
+  head() %>%  
+  knitr::kable()
 
 south_plot <- 
   region_data %>%
@@ -403,7 +406,8 @@ south_plot <-
 ```{r}
 region_data %>% filter(region == "west") %>% drop_na() %>% 
   distinct(park_type) %>% knitr::kable()
-region_data %>% filter(region == "west") %>% distinct(activities_name) 
+region_data %>% filter(region == "west") %>% distinct(activities_name) %>% 
+  head() %>% knitr::kable()
 
 west_plot <- 
   region_data %>% 
