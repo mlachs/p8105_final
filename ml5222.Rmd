@@ -68,7 +68,6 @@ NPS_Full %>%
 
 ```{r}
 NPS_Full %>%
-  filter(entranceFees_title=='Entrance - Per Person') %>% 
   group_by(fullName) %>% 
   summarise(activities_count=n_distinct(activities_id),
             avg_visit=mean(RecreationVisits),
@@ -79,7 +78,6 @@ NPS_Full %>%
 
 ```{r}
 NPS_Full %>%
-  filter(entranceFees_title=='Entrance - Per Person') %>% 
   group_by(fullName) %>% 
   summarise(activities_count=n_distinct(activities_id),
             avg_visit=mean(RecreationVisits),
@@ -95,8 +93,8 @@ NPS_Full %>% distinct(fullName,Month,Year,RecreationVisits,ParkType) %>% group_b
 ```
 
 ```{r}
-NPS_Full %>% distinct(fullName,activities_name,ParkType) %>% group_by(ParkType) %>% summarise(total_act=n_distinct(activities_name)) %>% 
-  mutate(ParkType=fct_reorder(ParkType,total_act)) %>% 
-  ggplot(aes(x=as.factor(ParkType),y=total_act))+geom_col() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+NPS_Full %>% distinct(fullName,activities_name,designation) %>% group_by(designation) %>% summarise(total_act=n_distinct(activities_name)) %>% 
+  mutate(designation=fct_reorder(designation,total_act)) %>% 
+  ggplot(aes(x=as.factor(designation),y=total_act))+geom_col() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
