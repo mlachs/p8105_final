@@ -106,7 +106,7 @@ plots[[i]] <- visitation_data %>%
     summarize(avg_visits = mean(recreation_visits, na.rm = TRUE)) %>%
     ggplot(aes(x = season, y = avg_visits, fill = season)) +
     geom_col() +
-    ggtitle(paste("Average Visits by Season for", park_types[i])) 
+    ggtitle(paste( park_types[i])) 
 } 
 ```
 
@@ -129,7 +129,7 @@ combined_data %>%
   head() %>% knitr::kable()
 ```
 
-Based on the activities offered in National Lakeshore, we can see that most of the activities revolve around water, such as `canoeing`, `fly fishing`, and `jet skiing`. Interestingly, at National Lakeshore, there are skiing activities, but the winter average visits are still the lowest.
+Based on the activities offered in National Lakeshore, we can see that most of the activities revolve around water, such as `boating`, `sailing`, and `boat tours`. Interestingly, at National Lakeshore, there are skiing activities, but the winter average visits are still the lowest.
 
 ## **National Preserve Seasonal Trends and Activities**
 
@@ -144,7 +144,9 @@ activities_count <-
   combined_data %>% 
   filter(park_type == "National Preserve") %>% distinct(activities_name) %>% nrow()
 combined_data %>% 
-  filter(park_type == "National Preserve") %>% distinct(activities_name)  %>% knitr::kable()
+  filter(park_type == "National Preserve") %>% distinct(activities_name)  %>% 
+  head() %>% 
+  knitr::kable()
 ```
 
 There are `r activities_count` activities offered at this park. It is near the middle of the distribution of total activities, so the trend is not due to having many more activities offered than other park types. It seems like there is a much bigger variety in the types of activities offered at these parks. There are tours, stargazing, biking, picnicking, hunting, water activities, wildlife watching, museums and stores, as well as winter activities like skiing, and snowshoeing.
@@ -277,9 +279,6 @@ region_data <- combined_data %>%
 
 ```{r}
 region_data %>%
-  filter(region == "northeast") %>% drop_na() %>% 
-  distinct(park_type) %>% knitr::kable()
-region_data %>%
   filter(region == "northeast") %>% 
   distinct(activities_name) %>% 
   head() %>% knitr::kable()
@@ -315,10 +314,6 @@ northeast_plot
 ## **Midwest**
 
 ```{r}
-region_data %>%
-  filter(region == "midwest") %>%
-  drop_na() %>% 
-  distinct(park_type) %>% knitr::kable()
 region_data %>%
   filter(region == "midwest") %>% distinct(activities_name) %>% 
   head() %>%  knitr::kable()
@@ -357,11 +352,6 @@ midwest_plot
 ```{r}
 region_data %>%
   filter(region == "south") %>%
-  drop_na() %>% 
-  distinct(park_type) %>% 
-  knitr::kable()
-region_data %>%
-  filter(region == "south") %>%
   distinct(activities_name) %>% 
   head() %>%  
   knitr::kable()
@@ -398,8 +388,6 @@ south_plot
 ## **West**
 
 ```{r}
-region_data %>% filter(region == "west") %>% drop_na() %>% 
-  distinct(park_type) %>% knitr::kable()
 region_data %>% filter(region == "west") %>% distinct(activities_name) %>% 
   head() %>% knitr::kable()
 
