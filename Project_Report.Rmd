@@ -1,0 +1,33 @@
+---
+title: "Project Report"
+output: html_document
+---
+# Topic/Research Questions – Flora  
+
+# Motivation  - Miriam  
+
+# Significance - Mari 
+
+
+
+# Data
+
+Visitation data by park was obtained from the Integrated Resource Management Applications Portal on the National Park Service website. It was created through a query where the all the parks were selected between the years 2002 and 2024. This dataset has information on the total visitation for each park, as well as the among of backcountry hikers, tent campers, and rv campers.  It also contains each park code as well as the state that each park is in. The other dataset used was also found on the National Park Service website, but through an API. This data was a bit more difficult to work with, but contained data on activities offered at specific parks, latitude and longitude of the parks, a URL that leads to each parks’ website, topics of each park, addresses and contacts, entrance fees and passes, images, weather information, and operating hours, among others. Since this data was obtained through an API, each of the columns of the data had to be unnested in order to examine the content. 
+
+# Exploratory Data Analysis 
+
+## Trends over Time - Mari (only a bit)
+
+## Seasonal Trends - Mari
+
+## Regional Trends - Mari 
+
+## New York State Trends - Lizy
+
+# Discussion
+
+# Limitations
+
+# Final Thoughts - Lizy 
+This project explored the patterns shaping national park visitation, revealing how seasonal trends, historical events, and regional preferences drive public engagement. While summer dominates camping activities, sites like Vanderbilt Mansion NHS face declining interest, highlighting the need for renewed strategies to sustain visitor enthusiasm. 
+For visitors, our findings offer insights to better plan trips and explore hidden gems. For park services, the analysis provides actionable knowledge to boost participation and adapt to shifting preferences. Our work opens doors to future questions—how do economic shifts, climate change, or digital outreach influence these trends? Conclusively, our findings emphasize the vital role of national parks as spaces for connection and legacy, reminding us of the need to preserve their appeal for future generations.

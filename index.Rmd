@@ -1,27 +1,10 @@
 ---
-title: "Home"
-author: "Miriam Lachs"
-date: "2024-11-07"
+title: "National Parks Service Research Project"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-library(tidyverse)
+## **Studying Impacts on Visitation for the National Parks in the U.S.**
 
-```
+There are over 400 parks in the United States at this time. In 2023, there were 325.5 million recreation visits, an increase from 2022. Visitation at the parks has been increasing since the dip in visitation during 2020 and 2021, with closure of parks due to the COVID-19 Pandemic (NPS, 2024).
 
-```{r}
-library(httr)
-library(jsonlite)
-
-
-res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
-
-
-
-data = res %>%  content("text") %>%  jsonlite::fromJSON() %>%  as_tibble()
-```
-
-```{r}
-```
-
+## 

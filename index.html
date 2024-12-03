@@ -9,13 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Miriam Lachs" />
 
-<meta name="date" content="2024-11-07" />
 
-<title>Home</title>
+<title>National Parks Service Research Project</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -253,6 +251,15 @@ $(document).ready(function () {
 <li>
   <a href="project_proposal.html">Proposal</a>
 </li>
+<li>
+  <a href="mos2128.html">Mari</a>
+</li>
+<li>
+  <a href="jc6452.html">Lizy</a>
+</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -262,22 +269,26 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
-<h4 class="author">Miriam Lachs</h4>
-<h4 class="date">2024-11-07</h4>
+<h1 class="title toc-ignore">National Parks Service Research
+Project</h1>
 
 </div>
 
 
-<pre class="r"><code>library(httr)
-library(jsonlite)
-
-
-res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
-
-
-
-data = res %&gt;%  content(&quot;text&quot;) %&gt;%  jsonlite::fromJSON() %&gt;%  as_tibble()</code></pre>
+<div
+id="studying-impacts-on-visitation-for-the-national-parks-in-the-u.s."
+class="section level2">
+<h2><strong>Studying Impacts on Visitation for the National Parks in the
+U.S.</strong></h2>
+<p>There are over 400 parks in the United States at this time. In 2023,
+there were 325.5 million recreation visits, an increase from 2022.
+Visitation at the parks has been increasing since the dip in visitation
+during 2020 and 2021, with closure of parks due to the COVID-19 Pandemic
+(NPS, 2024).</p>
+</div>
+<div id="section" class="section level2">
+<h2></h2>
+</div>
 
 
 

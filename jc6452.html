@@ -1,607 +1,816 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Exploring NY State Park</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.2.2/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 <style type="text/css">
-@font-face {
-font-family: octicons-link;
-src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format('woff');
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
-body {
--webkit-text-size-adjust: 100%;
-text-size-adjust: 100%;
-color: #333;
-font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-font-size: 16px;
-line-height: 1.6;
-word-wrap: break-word;
-}
-a {
-background-color: transparent;
-}
-a:active,
-a:hover {
-outline: 0;
-}
-strong {
-font-weight: bold;
-}
-h1 {
-font-size: 2em;
-margin: 0.67em 0;
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
 }
 img {
-border: 0;
+  max-width:100%;
 }
-hr {
-box-sizing: content-box;
-height: 0;
+.tabbed-pane {
+  padding-top: 12px;
 }
-pre {
-overflow: auto;
+.html-widget {
+  margin-bottom: 20px;
 }
-code,
-kbd,
-pre {
-font-family: monospace, monospace;
-font-size: 1em;
+button.code-folding-btn:focus {
+  outline: none;
 }
-input {
-color: inherit;
-font: inherit;
-margin: 0;
+summary {
+  display: list-item;
 }
-html input[disabled] {
-cursor: default;
-}
-input {
-line-height: normal;
-}
-input[type="checkbox"] {
-box-sizing: border-box;
-padding: 0;
-}
-table {
-border-collapse: collapse;
-border-spacing: 0;
-}
-td,
-th {
-padding: 0;
-}
-* {
-box-sizing: border-box;
-}
-input {
-font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-}
-a {
-color: #4078c0;
-text-decoration: none;
-}
-a:hover,
-a:active {
-text-decoration: underline;
-}
-hr {
-height: 0;
-margin: 15px 0;
-overflow: hidden;
-background: transparent;
-border: 0;
-border-bottom: 1px solid #ddd;
-}
-hr:before {
-display: table;
-content: "";
-}
-hr:after {
-display: table;
-clear: both;
-content: "";
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-margin-top: 15px;
-margin-bottom: 15px;
-line-height: 1.1;
-}
-h1 {
-font-size: 30px;
-}
-h2 {
-font-size: 21px;
-}
-h3 {
-font-size: 16px;
-}
-h4 {
-font-size: 14px;
-}
-h5 {
-font-size: 12px;
-}
-h6 {
-font-size: 11px;
-}
-blockquote {
-margin: 0;
-}
-ul,
-ol {
-padding: 0;
-margin-top: 0;
-margin-bottom: 0;
-}
-ol ol,
-ul ol {
-list-style-type: lower-roman;
-}
-ul ul ol,
-ul ol ol,
-ol ul ol,
-ol ol ol {
-list-style-type: lower-alpha;
-}
-dd {
-margin-left: 0;
-}
-code {
-font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-font-size: 12px;
-}
-pre {
-margin-top: 0;
-margin-bottom: 0;
-font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
-}
-.select::-ms-expand {
-opacity: 0;
-}
-.octicon {
-font: normal normal normal 16px/1 octicons-link;
-display: inline-block;
-text-decoration: none;
-text-rendering: auto;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
--webkit-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
-}
-.octicon-link:before {
-content: '\f05c';
-}
-.markdown-body:before {
-display: table;
-content: "";
-}
-.markdown-body:after {
-display: table;
-clear: both;
-content: "";
-}
-.markdown-body>*:first-child {
-margin-top: 0 !important;
-}
-.markdown-body>*:last-child {
-margin-bottom: 0 !important;
-}
-a:not([href]) {
-color: inherit;
-text-decoration: none;
-}
-.anchor {
-display: inline-block;
-padding-right: 2px;
-margin-left: -18px;
-}
-.anchor:focus {
-outline: none;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-margin-top: 1em;
-margin-bottom: 16px;
-font-weight: bold;
-line-height: 1.4;
-}
-h1 .octicon-link,
-h2 .octicon-link,
-h3 .octicon-link,
-h4 .octicon-link,
-h5 .octicon-link,
-h6 .octicon-link {
-color: #000;
-vertical-align: middle;
-visibility: hidden;
-}
-h1:hover .anchor,
-h2:hover .anchor,
-h3:hover .anchor,
-h4:hover .anchor,
-h5:hover .anchor,
-h6:hover .anchor {
-text-decoration: none;
-}
-h1:hover .anchor .octicon-link,
-h2:hover .anchor .octicon-link,
-h3:hover .anchor .octicon-link,
-h4:hover .anchor .octicon-link,
-h5:hover .anchor .octicon-link,
-h6:hover .anchor .octicon-link {
-visibility: visible;
-}
-h1 {
-padding-bottom: 0.3em;
-font-size: 2.25em;
-line-height: 1.2;
-border-bottom: 1px solid #eee;
-}
-h1 .anchor {
-line-height: 1;
-}
-h2 {
-padding-bottom: 0.3em;
-font-size: 1.75em;
-line-height: 1.225;
-border-bottom: 1px solid #eee;
-}
-h2 .anchor {
-line-height: 1;
-}
-h3 {
-font-size: 1.5em;
-line-height: 1.43;
-}
-h3 .anchor {
-line-height: 1.2;
-}
-h4 {
-font-size: 1.25em;
-}
-h4 .anchor {
-line-height: 1.2;
-}
-h5 {
-font-size: 1em;
-}
-h5 .anchor {
-line-height: 1.1;
-}
-h6 {
-font-size: 1em;
-color: #777;
-}
-h6 .anchor {
-line-height: 1.1;
-}
-p,
-blockquote,
-ul,
-ol,
-dl,
-table,
-pre {
-margin-top: 0;
-margin-bottom: 16px;
-}
-hr {
-height: 4px;
-padding: 0;
-margin: 16px 0;
-background-color: #e7e7e7;
-border: 0 none;
-}
-ul,
-ol {
-padding-left: 2em;
-}
-ul ul,
-ul ol,
-ol ol,
-ol ul {
-margin-top: 0;
-margin-bottom: 0;
-}
-li>p {
-margin-top: 16px;
-}
-dl {
-padding: 0;
-}
-dl dt {
-padding: 0;
-margin-top: 16px;
-font-size: 1em;
-font-style: italic;
-font-weight: bold;
-}
-dl dd {
-padding: 0 16px;
-margin-bottom: 16px;
-}
-blockquote {
-padding: 0 15px;
-color: #777;
-border-left: 4px solid #ddd;
-}
-blockquote>:first-child {
-margin-top: 0;
-}
-blockquote>:last-child {
-margin-bottom: 0;
-}
-table {
-display: block;
-width: 100%;
-overflow: auto;
-word-break: normal;
-word-break: keep-all;
-}
-table th {
-font-weight: bold;
-}
-table th,
-table td {
-padding: 6px 13px;
-border: 1px solid #ddd;
-}
-table tr {
-background-color: #fff;
-border-top: 1px solid #ccc;
-}
-table tr:nth-child(2n) {
-background-color: #f8f8f8;
-}
-img {
-max-width: 100%;
-box-sizing: content-box;
-background-color: #fff;
-}
-code {
-padding: 0;
-padding-top: 0.2em;
-padding-bottom: 0.2em;
-margin: 0;
-font-size: 85%;
-background-color: rgba(0,0,0,0.04);
-border-radius: 3px;
-}
-code:before,
-code:after {
-letter-spacing: -0.2em;
-content: "\00a0";
-}
-pre>code {
-padding: 0;
-margin: 0;
-font-size: 100%;
-word-break: normal;
-white-space: pre;
-background: transparent;
-border: 0;
-}
-.highlight {
-margin-bottom: 16px;
-}
-.highlight pre,
-pre {
-padding: 16px;
-overflow: auto;
-font-size: 85%;
-line-height: 1.45;
-background-color: #f7f7f7;
-border-radius: 3px;
-}
-.highlight pre {
-margin-bottom: 0;
-word-break: normal;
-}
-pre {
-word-wrap: normal;
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
-display: inline;
-max-width: initial;
-padding: 0;
-margin: 0;
-overflow: initial;
-line-height: inherit;
-word-wrap: normal;
-background-color: transparent;
-border: 0;
-}
-pre code:before,
-pre code:after {
-content: normal;
-}
-kbd {
-display: inline-block;
-padding: 3px 5px;
-font-size: 11px;
-line-height: 10px;
-color: #555;
-vertical-align: middle;
-background-color: #fcfcfc;
-border: solid 1px #ccc;
-border-bottom-color: #bbb;
-border-radius: 3px;
-box-shadow: inset 0 -1px 0 #bbb;
-}
-.pl-c {
-color: #969896;
-}
-.pl-c1,
-.pl-s .pl-v {
-color: #0086b3;
-}
-.pl-e,
-.pl-en {
-color: #795da3;
-}
-.pl-s .pl-s1,
-.pl-smi {
-color: #333;
-}
-.pl-ent {
-color: #63a35c;
-}
-.pl-k {
-color: #a71d5d;
-}
-.pl-pds,
-.pl-s,
-.pl-s .pl-pse .pl-s1,
-.pl-sr,
-.pl-sr .pl-cce,
-.pl-sr .pl-sra,
-.pl-sr .pl-sre {
-color: #183691;
-}
-.pl-v {
-color: #ed6a43;
-}
-.pl-id {
-color: #b52a1d;
-}
-.pl-ii {
-background-color: #b52a1d;
-color: #f8f8f8;
-}
-.pl-sr .pl-cce {
-color: #63a35c;
-font-weight: bold;
-}
-.pl-ml {
-color: #693a17;
-}
-.pl-mh,
-.pl-mh .pl-en,
-.pl-ms {
-color: #1d3e81;
-font-weight: bold;
-}
-.pl-mq {
-color: #008080;
-}
-.pl-mi {
-color: #333;
-font-style: italic;
-}
-.pl-mb {
-color: #333;
-font-weight: bold;
-}
-.pl-md {
-background-color: #ffecec;
-color: #bd2c00;
-}
-.pl-mi1 {
-background-color: #eaffea;
-color: #55a532;
-}
-.pl-mdr {
-color: #795da3;
-font-weight: bold;
-}
-.pl-mo {
-color: #1d3e81;
-}
-kbd {
-display: inline-block;
-padding: 3px 5px;
-font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
-line-height: 10px;
-color: #555;
-vertical-align: middle;
-background-color: #fcfcfc;
-border: solid 1px #ccc;
-border-bottom-color: #bbb;
-border-radius: 3px;
-box-shadow: inset 0 -1px 0 #bbb;
-}
-.task-list-item {
-list-style-type: none;
-}
-.task-list-item+.task-list-item {
-margin-top: 3px;
-}
-.task-list-item input {
-margin: 0 0.35em 0.25em -1.6em;
-vertical-align: middle;
-}
-:checked+.radio-label {
-z-index: 1;
-position: relative;
-border-color: #4078c0;
-}
-.sourceLine {
-display: inline-block;
-}
-code .kw { color: #000000; }
-code .dt { color: #ed6a43; }
-code .dv { color: #009999; }
-code .bn { color: #009999; }
-code .fl { color: #009999; }
-code .ch { color: #009999; }
-code .st { color: #183691; }
-code .co { color: #969896; }
-code .ot { color: #0086b3; }
-code .al { color: #a61717; }
-code .fu { color: #63a35c; }
-code .er { color: #a61717; background-color: #e3d2d2; }
-code .wa { color: #000000; }
-code .cn { color: #008080; }
-code .sc { color: #008080; }
-code .vs { color: #183691; }
-code .ss { color: #183691; }
-code .im { color: #000000; }
-code .va {color: #008080; }
-code .cf { color: #000000; }
-code .op { color: #000000; }
-code .bu { color: #000000; }
-code .ex { color: #000000; }
-code .pp { color: #999999; }
-code .at { color: #008080; }
-code .do { color: #969896; }
-code .an { color: #008080; }
-code .cv { color: #008080; }
-code .in { color: #008080; }
-</style>
-<style>
-body {
-box-sizing: border-box;
-min-width: 200px;
-max-width: 980px;
-margin: 0 auto;
-padding: 45px;
-padding-top: 0px;
+  padding: 0;
 }
 </style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
 
 
 </head>
 
 <body>
 
-<h1 id="jc6452">JC6452</h1>
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="ml5222.html">Miriam</a>
+</li>
+<li>
+  <a href="project_proposal.html">Proposal</a>
+</li>
+<li>
+  <a href="mos2128.html">Mari</a>
+</li>
+<li>
+  <a href="jc6452.html">Lizy</a>
+</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Exploring NY State Park</h1>
+
+</div>
+
+
+<pre class="r"><code>NPS_data = data %&gt;% unnest(data) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;)
+public_use_data = read.csv(&quot;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&quot;)</code></pre>
+<div id="data-cleaning" class="section level3">
+<h3>Data Cleaning</h3>
+<pre class="r"><code>#main dataset
+wildlife_relevant_public_use = 
+  public_use_data %&gt;% 
+  janitor::clean_names() %&gt;%
+  mutate(
+    recreation_visits = as.numeric(str_replace_all(recreation_visits,&quot;,&quot;,&quot;&quot;)),
+    concessioner_camping = as.numeric(str_replace_all(concessioner_camping,&quot;,&quot;,&quot;&quot;)),
+    tent_campers = as.numeric(str_replace_all(tent_campers,&quot;,&quot;,&quot;&quot;)),
+    rv_campers = as.numeric(str_replace_all(rv_campers,&quot;,&quot;,&quot;&quot;)), 
+    backcountry = as.numeric(str_replace_all(backcountry,&quot;,&quot;,&quot;&quot;)),
+    recreation_visits_total = as.numeric(str_replace_all(recreation_visits_total,&quot;,&quot;,&quot;&quot;)),
+    concessioner_camping_total = as.numeric(str_replace_all(concessioner_camping_total,&quot;,&quot;,&quot;&quot;)),
+    tent_campers_total = as.numeric(str_replace_all(tent_campers_total,&quot;,&quot;,&quot;&quot;)),
+    rv_campers_total = as.numeric(str_replace_all(rv_campers_total,&quot;,&quot;,&quot;&quot;)), 
+    backcountry_total = as.numeric(str_replace_all(backcountry_total,&quot;,&quot;,&quot;&quot;))
+  )
+  
+
+#supplemental dataset
+wildlife_relevant_NPS_data = 
+  NPS_data %&gt;% 
+  janitor::clean_names() %&gt;% 
+  select(park_code, full_name, states, activities_name, entrance_fees_cost, entrance_fees_description,latitude, longitude, designation) %&gt;% 
+  mutate(
+    park_code = str_to_upper(park_code),
+    entrance_fees_cost = as.numeric(entrance_fees_cost),
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+  )</code></pre>
+</div>
+<div id="interactive-map-of-parks-near-ny" class="section level1">
+<h1>Interactive Map of Parks near NY</h1>
+<pre class="r"><code>NY_close = 
+  wildlife_relevant_NPS_data %&gt;% 
+  filter((states %in% c(&quot;NJ,NY&quot;,&quot;NJ&quot;,&quot;NY&quot;, &quot;PA&quot;, &quot;NJ,PA&quot;, &quot;RI&quot;, &quot;MA&quot;, &quot;CT&quot;)))
+
+map &lt;- leaflet(NY_close) %&gt;%
+  addProviderTiles(providers$CartoDB.Positron) %&gt;%
+  addCircleMarkers(
+    ~longitude, ~latitude,
+    radius = 4,
+    color = &quot;green&quot;,
+    popup = ~paste(&quot;Name:&quot;, full_name,
+                            &quot;&lt;br&gt; Designation:&quot;, designation),
+    label = ~paste(&quot;Name:&quot;, full_name,
+                            &quot;Designation:&quot;, designation)
+  ) %&gt;%
+  setView(lng = -74.0060, lat = 40.7128, zoom = 7)
+
+# Display the map
+map</code></pre>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-e951a7b894887a234639" style="width:90%;height:576px;"></div>
+<script type="application/json" data-for="htmlwidget-e951a7b894887a234639">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,42.2553961,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.92381465,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,41.12793491,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,40.69946,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,41.76639758,39.94746112,39.94746112,39.94746112,39.94746112,39.94746112,39.94746112,39.94746112,39.94746112,40.7187683,40.7187683,40.7187683,40.7187683,40.7187683,40.7187683,40.7187683,40.7187683,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.88579128,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.6898,40.78549896,40.78549896,40.78549896,40.78549896,40.78549896,40.78549896,40.78549896,40.78549896,40.78549896,41.79697937,41.79697937,41.79697937,41.79697937,41.79697937,41.79697937,41.79697937,41.79697937,41.79697937,41.79697937],[-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-71.01160356,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-70.04319832,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.94751173,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-74.0401,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-73.92516857,-75.14794157,-75.14794157,-75.14794157,-75.14794157,-75.14794157,-75.14794157,-75.14794157,-75.14794157,-73.99001244999999,-73.99001244999999,-73.99001244999999,-73.99001244999999,-73.99001244999999,-73.99001244999999,-73.99001244999999,-73.99001244999999,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-73.49686438000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.04510000000001,-74.23821139,-74.23821139,-74.23821139,-74.23821139,-74.23821139,-74.23821139,-74.23821139,-74.23821139,-74.23821139,-73.94205556999999,-73.94205556999999,-73.94205556999999,-73.94205556999999,-73.94205556999999,-73.94205556999999,-73.94205556999999,-73.94205556999999,-73.94205556999999,-73.94205556999999],4,null,null,{"interactive":true,"className":"","stroke":true,"color":"green","weight":5,"opacity":0.5,"fill":true,"fillColor":"green","fillOpacity":0.2},null,null,["Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Adams National Historical Park <br> Designation: National Historical Park","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Cape Cod National Seashore <br> Designation: National Seashore","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area <br> Designation: National Recreation Area","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument <br> Designation: Part of Statue of Liberty National Monument","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site <br> Designation: National Historic Site","Name: Independence National Historical Park <br> Designation: National Historical Park","Name: Independence National Historical Park <br> Designation: National Historical Park","Name: Independence National Historical Park <br> Designation: National Historical Park","Name: Independence National Historical Park <br> Designation: National Historical Park","Name: Independence National Historical Park <br> Designation: National Historical Park","Name: Independence National Historical Park <br> Designation: National Historical Park","Name: Independence National Historical Park <br> Designation: National Historical Park","Name: Independence National Historical Park <br> Designation: National Historical Park","Name: Lower East Side Tenement Museum National Historic Site <br> Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site <br> Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site <br> Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site <br> Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site <br> Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site <br> Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site <br> Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Sagamore Hill National Historic Site <br> Designation: National Historic Site","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Statue Of Liberty National Monument <br> Designation: National Monument","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Thomas Edison National Historical Park <br> Designation: National Historical Park","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site <br> Designation: National Historic Site"],null,["Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Adams National Historical Park Designation: National Historical Park","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Cape Cod National Seashore Designation: National Seashore","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Delaware Water Gap National Recreation Area Designation: National Recreation Area","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Ellis Island Part of Statue of Liberty National Monument Designation: Part of Statue of Liberty National Monument","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Home Of Franklin D Roosevelt National Historic Site Designation: National Historic Site","Name: Independence National Historical Park Designation: National Historical Park","Name: Independence National Historical Park Designation: National Historical Park","Name: Independence National Historical Park Designation: National Historical Park","Name: Independence National Historical Park Designation: National Historical Park","Name: Independence National Historical Park Designation: National Historical Park","Name: Independence National Historical Park Designation: National Historical Park","Name: Independence National Historical Park Designation: National Historical Park","Name: Independence National Historical Park Designation: National Historical Park","Name: Lower East Side Tenement Museum National Historic Site Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site Designation: National Historic Site","Name: Lower East Side Tenement Museum National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Sagamore Hill National Historic Site Designation: National Historic Site","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Statue Of Liberty National Monument Designation: National Monument","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Thomas Edison National Historical Park Designation: National Historical Park","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site","Name: Vanderbilt Mansion National Historic Site Designation: National Historic Site"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[39.94746112,42.2553961],"lng":[-75.14794157,-70.04319832]},"setView":[[40.7128,-74.006],7,[]]},"evals":[],"jsHooks":[]}</script>
+<p>Discover some of the nearby parks that is either in NY state or
+within driving distance! When you place your cursor on the circles, you
+will be able to explore the name of the park and its disposition.</p>
+</div>
+<div id="ny-popular-parks-for-recreation-based-on-yearly-visits"
+class="section level1">
+<h1>NY Popular Parks for Recreation based on yearly visits</h1>
+<pre class="r"><code>wildlife_relevant_public_use %&gt;%
+  distinct(year, state, park_name, .keep_all = TRUE) %&gt;% 
+  filter(state == &quot;NY&quot;) %&gt;% 
+  mutate(text_label = str_c(&quot;Year: &quot;, year, &quot; Recreation Visits: &quot;, recreation_visits_total)) %&gt;% 
+  plot_ly(x  = ~year, y = ~recreation_visits_total, color = ~park_name, text = ~text_label, mode = &#39;lines+markers&#39;)  %&gt;% 
+  layout(title = &#39;Popular Parks for Recreation Visits in NY state&#39;, xaxis = list(title = &#39;Year&#39;), yaxis = list(title = &#39;Number of Recreation Visits&#39;))</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-4fe898ac6f760b47e356" style="width:90%;height:576px;"></div>
+<script type="application/json" data-for="htmlwidget-4fe898ac6f760b47e356">{"x":{"visdat":{"b72decb6837":["function () ","plotlyVisDat"]},"cur_data":"b72decb6837","attrs":{"b72decb6837":{"x":{},"y":{},"text":{},"mode":"lines+markers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Popular Parks for Recreation Visits in NY state","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Recreation Visits"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[117113,108585,77624,93234,54861,56348,46526,43182,45035,47427,7908,9167,29743,40817],"text":["Year: 2010 Recreation Visits: 117113","Year: 2011 Recreation Visits: 108585","Year: 2012 Recreation Visits: 77624","Year: 2013 Recreation Visits: 93234","Year: 2014 Recreation Visits: 54861","Year: 2015 Recreation Visits: 56348","Year: 2016 Recreation Visits: 46526","Year: 2017 Recreation Visits: 43182","Year: 2018 Recreation Visits: 45035","Year: 2019 Recreation Visits: 47427","Year: 2020 Recreation Visits: 7908","Year: 2021 Recreation Visits: 9167","Year: 2022 Recreation Visits: 29743","Year: 2023 Recreation Visits: 40817"],"mode":"lines+markers","type":"scatter","name":"African Burial Ground NM","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[4588273,3601635,2976795,2941250,2949231,3487307,3415397,3509468,3727030,4080152,4126378,3985366,3264439,2180694,4727110,4597029,4812930,4737113,4533564,4361034,633793,1665660,3471661,3929749],"text":["Year: 2000 Recreation Visits: 4588273","Year: 2001 Recreation Visits: 3601635","Year: 2002 Recreation Visits: 2976795","Year: 2003 Recreation Visits: 2941250","Year: 2004 Recreation Visits: 2949231","Year: 2005 Recreation Visits: 3487307","Year: 2006 Recreation Visits: 3415397","Year: 2007 Recreation Visits: 3509468","Year: 2008 Recreation Visits: 3727030","Year: 2009 Recreation Visits: 4080152","Year: 2010 Recreation Visits: 4126378","Year: 2011 Recreation Visits: 3985366","Year: 2012 Recreation Visits: 3264439","Year: 2013 Recreation Visits: 2180694","Year: 2014 Recreation Visits: 4727110","Year: 2015 Recreation Visits: 4597029","Year: 2016 Recreation Visits: 4812930","Year: 2017 Recreation Visits: 4737113","Year: 2018 Recreation Visits: 4533564","Year: 2019 Recreation Visits: 4361034","Year: 2020 Recreation Visits: 633793","Year: 2021 Recreation Visits: 1665660","Year: 2022 Recreation Visits: 3471661","Year: 2023 Recreation Visits: 3929749"],"mode":"lines+markers","type":"scatter","name":"Castle Clinton NM","marker":{"color":"rgba(175,178,140,1)","line":{"color":"rgba(175,178,140,1)"}},"textfont":{"color":"rgba(175,178,140,1)"},"error_y":{"color":"rgba(175,178,140,1)"},"error_x":{"color":"rgba(175,178,140,1)"},"line":{"color":"rgba(175,178,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[76958,86012,71189,58843,53765,52690,14493,59846,53632,54393,53067,50074,55049,43686,60456,64791,63480,67621,54649,47630,9575,12414,19076,17190],"text":["Year: 2000 Recreation Visits: 76958","Year: 2001 Recreation Visits: 86012","Year: 2002 Recreation Visits: 71189","Year: 2003 Recreation Visits: 58843","Year: 2004 Recreation Visits: 53765","Year: 2005 Recreation Visits: 52690","Year: 2006 Recreation Visits: 14493","Year: 2007 Recreation Visits: 59846","Year: 2008 Recreation Visits: 53632","Year: 2009 Recreation Visits: 54393","Year: 2010 Recreation Visits: 53067","Year: 2011 Recreation Visits: 50074","Year: 2012 Recreation Visits: 55049","Year: 2013 Recreation Visits: 43686","Year: 2014 Recreation Visits: 60456","Year: 2015 Recreation Visits: 64791","Year: 2016 Recreation Visits: 63480","Year: 2017 Recreation Visits: 67621","Year: 2018 Recreation Visits: 54649","Year: 2019 Recreation Visits: 47630","Year: 2020 Recreation Visits: 9575","Year: 2021 Recreation Visits: 12414","Year: 2022 Recreation Visits: 19076","Year: 2023 Recreation Visits: 17190"],"mode":"lines+markers","type":"scatter","name":"Eleanor Roosevelt NHS","marker":{"color":"rgba(223,158,115,1)","line":{"color":"rgba(223,158,115,1)"}},"textfont":{"color":"rgba(223,158,115,1)"},"error_y":{"color":"rgba(223,158,115,1)"},"error_x":{"color":"rgba(223,158,115,1)"},"line":{"color":"rgba(223,158,115,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[241897,203816,177146,120152,156707,0,12800,127432,212564,204880,178749,187109,167146,148647,137538,172038,314531,325497,230634,264849,13822,4583,40229,76750],"text":["Year: 2000 Recreation Visits: 241897","Year: 2001 Recreation Visits: 203816","Year: 2002 Recreation Visits: 177146","Year: 2003 Recreation Visits: 120152","Year: 2004 Recreation Visits: 156707","Year: 2005 Recreation Visits: 0","Year: 2006 Recreation Visits: 12800","Year: 2007 Recreation Visits: 127432","Year: 2008 Recreation Visits: 212564","Year: 2009 Recreation Visits: 204880","Year: 2010 Recreation Visits: 178749","Year: 2011 Recreation Visits: 187109","Year: 2012 Recreation Visits: 167146","Year: 2013 Recreation Visits: 148647","Year: 2014 Recreation Visits: 137538","Year: 2015 Recreation Visits: 172038","Year: 2016 Recreation Visits: 314531","Year: 2017 Recreation Visits: 325497","Year: 2018 Recreation Visits: 230634","Year: 2019 Recreation Visits: 264849","Year: 2020 Recreation Visits: 13822","Year: 2021 Recreation Visits: 4583","Year: 2022 Recreation Visits: 40229","Year: 2023 Recreation Visits: 76750"],"mode":"lines+markers","type":"scatter","name":"Federal Hall NMEM","marker":{"color":"rgba(243,143,109,1)","line":{"color":"rgba(243,143,109,1)"}},"textfont":{"color":"rgba(243,143,109,1)"},"error_y":{"color":"rgba(243,143,109,1)"},"error_x":{"color":"rgba(243,143,109,1)"},"line":{"color":"rgba(243,143,109,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[600333,661692,763992,629858,819161,670456,636030,616233,604577,569667,613057,519173,483334,294219,384343,441899,431303,456392,305710,391311,250449,224924,393749,298958],"text":["Year: 2000 Recreation Visits: 600333","Year: 2001 Recreation Visits: 661692","Year: 2002 Recreation Visits: 763992","Year: 2003 Recreation Visits: 629858","Year: 2004 Recreation Visits: 819161","Year: 2005 Recreation Visits: 670456","Year: 2006 Recreation Visits: 636030","Year: 2007 Recreation Visits: 616233","Year: 2008 Recreation Visits: 604577","Year: 2009 Recreation Visits: 569667","Year: 2010 Recreation Visits: 613057","Year: 2011 Recreation Visits: 519173","Year: 2012 Recreation Visits: 483334","Year: 2013 Recreation Visits: 294219","Year: 2014 Recreation Visits: 384343","Year: 2015 Recreation Visits: 441899","Year: 2016 Recreation Visits: 431303","Year: 2017 Recreation Visits: 456392","Year: 2018 Recreation Visits: 305710","Year: 2019 Recreation Visits: 391311","Year: 2020 Recreation Visits: 250449","Year: 2021 Recreation Visits: 224924","Year: 2022 Recreation Visits: 393749","Year: 2023 Recreation Visits: 298958"],"mode":"lines+markers","type":"scatter","name":"Fire Island NS","marker":{"color":"rgba(210,151,148,1)","line":{"color":"rgba(210,151,148,1)"}},"textfont":{"color":"rgba(210,151,148,1)"},"error_y":{"color":"rgba(210,151,148,1)"},"error_x":{"color":"rgba(210,151,148,1)"},"line":{"color":"rgba(210,151,148,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[38667,53065,77863,56646,68427,38237,60589,59643,71263,93170,103748,102874,195057,129089,60819,86678,94006,106936,90507,97412,24134,45684,71716,83401],"text":["Year: 2000 Recreation Visits: 38667","Year: 2001 Recreation Visits: 53065","Year: 2002 Recreation Visits: 77863","Year: 2003 Recreation Visits: 56646","Year: 2004 Recreation Visits: 68427","Year: 2005 Recreation Visits: 38237","Year: 2006 Recreation Visits: 60589","Year: 2007 Recreation Visits: 59643","Year: 2008 Recreation Visits: 71263","Year: 2009 Recreation Visits: 93170","Year: 2010 Recreation Visits: 103748","Year: 2011 Recreation Visits: 102874","Year: 2012 Recreation Visits: 195057","Year: 2013 Recreation Visits: 129089","Year: 2014 Recreation Visits: 60819","Year: 2015 Recreation Visits: 86678","Year: 2016 Recreation Visits: 94006","Year: 2017 Recreation Visits: 106936","Year: 2018 Recreation Visits: 90507","Year: 2019 Recreation Visits: 97412","Year: 2020 Recreation Visits: 24134","Year: 2021 Recreation Visits: 45684","Year: 2022 Recreation Visits: 71716","Year: 2023 Recreation Visits: 83401"],"mode":"lines+markers","type":"scatter","name":"Fort Stanwix NM","marker":{"color":"rgba(166,157,187,1)","line":{"color":"rgba(166,157,187,1)"}},"textfont":{"color":"rgba(166,157,187,1)"},"error_y":{"color":"rgba(166,157,187,1)"},"error_x":{"color":"rgba(166,157,187,1)"},"line":{"color":"rgba(166,157,187,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[7927567,8285059,9014438,8567769,8228573,8294353,8456456,8813204,9431021,9010522,8820757,7697727,5043863,6191246,6021713,6392565,8651770,9190610,9243305,9405622,8404728,9060807,8728291,8705329],"text":["Year: 2000 Recreation Visits: 7927567","Year: 2001 Recreation Visits: 8285059","Year: 2002 Recreation Visits: 9014438","Year: 2003 Recreation Visits: 8567769","Year: 2004 Recreation Visits: 8228573","Year: 2005 Recreation Visits: 8294353","Year: 2006 Recreation Visits: 8456456","Year: 2007 Recreation Visits: 8813204","Year: 2008 Recreation Visits: 9431021","Year: 2009 Recreation Visits: 9010522","Year: 2010 Recreation Visits: 8820757","Year: 2011 Recreation Visits: 7697727","Year: 2012 Recreation Visits: 5043863","Year: 2013 Recreation Visits: 6191246","Year: 2014 Recreation Visits: 6021713","Year: 2015 Recreation Visits: 6392565","Year: 2016 Recreation Visits: 8651770","Year: 2017 Recreation Visits: 9190610","Year: 2018 Recreation Visits: 9243305","Year: 2019 Recreation Visits: 9405622","Year: 2020 Recreation Visits: 8404728","Year: 2021 Recreation Visits: 9060807","Year: 2022 Recreation Visits: 8728291","Year: 2023 Recreation Visits: 8705329"],"mode":"lines+markers","type":"scatter","name":"Gateway NRA","marker":{"color":"rgba(163,156,201,1)","line":{"color":"rgba(163,156,201,1)"}},"textfont":{"color":"rgba(163,156,201,1)"},"error_y":{"color":"rgba(163,156,201,1)"},"error_x":{"color":"rgba(163,156,201,1)"},"line":{"color":"rgba(163,156,201,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[111299,85107,79548,68057,83010,80046,105657,84171,91436,100874,119665,104769,92418,83440,100622,95526,109151,97005,73336,113852,24475,57487,132542,84153],"text":["Year: 2000 Recreation Visits: 111299","Year: 2001 Recreation Visits: 85107","Year: 2002 Recreation Visits: 79548","Year: 2003 Recreation Visits: 68057","Year: 2004 Recreation Visits: 83010","Year: 2005 Recreation Visits: 80046","Year: 2006 Recreation Visits: 105657","Year: 2007 Recreation Visits: 84171","Year: 2008 Recreation Visits: 91436","Year: 2009 Recreation Visits: 100874","Year: 2010 Recreation Visits: 119665","Year: 2011 Recreation Visits: 104769","Year: 2012 Recreation Visits: 92418","Year: 2013 Recreation Visits: 83440","Year: 2014 Recreation Visits: 100622","Year: 2015 Recreation Visits: 95526","Year: 2016 Recreation Visits: 109151","Year: 2017 Recreation Visits: 97005","Year: 2018 Recreation Visits: 73336","Year: 2019 Recreation Visits: 113852","Year: 2020 Recreation Visits: 24475","Year: 2021 Recreation Visits: 57487","Year: 2022 Recreation Visits: 132542","Year: 2023 Recreation Visits: 84153"],"mode":"lines+markers","type":"scatter","name":"General Grant NMEM","marker":{"color":"rgba(197,149,198,1)","line":{"color":"rgba(197,149,198,1)"}},"textfont":{"color":"rgba(197,149,198,1)"},"error_y":{"color":"rgba(197,149,198,1)"},"error_x":{"color":"rgba(197,149,198,1)"},"line":{"color":"rgba(197,149,198,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[2507,11312,11559,43135,69014,205010,325840,409207,402174,348249,355553,698227,438613,522859,625653,589798,590993,102915,191257,44345,38670],"text":["Year: 2003 Recreation Visits: 2507","Year: 2004 Recreation Visits: 11312","Year: 2005 Recreation Visits: 11559","Year: 2006 Recreation Visits: 43135","Year: 2007 Recreation Visits: 69014","Year: 2008 Recreation Visits: 205010","Year: 2009 Recreation Visits: 325840","Year: 2010 Recreation Visits: 409207","Year: 2011 Recreation Visits: 402174","Year: 2012 Recreation Visits: 348249","Year: 2013 Recreation Visits: 355553","Year: 2014 Recreation Visits: 698227","Year: 2015 Recreation Visits: 438613","Year: 2016 Recreation Visits: 522859","Year: 2017 Recreation Visits: 625653","Year: 2018 Recreation Visits: 589798","Year: 2019 Recreation Visits: 590993","Year: 2020 Recreation Visits: 102915","Year: 2021 Recreation Visits: 191257","Year: 2022 Recreation Visits: 44345","Year: 2023 Recreation Visits: 38670"],"mode":"lines+markers","type":"scatter","name":"Governors Island NM","marker":{"color":"rgba(227,140,195,1)","line":{"color":"rgba(227,140,195,1)"}},"textfont":{"color":"rgba(227,140,195,1)"},"error_y":{"color":"rgba(227,140,195,1)"},"error_x":{"color":"rgba(227,140,195,1)"},"line":{"color":"rgba(227,140,195,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[41283,22971,13435,13378,12902,15287,6369,0,690,150,0,7817,16358,20429,20943,35446,85348,85603,66216,71247,23015,29096,45198,48674],"text":["Year: 2000 Recreation Visits: 41283","Year: 2001 Recreation Visits: 22971","Year: 2002 Recreation Visits: 13435","Year: 2003 Recreation Visits: 13378","Year: 2004 Recreation Visits: 12902","Year: 2005 Recreation Visits: 15287","Year: 2006 Recreation Visits: 6369","Year: 2007 Recreation Visits: 0","Year: 2008 Recreation Visits: 690","Year: 2009 Recreation Visits: 150","Year: 2010 Recreation Visits: 0","Year: 2011 Recreation Visits: 7817","Year: 2012 Recreation Visits: 16358","Year: 2013 Recreation Visits: 20429","Year: 2014 Recreation Visits: 20943","Year: 2015 Recreation Visits: 35446","Year: 2016 Recreation Visits: 85348","Year: 2017 Recreation Visits: 85603","Year: 2018 Recreation Visits: 66216","Year: 2019 Recreation Visits: 71247","Year: 2020 Recreation Visits: 23015","Year: 2021 Recreation Visits: 29096","Year: 2022 Recreation Visits: 45198","Year: 2023 Recreation Visits: 48674"],"mode":"lines+markers","type":"scatter","name":"Hamilton Grange NMEM","marker":{"color":"rgba(216,166,163,1)","line":{"color":"rgba(216,166,163,1)"}},"textfont":{"color":"rgba(216,166,163,1)"},"error_y":{"color":"rgba(216,166,163,1)"},"error_x":{"color":"rgba(216,166,163,1)"},"line":{"color":"rgba(216,166,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[130368,127624,125949,105026,103671,108611,117166,114195,124073,123033,140251,125488,135746,147218,179340,180405,193272,185743,154000,147109,40091,46375,100665,117789],"text":["Year: 2000 Recreation Visits: 130368","Year: 2001 Recreation Visits: 127624","Year: 2002 Recreation Visits: 125949","Year: 2003 Recreation Visits: 105026","Year: 2004 Recreation Visits: 103671","Year: 2005 Recreation Visits: 108611","Year: 2006 Recreation Visits: 117166","Year: 2007 Recreation Visits: 114195","Year: 2008 Recreation Visits: 124073","Year: 2009 Recreation Visits: 123033","Year: 2010 Recreation Visits: 140251","Year: 2011 Recreation Visits: 125488","Year: 2012 Recreation Visits: 135746","Year: 2013 Recreation Visits: 147218","Year: 2014 Recreation Visits: 179340","Year: 2015 Recreation Visits: 180405","Year: 2016 Recreation Visits: 193272","Year: 2017 Recreation Visits: 185743","Year: 2018 Recreation Visits: 154000","Year: 2019 Recreation Visits: 147109","Year: 2020 Recreation Visits: 40091","Year: 2021 Recreation Visits: 46375","Year: 2022 Recreation Visits: 100665","Year: 2023 Recreation Visits: 117789"],"mode":"lines+markers","type":"scatter","name":"Home of Franklin D. Roosevelt NHS","marker":{"color":"rgba(193,194,124,1)","line":{"color":"rgba(193,194,124,1)"}},"textfont":{"color":"rgba(193,194,124,1)"},"error_y":{"color":"rgba(193,194,124,1)"},"error_x":{"color":"rgba(193,194,124,1)"},"line":{"color":"rgba(193,194,124,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[14066,15950,16036,14594,13686,10445,24735,19678,21216,23216,21055,19287,22062,16229,19187,18547,22100,22023,18642,20623,11480,9823,11702,12438],"text":["Year: 2000 Recreation Visits: 14066","Year: 2001 Recreation Visits: 15950","Year: 2002 Recreation Visits: 16036","Year: 2003 Recreation Visits: 14594","Year: 2004 Recreation Visits: 13686","Year: 2005 Recreation Visits: 10445","Year: 2006 Recreation Visits: 24735","Year: 2007 Recreation Visits: 19678","Year: 2008 Recreation Visits: 21216","Year: 2009 Recreation Visits: 23216","Year: 2010 Recreation Visits: 21055","Year: 2011 Recreation Visits: 19287","Year: 2012 Recreation Visits: 22062","Year: 2013 Recreation Visits: 16229","Year: 2014 Recreation Visits: 19187","Year: 2015 Recreation Visits: 18547","Year: 2016 Recreation Visits: 22100","Year: 2017 Recreation Visits: 22023","Year: 2018 Recreation Visits: 18642","Year: 2019 Recreation Visits: 20623","Year: 2020 Recreation Visits: 11480","Year: 2021 Recreation Visits: 9823","Year: 2022 Recreation Visits: 11702","Year: 2023 Recreation Visits: 12438"],"mode":"lines+markers","type":"scatter","name":"Martin Van Buren NHS","marker":{"color":"rgba(171,216,82,1)","line":{"color":"rgba(171,216,82,1)"}},"textfont":{"color":"rgba(171,216,82,1)"},"error_y":{"color":"rgba(171,216,82,1)"},"error_x":{"color":"rgba(171,216,82,1)"},"line":{"color":"rgba(171,216,82,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[53182,45176,42526,42396,41082,38009,43719,43698,53772,53800,55149,53336,20097,14639,19319,42326,53920,55186,39970,36738,105289,207032,91735,131333],"text":["Year: 2000 Recreation Visits: 53182","Year: 2001 Recreation Visits: 45176","Year: 2002 Recreation Visits: 42526","Year: 2003 Recreation Visits: 42396","Year: 2004 Recreation Visits: 41082","Year: 2005 Recreation Visits: 38009","Year: 2006 Recreation Visits: 43719","Year: 2007 Recreation Visits: 43698","Year: 2008 Recreation Visits: 53772","Year: 2009 Recreation Visits: 53800","Year: 2010 Recreation Visits: 55149","Year: 2011 Recreation Visits: 53336","Year: 2012 Recreation Visits: 20097","Year: 2013 Recreation Visits: 14639","Year: 2014 Recreation Visits: 19319","Year: 2015 Recreation Visits: 42326","Year: 2016 Recreation Visits: 53920","Year: 2017 Recreation Visits: 55186","Year: 2018 Recreation Visits: 39970","Year: 2019 Recreation Visits: 36738","Year: 2020 Recreation Visits: 105289","Year: 2021 Recreation Visits: 207032","Year: 2022 Recreation Visits: 91735","Year: 2023 Recreation Visits: 131333"],"mode":"lines+markers","type":"scatter","name":"Sagamore Hill NHS","marker":{"color":"rgba(206,217,70,1)","line":{"color":"rgba(206,217,70,1)"}},"textfont":{"color":"rgba(206,217,70,1)"},"error_y":{"color":"rgba(206,217,70,1)"},"error_x":{"color":"rgba(206,217,70,1)"},"line":{"color":"rgba(206,217,70,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[9771,11756,14573,11473,13938,13869,14431,14909,14538,14432,16362,14926,16188,14016,16460,17180,20830,21190,21630,18537,5968,5022,8790,11615],"text":["Year: 2000 Recreation Visits: 9771","Year: 2001 Recreation Visits: 11756","Year: 2002 Recreation Visits: 14573","Year: 2003 Recreation Visits: 11473","Year: 2004 Recreation Visits: 13938","Year: 2005 Recreation Visits: 13869","Year: 2006 Recreation Visits: 14431","Year: 2007 Recreation Visits: 14909","Year: 2008 Recreation Visits: 14538","Year: 2009 Recreation Visits: 14432","Year: 2010 Recreation Visits: 16362","Year: 2011 Recreation Visits: 14926","Year: 2012 Recreation Visits: 16188","Year: 2013 Recreation Visits: 14016","Year: 2014 Recreation Visits: 16460","Year: 2015 Recreation Visits: 17180","Year: 2016 Recreation Visits: 20830","Year: 2017 Recreation Visits: 21190","Year: 2018 Recreation Visits: 21630","Year: 2019 Recreation Visits: 18537","Year: 2020 Recreation Visits: 5968","Year: 2021 Recreation Visits: 5022","Year: 2022 Recreation Visits: 8790","Year: 2023 Recreation Visits: 11615"],"mode":"lines+markers","type":"scatter","name":"Saint Paul's Church NHS","marker":{"color":"rgba(238,217,57,1)","line":{"color":"rgba(238,217,57,1)"}},"textfont":{"color":"rgba(238,217,57,1)"},"error_y":{"color":"rgba(238,217,57,1)"},"error_x":{"color":"rgba(238,217,57,1)"},"line":{"color":"rgba(238,217,57,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[163914,154897,142812,106862,114007,98394,99581,106708,88834,89366,63719,65043,57688,54364,58773,65010,102808,97781,135444,145118,73825,70682,70742,101943],"text":["Year: 2000 Recreation Visits: 163914","Year: 2001 Recreation Visits: 154897","Year: 2002 Recreation Visits: 142812","Year: 2003 Recreation Visits: 106862","Year: 2004 Recreation Visits: 114007","Year: 2005 Recreation Visits: 98394","Year: 2006 Recreation Visits: 99581","Year: 2007 Recreation Visits: 106708","Year: 2008 Recreation Visits: 88834","Year: 2009 Recreation Visits: 89366","Year: 2010 Recreation Visits: 63719","Year: 2011 Recreation Visits: 65043","Year: 2012 Recreation Visits: 57688","Year: 2013 Recreation Visits: 54364","Year: 2014 Recreation Visits: 58773","Year: 2015 Recreation Visits: 65010","Year: 2016 Recreation Visits: 102808","Year: 2017 Recreation Visits: 97781","Year: 2018 Recreation Visits: 135444","Year: 2019 Recreation Visits: 145118","Year: 2020 Recreation Visits: 73825","Year: 2021 Recreation Visits: 70682","Year: 2022 Recreation Visits: 70742","Year: 2023 Recreation Visits: 101943"],"mode":"lines+markers","type":"scatter","name":"Saratoga NHP","marker":{"color":"rgba(252,214,69,1)","line":{"color":"rgba(252,214,69,1)"}},"textfont":{"color":"rgba(252,214,69,1)"},"error_y":{"color":"rgba(252,214,69,1)"},"error_x":{"color":"rgba(252,214,69,1)"},"line":{"color":"rgba(252,214,69,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[5509706,4317998,3408560,3231247,3618053,4235595,3263585,3380296,3555244,3829483,3833288,3749982,3029443,1883544,4198815,4279020,4501547,4441988,4335431,4240461,576396,1556482,3141213,3739607],"text":["Year: 2000 Recreation Visits: 5509706","Year: 2001 Recreation Visits: 4317998","Year: 2002 Recreation Visits: 3408560","Year: 2003 Recreation Visits: 3231247","Year: 2004 Recreation Visits: 3618053","Year: 2005 Recreation Visits: 4235595","Year: 2006 Recreation Visits: 3263585","Year: 2007 Recreation Visits: 3380296","Year: 2008 Recreation Visits: 3555244","Year: 2009 Recreation Visits: 3829483","Year: 2010 Recreation Visits: 3833288","Year: 2011 Recreation Visits: 3749982","Year: 2012 Recreation Visits: 3029443","Year: 2013 Recreation Visits: 1883544","Year: 2014 Recreation Visits: 4198815","Year: 2015 Recreation Visits: 4279020","Year: 2016 Recreation Visits: 4501547","Year: 2017 Recreation Visits: 4441988","Year: 2018 Recreation Visits: 4335431","Year: 2019 Recreation Visits: 4240461","Year: 2020 Recreation Visits: 576396","Year: 2021 Recreation Visits: 1556482","Year: 2022 Recreation Visits: 3141213","Year: 2023 Recreation Visits: 3739607"],"mode":"lines+markers","type":"scatter","name":"Statue of Liberty NM","marker":{"color":"rgba(243,206,108,1)","line":{"color":"rgba(243,206,108,1)"}},"textfont":{"color":"rgba(243,206,108,1)"},"error_y":{"color":"rgba(243,206,108,1)"},"error_x":{"color":"rgba(243,206,108,1)"},"line":{"color":"rgba(243,206,108,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[19837,11198,9376,10175,11082,11158,10713,13098,18590,14390,15029,6537,17930,18676,21065,6685,6582,24884,23155,25978,4984,1720,7948,19892],"text":["Year: 2000 Recreation Visits: 19837","Year: 2001 Recreation Visits: 11198","Year: 2002 Recreation Visits: 9376","Year: 2003 Recreation Visits: 10175","Year: 2004 Recreation Visits: 11082","Year: 2005 Recreation Visits: 11158","Year: 2006 Recreation Visits: 10713","Year: 2007 Recreation Visits: 13098","Year: 2008 Recreation Visits: 18590","Year: 2009 Recreation Visits: 14390","Year: 2010 Recreation Visits: 15029","Year: 2011 Recreation Visits: 6537","Year: 2012 Recreation Visits: 17930","Year: 2013 Recreation Visits: 18676","Year: 2014 Recreation Visits: 21065","Year: 2015 Recreation Visits: 6685","Year: 2016 Recreation Visits: 6582","Year: 2017 Recreation Visits: 24884","Year: 2018 Recreation Visits: 23155","Year: 2019 Recreation Visits: 25978","Year: 2020 Recreation Visits: 4984","Year: 2021 Recreation Visits: 1720","Year: 2022 Recreation Visits: 7948","Year: 2023 Recreation Visits: 19892"],"mode":"lines+markers","type":"scatter","name":"Theodore Roosevelt Birthplace NHS","marker":{"color":"rgba(232,198,139,1)","line":{"color":"rgba(232,198,139,1)"}},"textfont":{"color":"rgba(232,198,139,1)"},"error_y":{"color":"rgba(232,198,139,1)"},"error_x":{"color":"rgba(232,198,139,1)"},"line":{"color":"rgba(232,198,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[15813,20684,15634,15920,13898,13032,13218,14147,834,11735,17491,17107,18875,19198,22025,24896,29199,28585,27508,26994,5098,13323,19728,23159],"text":["Year: 2000 Recreation Visits: 15813","Year: 2001 Recreation Visits: 20684","Year: 2002 Recreation Visits: 15634","Year: 2003 Recreation Visits: 15920","Year: 2004 Recreation Visits: 13898","Year: 2005 Recreation Visits: 13032","Year: 2006 Recreation Visits: 13218","Year: 2007 Recreation Visits: 14147","Year: 2008 Recreation Visits: 834","Year: 2009 Recreation Visits: 11735","Year: 2010 Recreation Visits: 17491","Year: 2011 Recreation Visits: 17107","Year: 2012 Recreation Visits: 18875","Year: 2013 Recreation Visits: 19198","Year: 2014 Recreation Visits: 22025","Year: 2015 Recreation Visits: 24896","Year: 2016 Recreation Visits: 29199","Year: 2017 Recreation Visits: 28585","Year: 2018 Recreation Visits: 27508","Year: 2019 Recreation Visits: 26994","Year: 2020 Recreation Visits: 5098","Year: 2021 Recreation Visits: 13323","Year: 2022 Recreation Visits: 19728","Year: 2023 Recreation Visits: 23159"],"mode":"lines+markers","type":"scatter","name":"Theodore Roosevelt Inaugural NHS","marker":{"color":"rgba(217,191,156,1)","line":{"color":"rgba(217,191,156,1)"}},"textfont":{"color":"rgba(217,191,156,1)"},"error_y":{"color":"rgba(217,191,156,1)"},"error_x":{"color":"rgba(217,191,156,1)"},"line":{"color":"rgba(217,191,156,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[410575,396656,403016,359982,405264,372517,391899,398125,360334,380460,390525,367680,423107,372569,398447,431961,387856,360436,340870,326822,217231,333029,326012,338436],"text":["Year: 2000 Recreation Visits: 410575","Year: 2001 Recreation Visits: 396656","Year: 2002 Recreation Visits: 403016","Year: 2003 Recreation Visits: 359982","Year: 2004 Recreation Visits: 405264","Year: 2005 Recreation Visits: 372517","Year: 2006 Recreation Visits: 391899","Year: 2007 Recreation Visits: 398125","Year: 2008 Recreation Visits: 360334","Year: 2009 Recreation Visits: 380460","Year: 2010 Recreation Visits: 390525","Year: 2011 Recreation Visits: 367680","Year: 2012 Recreation Visits: 423107","Year: 2013 Recreation Visits: 372569","Year: 2014 Recreation Visits: 398447","Year: 2015 Recreation Visits: 431961","Year: 2016 Recreation Visits: 387856","Year: 2017 Recreation Visits: 360436","Year: 2018 Recreation Visits: 340870","Year: 2019 Recreation Visits: 326822","Year: 2020 Recreation Visits: 217231","Year: 2021 Recreation Visits: 333029","Year: 2022 Recreation Visits: 326012","Year: 2023 Recreation Visits: 338436"],"mode":"lines+markers","type":"scatter","name":"Vanderbilt Mansion NHS","marker":{"color":"rgba(199,185,168,1)","line":{"color":"rgba(199,185,168,1)"}},"textfont":{"color":"rgba(199,185,168,1)"},"error_y":{"color":"rgba(199,185,168,1)"},"error_x":{"color":"rgba(199,185,168,1)"},"line":{"color":"rgba(199,185,168,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[26501,23771,21880,19426,19772,18239,16146,18657,23093,20620,22662,25426,29585,30137,30254,38139,52683,61806,42784,39064,8237,22847,34294,35934],"text":["Year: 2000 Recreation Visits: 26501","Year: 2001 Recreation Visits: 23771","Year: 2002 Recreation Visits: 21880","Year: 2003 Recreation Visits: 19426","Year: 2004 Recreation Visits: 19772","Year: 2005 Recreation Visits: 18239","Year: 2006 Recreation Visits: 16146","Year: 2007 Recreation Visits: 18657","Year: 2008 Recreation Visits: 23093","Year: 2009 Recreation Visits: 20620","Year: 2010 Recreation Visits: 22662","Year: 2011 Recreation Visits: 25426","Year: 2012 Recreation Visits: 29585","Year: 2013 Recreation Visits: 30137","Year: 2014 Recreation Visits: 30254","Year: 2015 Recreation Visits: 38139","Year: 2016 Recreation Visits: 52683","Year: 2017 Recreation Visits: 61806","Year: 2018 Recreation Visits: 42784","Year: 2019 Recreation Visits: 39064","Year: 2020 Recreation Visits: 8237","Year: 2021 Recreation Visits: 22847","Year: 2022 Recreation Visits: 34294","Year: 2023 Recreation Visits: 35934"],"mode":"lines+markers","type":"scatter","name":"Women's Rights NHP","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Ever wondered what parks were most popular around you? This plot
+demonstrates some popular visits for recreation visits that people chose
+located within NY state. We have identified that the Gateway National
+Recreation Area has been the most popular. The two National Monument,
+Castle Clinton and Statue of Liberty seems to be a popular destination
+as well. The dip in 2012-2013 and 2020 accurately reflects the context
+during that time period: the economic recession in 2012-2013 and the
+pandemic in 2020 impacted this drop. To see more interesting patterns in
+the parks with lower visitation visit, zoom into the smaller range.</p>
+</div>
+<div id="most-visited-parks-in-new-york-state-in-2023"
+class="section level1">
+<h1>Most Visited Parks in New York State in 2023</h1>
+<pre class="r"><code>wildlife_relevant_public_use %&gt;%
+  distinct(year, state, park_name, .keep_all = TRUE) %&gt;% 
+  filter(state == &quot;NY&quot;, year == 2023) %&gt;% 
+  select(park_name, recreation_visits_total) %&gt;% 
+  arrange(desc(recreation_visits_total)) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">park_name</th>
+<th align="right">recreation_visits_total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Gateway NRA</td>
+<td align="right">8705329</td>
+</tr>
+<tr class="even">
+<td align="left">Castle Clinton NM</td>
+<td align="right">3929749</td>
+</tr>
+<tr class="odd">
+<td align="left">Statue of Liberty NM</td>
+<td align="right">3739607</td>
+</tr>
+<tr class="even">
+<td align="left">Vanderbilt Mansion NHS</td>
+<td align="right">338436</td>
+</tr>
+<tr class="odd">
+<td align="left">Fire Island NS</td>
+<td align="right">298958</td>
+</tr>
+<tr class="even">
+<td align="left">Sagamore Hill NHS</td>
+<td align="right">131333</td>
+</tr>
+<tr class="odd">
+<td align="left">Home of Franklin D. Roosevelt NHS</td>
+<td align="right">117789</td>
+</tr>
+<tr class="even">
+<td align="left">Saratoga NHP</td>
+<td align="right">101943</td>
+</tr>
+<tr class="odd">
+<td align="left">General Grant NMEM</td>
+<td align="right">84153</td>
+</tr>
+<tr class="even">
+<td align="left">Fort Stanwix NM</td>
+<td align="right">83401</td>
+</tr>
+<tr class="odd">
+<td align="left">Federal Hall NMEM</td>
+<td align="right">76750</td>
+</tr>
+<tr class="even">
+<td align="left">Hamilton Grange NMEM</td>
+<td align="right">48674</td>
+</tr>
+<tr class="odd">
+<td align="left">African Burial Ground NM</td>
+<td align="right">40817</td>
+</tr>
+<tr class="even">
+<td align="left">Governors Island NM</td>
+<td align="right">38670</td>
+</tr>
+<tr class="odd">
+<td align="left">Women’s Rights NHP</td>
+<td align="right">35934</td>
+</tr>
+<tr class="even">
+<td align="left">Theodore Roosevelt Inaugural NHS</td>
+<td align="right">23159</td>
+</tr>
+<tr class="odd">
+<td align="left">Theodore Roosevelt Birthplace NHS</td>
+<td align="right">19892</td>
+</tr>
+<tr class="even">
+<td align="left">Eleanor Roosevelt NHS</td>
+<td align="right">17190</td>
+</tr>
+<tr class="odd">
+<td align="left">Martin Van Buren NHS</td>
+<td align="right">12438</td>
+</tr>
+<tr class="even">
+<td align="left">Saint Paul’s Church NHS</td>
+<td align="right">11615</td>
+</tr>
+</tbody>
+</table>
+<p>Now, we wanted to see the trendiest park destination in 2023, and
+determine where to go for our next travels. We’ve arranged the popular
+destination see the most visited park in the past year.</p>
+</div>
+<div id="top-5-parks-seasonal-visits-in-ny-state"
+class="section level1">
+<h1>Top 5 Parks Seasonal Visits in NY state</h1>
+<pre class="r"><code>seasonal_camping = 
+  wildlife_relevant_public_use %&gt;% 
+  filter(state == &quot;NY&quot;) %&gt;% 
+  select(year, month, park_name, recreation_visits, tent_campers, rv_campers, backcountry) %&gt;% 
+  mutate(season = 
+           case_when(
+             month %in% c(12, 1, 2) ~ &quot;Winter&quot;,
+             month %in% c(3,4,5) ~ &quot;Spring&quot;,
+             month %in% c(6,7,8) ~ &quot;Summmer&quot;, 
+             month %in% c(9,10,11) ~ &quot;Fall&quot;)
+  ) %&gt;% 
+  group_by(year, season, park_name) %&gt;% 
+  summarise(
+    total_visit = sum(recreation_visits, na.rm = TRUE),
+    tent_camping = sum(tent_campers, na.rm = TRUE),
+    rv_camping = sum(rv_campers, na.rm = TRUE),
+    backcountry_camping = sum(backcountry, na.rm = TRUE)
+  ) %&gt;% 
+  mutate(
+    total_camping = tent_camping + rv_camping + backcountry_camping)
+
+top_parks &lt;- seasonal_camping %&gt;%
+  group_by(park_name) %&gt;%
+  summarise(total_visits = sum(total_visit)) %&gt;%
+  arrange(desc(total_visits)) %&gt;%
+  slice_head(n = 5)
+
+top_parks &lt;- seasonal_camping %&gt;%
+  group_by(park_name) %&gt;%
+  summarise(total_visits = sum(total_visit)) %&gt;%
+  arrange(desc(total_visits)) %&gt;%
+  slice_head(n = 5)
+
+# Add visit rate to the dataset
+filtered_data &lt;- seasonal_camping %&gt;%
+  filter(park_name %in% top_parks$park_name) %&gt;%
+  group_by(park_name) %&gt;%
+  mutate(
+    total_visits = sum(total_visit),  # Total visits for each park
+    visit_rate = total_visit / total_visits  # Calculate visit rate
+  )
+
+# Create the plot using visit rate
+filtered_data %&gt;%
+  ggplot(aes(x = reorder(park_name, -total_visits), y = visit_rate, fill = season)) + 
+  geom_bar(stat = &quot;identity&quot;, position = &quot;stack&quot;) +
+  theme_minimal() +
+  labs(
+    title = &quot;NY State Park Seasonal Visit Rates (Top 5 Parks)&quot;,
+    x = &quot;Park Name&quot;,
+    y = &quot;Visit Rate&quot;
+  )+
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 8)
+  )</code></pre>
+<p><img src="jc6452_files/figure-html/unnamed-chunk-6-1.png" width="90%" />
+<br /> We thought about how people may visit different parks based on
+the season! This plot shows the visit rate — the proportion of visitors
+each park gets during different seasons. Fire Island NS dominate summer,
+reflecting their urban appeal, while quieter parks like Vanderbilt
+Mansion NHS draw steady attention across multiple seasons. It’s a
+snapshot of how New Yorkers and tourists alike connect with nature
+year-round.</p>
+</div>
+<div id="ny-seasonal-trends-in-camping-for-parks-in-ny"
+class="section level1">
+<h1>NY Seasonal Trends in Camping for Parks in NY</h1>
+<pre class="r"><code>seasonal_camping = 
+  wildlife_relevant_public_use %&gt;% 
+  filter(state == &quot;NY&quot;) %&gt;% 
+  select(park_name, year, month, recreation_visits, tent_campers, rv_campers, backcountry) %&gt;% 
+  mutate(season = 
+           case_when(
+             month %in% c(12, 1, 2) ~ &quot;Winter&quot;,
+             month %in% c(3,4,5) ~ &quot;Spring&quot;,
+             month %in% c(6,7,8) ~ &quot;Summmer&quot;, 
+             month %in% c(9,10,11) ~ &quot;Fall&quot;)
+  ) %&gt;% 
+  group_by(year, season) %&gt;% 
+  summarise(
+    total_visit = sum(recreation_visits, na.rm = TRUE),
+    tent_camping = sum(tent_campers, na.rm = TRUE),
+    rv_camping = sum(rv_campers, na.rm = TRUE),
+    backcountry_camping = sum(backcountry, na.rm = TRUE),
+    total_camping = tent_camping + rv_camping + backcountry_camping
+  ) %&gt;% 
+  mutate(
+    camping_visit_rate = total_camping / sum(total_camping),
+    camping_visit_rate = ifelse(is.nan(camping_visit_rate), 0, camping_visit_rate)  # Replace NaN with 0
+)
+# Calculate camping visit rate grouped by park_name and season
+seasonal_camping %&gt;%
+  ggplot(aes(x = year, y = camping_visit_rate, fill = season)) + 
+  geom_bar(stat = &quot;identity&quot;, position = &quot;stack&quot;) +  # Stacked bar chart for proportions
+  labs(
+    title = &quot;Camping Visit Rate by Park and Season in NY&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Camping Visit Rate&quot;,
+    fill = &quot;Season&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),  # Rotate x-axis labels for clarity
+    legend.position = &quot;top&quot;  # Move legend to the top for better visualization
+  )</code></pre>
+<p><img src="jc6452_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
+<p><br /> Looking at the camping visit rate across parks in NY state, a
+notable pattern is the sudden spike in the proportion of summer camping
+in 2006. This shift could reflect broader cultural or economic changes
+that year, such as increased interest in outdoor recreation or economic
+factors encouraging local travel. The summer spike coincides with a
+national trend in 2006, where families increasingly turned to camping as
+an affordable vacation alternative during economic recession. This
+historical moment showcases how external events can shape seasonal
+camping behavior.</p>
+</div>
+<div id="revenue-generated-from-vanderbilit-mansion-nhs-over-the-years"
+class="section level1">
+<h1>Revenue generated from Vanderbilit Mansion NHS over the years</h1>
+<pre class="r"><code>NY_public_use= 
+  wildlife_relevant_public_use %&gt;% 
+  filter(state == &quot;NY&quot;) %&gt;% 
+  select(park_name, unit_code, year, month, recreation_visits, tent_campers, rv_campers, backcountry, concessioner_camping)
+
+NY_NPS = 
+  wildlife_relevant_NPS_data %&gt;% 
+  filter(states ==&quot;NY&quot;) %&gt;% 
+  select(park_code, full_name, entrance_fees_cost)
+
+joint_df = left_join(NY_public_use, NY_NPS, by = c(&quot;unit_code&quot; = &quot;park_code&quot;)) %&gt;% 
+  distinct(year, month, park_name, .keep_all = TRUE)
+
+joint_df %&gt;% 
+  filter(park_name == &quot;Vanderbilt Mansion NHS&quot;) %&gt;% 
+  mutate(revenue = recreation_visits* entrance_fees_cost) %&gt;% 
+  select(year, month, recreation_visits, revenue) %&gt;% 
+  group_by(year) %&gt;% 
+  summarise(
+    annual_revenue = sum(revenue)
+  ) %&gt;% 
+  ggplot(aes(x = year, y = annual_revenue, color = annual_revenue)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  scale_color_gradient(low = &quot;blue&quot;, high = &quot;red&quot;, name = &quot;Revenue&quot;) +
+  geom_text(aes(label = ifelse(annual_revenue == max(annual_revenue), round(annual_revenue, 0), &quot;&quot;)),
+            vjust = -1, color = &quot;black&quot;) +
+  labs(
+    title = &quot;Annual Revenue Generated from Visitors of Vanderbilt Mansion NHS&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Revenue ($)&quot;
+  ) +
+  theme_minimal()</code></pre>
+<p><img src="jc6452_files/figure-html/unnamed-chunk-8-1.png" width="90%" />
+<br /> We were first curious about how much revenue the Vanderbilt
+Mansion, a National Historic Site, generates each year. What I found
+instead was a consistent decline in annual revenue over the years,
+hinting at a possible drop in visitor interest. The plot shows
+occasional peaks, but the overall trend is unmistakably downward. This
+raises important questions—are visitor preferences shifting? Is the site
+losing visibility? These findings highlights the need for fresh
+approaches to reignite public interest in this historic site and ensure
+its story continues to resonate with future generations.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 </body>
 </html>

@@ -1,0 +1,92 @@
+---
+title: "Activities"
+author: "Miriam Lachs"
+date: "2024-12-01"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+
+```{r echo=FALSE, message=FALSE}
+library(tidyverse)
+library(httr)
+library(plotly)
+library(kableExtra)
+```
+
+
+```{r}
+res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
+
+data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
+```
+
+```{r}
+NPS_data_parks=data %>% unnest(data) %>% select(fullName,parkCode,description,latitude,longitude,activities,states,entranceFees,operatingHours,designation) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_') %>% unnest(operatingHours,names_sep = '_') 
+
+NPS_data_visits=read_csv('data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv')
+
+NPS_Full=NPS_data_parks %>%   mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %>% 
+mutate(parkCode=str_to_upper(parkCode))%>% full_join(NPS_data_visits,by=join_by('parkCode'=='UnitCode'))
+```
+
+There are many activities available to you when visiting a national park. Between all the parks there are `r NPS_Full %>% select(activities_name) %>% drop_na()%>% distinct %>% count()` unique activities. Ranging from `r NPS_Full %>% select(activities_name) %>% drop_na()%>% distinct %>% arrange(activities_name) %>% head(1)` to `r NPS_Full %>% select(activities_name) %>% drop_na()%>% distinct %>% arrange(activities_name) %>% tail(1)`. This range of activites bring millions of people to our national parks each year. This got us thinking, do the number of activites avalible at each park affect thhe level of visitation? We did some data analysis to find out. 
+
+## Popular Activities
+
+First lets look at all the activies available. 
+
+```{r}
+NPS_Full %>% select(activities_name) %>% drop_na()%>% distinct %>% arrange(activities_name) %>% knitr::kable() %>% kable_styling() %>%
+    scroll_box(width = "100%", height = "200px")
+```
+
+Now let's take a look at which activites are avalible at the most parks.
+```{r}
+NPS_Full %>% select(activities_name,parkCode) %>% drop_na() %>% group_by(activities_name) %>% summarise(count=n_distinct(parkCode)) %>% mutate(activities_name=fct_reorder(activities_name,count)) %>%arrange(count) %>%  
+  tail(10) %>%  ggplot(aes(x=as.factor(activities_name),y=count))+geom_col()+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+Next let's take a look at the number of activities across the different parks. 
+
+```{r}
+NPS_Full %>% select(activities_name,parkCode) %>% drop_na() %>% group_by(parkCode) %>% summarise(act_count=n_distinct(activities_name)) %>% ggplot(aes(x=parkCode,y=act_count))+geom_point()+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+## Activities and Avg Visits
+Now lets look at activities compared to avg visits.
+
+```{r}
+NPS_Full %>%
+  group_by(fullName) %>% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%>% ggplot(aes(x=activities_count,y=avg_visit))+geom_point()
+```
+
+Lets look further to see if there is a relationship between them.
+
+```{r}
+NPS_Full %>%
+  group_by(fullName) %>% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%>%   lm(avg_visit~ activities_count,data=.) %>% broom::tidy()
+```
+
+It looks like there is a significent relationship, lets add it to our graph.
+
+```{r}
+NPS_Full %>%
+  group_by(fullName) %>% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+  )%>% ggplot(aes(x=activities_count,y=avg_visit))+geom_point()+stat_smooth(method = 'lm')
+```
+

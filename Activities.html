@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Miriam Lachs" />
+
+<meta name="date" content="2024-12-01" />
+
+<title>Activities</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="ml5222.html">Miriam</a>
+</li>
+<li>
+  <a href="project_proposal.html">Proposal</a>
+</li>
+<li>
+  <a href="mos2128.html">Mari</a>
+</li>
+<li>
+  <a href="jc6452.html">Lizy</a>
+</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Activities</h1>
+<h4 class="author">Miriam Lachs</h4>
+<h4 class="date">2024-12-01</h4>
+
+</div>
+
+
+<pre class="r"><code>res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
+
+data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()</code></pre>
+<pre class="r"><code>NPS_data_parks=data %&gt;% unnest(data) %&gt;% select(fullName,parkCode,description,latitude,longitude,activities,states,entranceFees,operatingHours,designation) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;) %&gt;% unnest(operatingHours,names_sep = &#39;_&#39;) 
+
+NPS_data_visits=read_csv(&#39;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&#39;)</code></pre>
+<pre><code>## Rows: 101419 Columns: 35
+## ── Column specification ──────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (10): ParkName, UnitCode, ParkType, Region, State, ParkNameTotal, UnitCo...
+## dbl  (3): Year, Month, YearTotal
+## num (22): RecreationVisits, NonRecreationVisits, RecreationHours, NonRecreat...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>NPS_Full=NPS_data_parks %&gt;%   mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %&gt;% 
+mutate(parkCode=str_to_upper(parkCode))%&gt;% full_join(NPS_data_visits,by=join_by(&#39;parkCode&#39;==&#39;UnitCode&#39;))</code></pre>
+<pre><code>## Warning in full_join(., NPS_data_visits, by = join_by(&quot;parkCode&quot; == &quot;UnitCode&quot;)): Detected an unexpected many-to-many relationship between `x` and `y`.
+## ℹ Row 1 of `x` matches multiple rows in `y`.
+## ℹ Row 289 of `y` matches multiple rows in `x`.
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   &quot;many-to-many&quot;` to silence this warning.</code></pre>
+<p>There are many activities available to you when visiting a national
+park. Between all the parks there are 99 unique activities. Ranging from
+ATV Off-Roading to Wildlife Watching. This range of activites bring
+millions of people to our national parks each year. This got us
+thinking, do the number of activites avalible at each park affect thhe
+level of visitation? We did some data analysis to find out.</p>
+<div id="popular-activities" class="section level2">
+<h2>Popular Activities</h2>
+<p>First lets look at all the activies available.</p>
+<pre class="r"><code>NPS_Full %&gt;% select(activities_name) %&gt;% drop_na()%&gt;% distinct %&gt;% arrange(activities_name) %&gt;% knitr::kable() %&gt;% kable_styling() %&gt;%
+    scroll_box(width = &quot;100%&quot;, height = &quot;200px&quot;)</code></pre>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+activities_name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ATV Off-Roading
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Arts and Crafts
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Arts and Culture
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Astronomy
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Auto Off-Roading
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Auto and ATV
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Backcountry Camping
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Backcountry Hiking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Biking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Birdwatching
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Boat Tour
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Boating
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bookstore and Park Store
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bus/Shuttle Guided Tour
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Camping
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Canoe or Kayak Camping
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Canoeing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Canyoneering
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Car or Front Country Camping
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Caving
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Citizen Science
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Climbing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Compass and GPS
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Craft Demonstrations
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cross-Country Skiing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cultural Demonstrations
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Dining
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Dog Sledding
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Downhill Skiing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+First Person Interpretation
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Fishing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Fly Fishing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Flying
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Food
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Freshwater Fishing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Freshwater Swimming
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Front-Country Hiking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Gathering and Foraging
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Geocaching
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Gift Shop and Souvenirs
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Golf
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Group Camping
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Guided Tours
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hands-On
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hiking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Historic Weapons Demonstration
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Horse Camping (see also Horse/Stock Use)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Horse Camping (see also camping)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Horse Trekking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Horseback Riding
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hunting
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hunting and Gathering
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ice Climbing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ice Skating
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jet Skiing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Junior Ranger Program
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Kayaking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Live Music
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Living History
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Motorized Boating
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mountain Biking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mountain Climbing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Museum Exhibits
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Off-Trail Permitted Hiking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Orienteering
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Paddling
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Park Film
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Picnicking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Playground
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pool Swimming
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RV Camping
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Reenactments
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+River Tubing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Road Biking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rock Climbing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SCUBA Diving
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sailing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Saltwater Fishing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Saltwater Swimming
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Scenic Driving
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Self-Guided Tours - Auto
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Self-Guided Tours - Walking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Shopping
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Skiing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Snorkeling
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Snow Play
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Snow Tubing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Snowmobiling
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Snowshoeing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Stand Up Paddleboarding
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Stargazing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Surfing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Swimming
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Theater
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tubing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volunteer Vacation
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Water Skiing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Whitewater Rafting
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wildlife Watching
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Now let’s take a look at which activites are avalible at the most
+parks.</p>
+<pre class="r"><code>NPS_Full %&gt;% select(activities_name,parkCode) %&gt;% drop_na() %&gt;% group_by(activities_name) %&gt;% summarise(count=n_distinct(parkCode)) %&gt;% mutate(activities_name=fct_reorder(activities_name,count)) %&gt;%arrange(count) %&gt;%  
+  tail(10) %&gt;%  ggplot(aes(x=as.factor(activities_name),y=count))+geom_col()+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))</code></pre>
+<p><img src="Activities_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Next let’s take a look at the number of activities across the
+different parks.</p>
+<pre class="r"><code>NPS_Full %&gt;% select(activities_name,parkCode) %&gt;% drop_na() %&gt;% group_by(parkCode) %&gt;% summarise(act_count=n_distinct(activities_name)) %&gt;% ggplot(aes(x=parkCode,y=act_count))+geom_point()+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))</code></pre>
+<p><img src="Activities_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+## Activities and Avg Visits Now lets look at activities compared to avg
+visits.</p>
+<pre class="r"><code>NPS_Full %&gt;%
+  group_by(fullName) %&gt;% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%&gt;% ggplot(aes(x=activities_count,y=avg_visit))+geom_point()</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
+<p><img src="Activities_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Lets look further to see if there is a relationship between them.</p>
+<pre class="r"><code>NPS_Full %&gt;%
+  group_by(fullName) %&gt;% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%&gt;%   lm(avg_visit~ activities_count,data=.) %&gt;% broom::tidy()</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   term             estimate std.error statistic   p.value
+##   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)        15702.    19350.     0.811 0.419    
+## 2 activities_count    3384.      744.     4.55  0.0000141</code></pre>
+<p>It looks like there is a significent relationship, lets add it to our
+graph.</p>
+<pre class="r"><code>NPS_Full %&gt;%
+  group_by(fullName) %&gt;% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+  )%&gt;% ggplot(aes(x=activities_count,y=avg_visit))+geom_point()+stat_smooth(method = &#39;lm&#39;)</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 7 rows containing non-finite outside the scale range
+## (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
+<p><img src="Activities_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

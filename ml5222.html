@@ -253,6 +253,15 @@ $(document).ready(function () {
 <li>
   <a href="project_proposal.html">Proposal</a>
 </li>
+<li>
+  <a href="mos2128.html">Mari</a>
+</li>
+<li>
+  <a href="jc6452.html">Lizy</a>
+</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -272,13 +281,112 @@ $(document).ready(function () {
 <p>Space where Miriam is working</p>
 <pre class="r"><code>library(tidyverse)
 library(httr)
-
+library(plotly)
 res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
 
-
+data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()</code></pre>
+<pre class="r"><code>res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
 
 data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()</code></pre>
-<pre class="r"><code>NPS_data=data %&gt;% unnest(data) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;)</code></pre>
+<pre class="r"><code>NPS_data_parks=data %&gt;% unnest(data) %&gt;% select(fullName,parkCode,description,latitude,longitude,activities,states,entranceFees,operatingHours,designation) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;) %&gt;% unnest(operatingHours,names_sep = &#39;_&#39;) 
+
+NPS_data_visits=read_csv(&#39;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&#39;)</code></pre>
+<pre><code>## Rows: 101419 Columns: 35
+## ── Column specification ──────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (10): ParkName, UnitCode, ParkType, Region, State, ParkNameTotal, UnitCo...
+## dbl  (3): Year, Month, YearTotal
+## num (22): RecreationVisits, NonRecreationVisits, RecreationHours, NonRecreat...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>NPS_Full=NPS_data_parks %&gt;%   mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %&gt;% 
+mutate(parkCode=str_to_upper(parkCode))%&gt;% full_join(NPS_data_visits,by=join_by(&#39;parkCode&#39;==&#39;UnitCode&#39;))</code></pre>
+<pre><code>## Warning in full_join(., NPS_data_visits, by = join_by(&quot;parkCode&quot; == &quot;UnitCode&quot;)): Detected an unexpected many-to-many relationship between `x` and `y`.
+## ℹ Row 1 of `x` matches multiple rows in `y`.
+## ℹ Row 289 of `y` matches multiple rows in `x`.
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   &quot;many-to-many&quot;` to silence this warning.</code></pre>
+<pre class="r"><code>NPS_data_parks %&gt;%select(fullName,entranceFees_cost,entranceFees_title,states) %&gt;% 
+  mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %&gt;% 
+filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% distinct() %&gt;% group_by(states) %&gt;% 
+  summarise(meanFee=mean(entranceFees_cost,na.rm = TRUE)) %&gt;% 
+ggplot(aes(x=states,y=meanFee))+geom_point()</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% 
+  filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
+  select(fullName,entranceFees_cost,RecreationVisitsTotal,Year,states) %&gt;% distinct() %&gt;% 
+  group_by(fullName,entranceFees_cost,states) %&gt;% 
+  summarise(avg_visit=mean(RecreationVisitsTotal)) %&gt;% 
+  ggplot(aes(x=entranceFees_cost,y=avg_visit,colour = states))+geom_point()</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;, &#39;entranceFees_cost&#39;. You
+## can override using the `.groups` argument.</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% group_by(fullName,UnitCodeTotal) %&gt;% summarise(n_act=(n_distinct(activities_name)), totalvisit=mean(RecreationVisitsTotal)) %&gt;% ggplot(aes(x=n_act,y=totalvisit))+geom_point()</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;. You can override using
+## the `.groups` argument.</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% group_by(fullName)%&gt;% summarise(n=n_distinct(entranceFees_title)) %&gt;% view()</code></pre>
+<pre class="r"><code>NPS_Full %&gt;% 
+  filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
+  select(fullName,entranceFees_cost,RecreationVisits) %&gt;% group_by(fullName,entranceFees_cost) %&gt;% 
+  summarise(avg_visit=mean(RecreationVisits)) %&gt;% 
+  ggplot(aes(x=entranceFees_cost,y=avg_visit))+geom_point()+stat_smooth(method = &#39;lm&#39;)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;. You can override using
+## the `.groups` argument.
+## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 6 rows containing non-finite outside the scale range
+## (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;%
+  filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
+  group_by(fullName) %&gt;% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%&gt;%   lm(avg_visit~ activities_count,data=.) %&gt;% broom::tidy()</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   term             estimate std.error statistic    p.value
+##   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+## 1 (Intercept)         2743.    21119.     0.130 0.897     
+## 2 activities_count    3654.      781.     4.68  0.00000946</code></pre>
+<pre class="r"><code>NPS_Full %&gt;%
+  filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
+  group_by(fullName) %&gt;% 
+  summarise(activities_count=n_distinct(activities_id),
+            avg_visit=mean(RecreationVisits),
+            cost=mean(entranceFees_cost)
+            
+  )%&gt;% ggplot(aes(x=activities_count,y=avg_visit))+geom_point()+stat_smooth(method = &#39;lm&#39;)</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 6 rows containing non-finite outside the scale range
+## (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% distinct(fullName,Month,Year,RecreationVisits,ParkType) %&gt;% group_by(ParkType) %&gt;% summarise(total_visit=sum(RecreationVisits)/n_distinct(fullName)) %&gt;% 
+  mutate(ParkType=fct_reorder(ParkType,total_visit)) %&gt;% 
+  ggplot(aes(x=as.factor(ParkType),y=total_visit))+geom_col() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))</code></pre>
+<pre><code>## Warning: There was 1 warning in `mutate()`.
+## ℹ In argument: `ParkType = fct_reorder(ParkType, total_visit)`.
+## Caused by warning:
+## ! `fct_reorder()` removing 1 missing value.
+## ℹ Use `.na_rm = TRUE` to silence this message.
+## ℹ Use `.na_rm = FALSE` to preserve NAs.</code></pre>
+<pre><code>## Warning: Removed 1 row containing missing values or values outside the scale range
+## (`geom_col()`).</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>NPS_Full %&gt;% distinct(fullName,activities_name,ParkType) %&gt;% group_by(ParkType) %&gt;% summarise(total_act=n_distinct(activities_name)) %&gt;% 
+  mutate(ParkType=fct_reorder(ParkType,total_act)) %&gt;% 
+  ggplot(aes(x=as.factor(ParkType),y=total_act))+geom_col() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))</code></pre>
+<p><img src="ml5222_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 
 
 

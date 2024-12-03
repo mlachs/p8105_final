@@ -1,0 +1,97 @@
+---
+title: "Shiny Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(httr)
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+```
+
+```{r, include=FALSE}
+res=GET('https://developer.nps.gov/api/v1/parks?limit=500&api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn')
+
+data = res %>% content("text") %>% jsonlite::fromJSON() %>% as_tibble()
+
+NPS_data_parks=data %>% unnest(data) %>% select(fullName,parkCode,description,latitude,longitude,activities,states,entranceFees,operatingHours,designation) %>% unnest(activities,names_sep = '_') %>% unnest(entranceFees,names_sep = '_') %>% unnest(operatingHours,names_sep = '_') 
+
+NPS_data_visits=read_csv('Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv')
+
+NPS_Full=NPS_data_parks %>%   mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %>% 
+mutate(parkCode=str_to_upper(parkCode))%>% full_join(NPS_data_visits,by=join_by('parkCode'=='UnitCode'))
+```
+
+
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+
+```{r}
+
+activities_choices = NPS_Full %>% distinct(activities_name) %>% pull(activities_name)
+
+selectInput(
+  inputId = "borough_choice",
+  label = h3("Select Activity"),
+  choices = activities_choices,
+  selected = "Manhattan"
+)
+```
+
+
+```{r}
+sliderInput(
+  inputId = "price_range",
+  label = h3("Select Price Range"),
+  min = 100,
+  max = 1000,
+  value = c(100,400)
+)
+```
+
+
+```{r}
+type_choices=NPS_Full %>% distinct(ParkType) %>% pull(ParkType)
+
+
+radioButtons(
+  inputId = 'type_choice',
+  label = h3("Select Park type"),
+  choices = type_choices,
+  selected = 'Entire home/apt'
+)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+renderText(
+input[['activities_choices']]
+)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
