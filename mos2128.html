@@ -9,13 +9,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Mari Sanders" />
 
+<<<<<<< HEAD
 <meta name="date" content="2024-11-26" />
+=======
+>>>>>>> 6a7e1a8391b747ca81adcdc9bd389f08de5667b9
 
-<title>mos2128</title>
+<title>Regional and Seasonal Trends in Park Visitation</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -31,9 +33,21 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -218,7 +232,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -228,6 +308,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -253,6 +343,15 @@ $(document).ready(function () {
 <li>
   <a href="project_proposal.html">Proposal</a>
 </li>
+<li>
+  <a href="mos2128.html">Mari</a>
+</li>
+<li>
+  <a href="jc6452.html">Lizy</a>
+</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -260,27 +359,43 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
+<<<<<<< HEAD
 <h1 class="title toc-ignore">mos2128</h1>
 <h4 class="author">Mari Sanders</h4>
 <h4 class="date">2024-11-26</h4>
+=======
+
+<h1 class="title toc-ignore">Regional and Seasonal Trends in Park
+Visitation</h1>
+>>>>>>> 6a7e1a8391b747ca81adcdc9bd389f08de5667b9
 
 </div>
 
 
-<pre class="r"><code>library(tidyverse)
-library(httr)
-
-res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
-
-
+<div id="data-importing-and-cleaning" class="section level1">
+<h1><strong>Data Importing and Cleaning</strong></h1>
+<pre class="r"><code>res=GET(&#39;https://developer.nps.gov/api/v1/parks?limit=500&amp;api_key=B9nDpbkbrb3kSOjz6kXSxMJ3d6MSpUvt1QqYdeyn&#39;)
 
 data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% as_tibble()
 
-NPS_data=data %&gt;% unnest(data) %&gt;% unnest(activities,names_sep = &#39;_&#39;) %&gt;% unnest(entranceFees,names_sep = &#39;_&#39;)</code></pre>
-<pre class="r"><code>visitation_data &lt;- 
+NPS_data=data %&gt;% unnest(data) %&gt;% select(fullName,latitude,longitude,topics, activities,states, parkCode) %&gt;%  janitor::clean_names() %&gt;% 
+  mutate(
+    latitude = as.numeric(latitude), 
+    longitude = as.numeric(longitude)
+  ) %&gt;% unnest(activities, names_sep = &quot;_&quot;) %&gt;% 
+  unnest(topics, names_sep = &quot;_&quot;)
+visitation_data &lt;- 
   read_csv(&quot;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&quot;) %&gt;% 
+<<<<<<< HEAD
   janitor::clean_names()</code></pre>
 <pre><code>## Rows: 101419 Columns: 35
 ## ── Column specification ──────────────────────────────────────────────
@@ -307,9 +422,846 @@ NPS_data=data %&gt;% unnest(data) %&gt;% unnest(activities,names_sep = &#39;_&#3
 <pre><code>## `summarise()` has grouped output by &#39;park_type&#39;. You can override
 ## using the `.groups` argument.</code></pre>
 <p><img src="mos2128_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+=======
+  janitor::clean_names() %&gt;% 
+  mutate(unit_code = tolower(unit_code)) %&gt;% 
+  rename(park_code = unit_code, 
+         full_name = park_name) %&gt;% 
+  select(full_name, park_code, park_type, region, state, year, month, recreation_visits, tent_campers, rv_campers, tent_campers, backcountry)
+
+combined_data &lt;- full_join(NPS_data, visitation_data, by = c(&quot;park_code&quot;))</code></pre>
+</div>
+<div id="trends-across-time" class="section level1">
+<h1><strong>Trends across Time</strong></h1>
+<div id="total-trend-by-park-type-across-months" class="section level2">
+<h2><strong>Total Trend by Park Type Across Months</strong></h2>
+<pre class="r"><code>visitation_data %&gt;% 
+  group_by(park_type, month) %&gt;% 
+  summarize(total_visitation = sum(recreation_visits)) %&gt;% 
+plot_ly(x = ~as.factor(month), y = ~total_visitation, type = &quot;scatter&quot;, mode = &quot;lines&quot;, color = ~park_type)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-3b27a02672cdcc14c86e" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-3b27a02672cdcc14c86e">{"x":{"visdat":{"95bc18545300":["function () ","plotlyVisDat"]},"cur_data":"95bc18545300","attrs":{"95bc18545300":{"x":{},"y":{},"mode":"lines","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"as.factor(month)","type":"category","categoryorder":"array","categoryarray":["1","2","3","4","5","6","7","8","9","10","11","12"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"total_visitation"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[0,0,0,599,10356,16227,29363,30037,23941,14894,564,0],"mode":"lines","type":"scatter","name":"International Historic Site","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[1835700,2000437,2732979,3477536,4231458,4625124,5724189,4699989,4010558,3979299,2628913,2097289],"mode":"lines","type":"scatter","name":"National Battlefield","marker":{"color":"rgba(181,176,137,1)","line":{"color":"rgba(181,176,137,1)"}},"textfont":{"color":"rgba(181,176,137,1)"},"error_y":{"color":"rgba(181,176,137,1)"},"error_x":{"color":"rgba(181,176,137,1)"},"line":{"color":"rgba(181,176,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[3035709,3414777,5457944,6826232,6160369,6226220,6536226,6026670,5931406,5497269,3981241,3068093],"mode":"lines","type":"scatter","name":"National Battlefield Park","marker":{"color":"rgba(233,153,110,1)","line":{"color":"rgba(233,153,110,1)"}},"textfont":{"color":"rgba(233,153,110,1)"},"error_y":{"color":"rgba(233,153,110,1)"},"error_x":{"color":"rgba(233,153,110,1)"},"line":{"color":"rgba(233,153,110,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[9258412,10193685,15294246,17856912,20207151,22885909,27636356,23779621,16401077,18356705,11748190,10769699],"mode":"lines","type":"scatter","name":"National Historic Site","marker":{"color":"rgba(232,146,123,1)","line":{"color":"rgba(232,146,123,1)"}},"textfont":{"color":"rgba(232,146,123,1)"},"error_y":{"color":"rgba(232,146,123,1)"},"error_x":{"color":"rgba(232,146,123,1)"},"line":{"color":"rgba(232,146,123,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[31239006,33061664,48684559,61995380,67522052,72278607,90818155,76557594,61023888,60702448,43984138,35531636],"mode":"lines","type":"scatter","name":"National Historical Park","marker":{"color":"rgba(191,154,166,1)","line":{"color":"rgba(191,154,166,1)"}},"textfont":{"color":"rgba(191,154,166,1)"},"error_y":{"color":"rgba(191,154,166,1)"},"error_x":{"color":"rgba(191,154,166,1)"},"line":{"color":"rgba(191,154,166,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[718521,986098,961710,1005468,2684380,7072850,15230514,13907841,5915613,3446764,716673,503122],"mode":"lines","type":"scatter","name":"National Lakeshore","marker":{"color":"rgba(147,159,203,1)","line":{"color":"rgba(147,159,203,1)"}},"textfont":{"color":"rgba(147,159,203,1)"},"error_y":{"color":"rgba(147,159,203,1)"},"error_x":{"color":"rgba(147,159,203,1)"},"line":{"color":"rgba(147,159,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[26557811,27010352,64765560,86562672,90202453,86519021,89327334,75466667,58890368,61033100,46581490,31888659],"mode":"lines","type":"scatter","name":"National Memorial","marker":{"color":"rgba(187,151,199,1)","line":{"color":"rgba(187,151,199,1)"}},"textfont":{"color":"rgba(187,151,199,1)"},"error_y":{"color":"rgba(187,151,199,1)"},"error_x":{"color":"rgba(187,151,199,1)"},"line":{"color":"rgba(187,151,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[5298439,5716701,9060144,11088267,12494668,12391930,13277112,10872010,9658933,10369806,7722062,5650839],"mode":"lines","type":"scatter","name":"National Military Park","marker":{"color":"rgba(222,141,196,1)","line":{"color":"rgba(222,141,196,1)"}},"textfont":{"color":"rgba(222,141,196,1)"},"error_y":{"color":"rgba(222,141,196,1)"},"error_x":{"color":"rgba(222,141,196,1)"},"line":{"color":"rgba(222,141,196,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[18255494,19593353,30867609,36687183,42767694,57835315,65449387,58924783,42811746,35270827,25462313,22950541],"mode":"lines","type":"scatter","name":"National Monument","marker":{"color":"rgba(217,164,165,1)","line":{"color":"rgba(217,164,165,1)"}},"textfont":{"color":"rgba(217,164,165,1)"},"error_y":{"color":"rgba(217,164,165,1)"},"error_x":{"color":"rgba(217,164,165,1)"},"line":{"color":"rgba(217,164,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[59236940,62808138,97933207,113157293,158894664,232320856,297636201,266671400,201579579,154105436,86602317,67460177],"mode":"lines","type":"scatter","name":"National Park","marker":{"color":"rgba(191,196,121,1)","line":{"color":"rgba(191,196,121,1)"}},"textfont":{"color":"rgba(191,196,121,1)"},"error_y":{"color":"rgba(191,196,121,1)"},"error_x":{"color":"rgba(191,196,121,1)"},"line":{"color":"rgba(191,196,121,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[30285562,31606136,43107457,58279104,68077913,83109235,89097710,86164579,77431897,78627098,58225525,37576708],"mode":"lines","type":"scatter","name":"National Parkway","marker":{"color":"rgba(178,216,80,1)","line":{"color":"rgba(178,216,80,1)"}},"textfont":{"color":"rgba(178,216,80,1)"},"error_y":{"color":"rgba(178,216,80,1)"},"error_x":{"color":"rgba(178,216,80,1)"},"line":{"color":"rgba(178,216,80,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[5878090,6674191,7270922,6687822,6626398,6514302,6863025,5528451,5096785,5924038,6572170,6052652],"mode":"lines","type":"scatter","name":"National Preserve","marker":{"color":"rgba(215,217,67,1)","line":{"color":"rgba(215,217,67,1)"}},"textfont":{"color":"rgba(215,217,67,1)"},"error_y":{"color":"rgba(215,217,67,1)"},"error_x":{"color":"rgba(215,217,67,1)"},"line":{"color":"rgba(215,217,67,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[61630736,65071163,80547578,91957344,111197887,134439990,148560538,137247131,109967246,90198310,74222212,62233895],"mode":"lines","type":"scatter","name":"National Recreation Area","marker":{"color":"rgba(250,217,50,1)","line":{"color":"rgba(250,217,50,1)"}},"textfont":{"color":"rgba(250,217,50,1)"},"error_y":{"color":"rgba(250,217,50,1)"},"error_x":{"color":"rgba(250,217,50,1)"},"line":{"color":"rgba(250,217,50,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[16676,15989,30495,106134,317856,382603,315811,296962,319773,246372,115628,56958],"mode":"lines","type":"scatter","name":"National Reserve","marker":{"color":"rgba(247,209,91,1)","line":{"color":"rgba(247,209,91,1)"}},"textfont":{"color":"rgba(247,209,91,1)"},"error_y":{"color":"rgba(247,209,91,1)"},"error_x":{"color":"rgba(247,209,91,1)"},"line":{"color":"rgba(247,209,91,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[2168489,2230975,4168130,5703574,8562306,12915137,14069859,11498152,8043638,6277573,4354400,2811624],"mode":"lines","type":"scatter","name":"National River","marker":{"color":"rgba(236,201,129,1)","line":{"color":"rgba(236,201,129,1)"}},"textfont":{"color":"rgba(236,201,129,1)"},"error_y":{"color":"rgba(236,201,129,1)"},"error_x":{"color":"rgba(236,201,129,1)"},"line":{"color":"rgba(236,201,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[17821304,19525799,27834322,33203275,42075207,53308675,69195472,64828994,44362725,32102519,23463637,18932104],"mode":"lines","type":"scatter","name":"National Seashore","marker":{"color":"rgba(221,193,154,1)","line":{"color":"rgba(221,193,154,1)"}},"textfont":{"color":"rgba(221,193,154,1)"},"error_y":{"color":"rgba(221,193,154,1)"},"error_x":{"color":"rgba(221,193,154,1)"},"line":{"color":"rgba(221,193,154,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[462761,451797,645232,1309304,2839267,4275237,6565939,6094566,3599440,1589023,705617,527685],"mode":"lines","type":"scatter","name":"National Wild & Scenic River","marker":{"color":"rgba(201,186,167,1)","line":{"color":"rgba(201,186,167,1)"}},"textfont":{"color":"rgba(201,186,167,1)"},"error_y":{"color":"rgba(201,186,167,1)"},"error_x":{"color":"rgba(201,186,167,1)"},"line":{"color":"rgba(201,186,167,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[10325188,7658954,13505529,21666637,18569279,22616232,29413856,23014639,17782685,16060519,10707291,12471296],"mode":"lines","type":"scatter","name":"Park (Other)","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>visitation_data %&gt;% 
+  group_by(park_type) %&gt;% 
+  summarize(parks = n_distinct(full_name)) %&gt;%
+  arrange(desc(parks))  %&gt;%  
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">park_type</th>
+<th align="right">parks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">National Monument</td>
+<td align="right">73</td>
+</tr>
+<tr class="even">
+<td align="left">National Historic Site</td>
+<td align="right">72</td>
+</tr>
+<tr class="odd">
+<td align="left">National Historical Park</td>
+<td align="right">58</td>
+</tr>
+<tr class="even">
+<td align="left">National Park</td>
+<td align="right">55</td>
+</tr>
+<tr class="odd">
+<td align="left">National Memorial</td>
+<td align="right">32</td>
+</tr>
+<tr class="even">
+<td align="left">National Recreation Area</td>
+<td align="right">18</td>
+</tr>
+<tr class="odd">
+<td align="left">Park (Other)</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">National Battlefield</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="left">National Seashore</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="left">National Military Park</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">National Preserve</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="left">National Wild &amp; Scenic River</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="left">National Battlefield Park</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">National Parkway</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">National River</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">National Lakeshore</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">International Historic Site</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">National Reserve</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>As seen in the graph, national parks have the highest total
+visitation among all park types. Interestingly, there more national
+monuments, national historic sites, and national historic parks than
+national parks, even though all of these have less total visitation than
+national parks.</p>
+</div>
+<div id="total-visitation-by-visitation-type-and-season"
+class="section level2">
+<h2><strong>Total Visitation by Visitation Type and Season</strong></h2>
+<p>The <code>visitation_data</code> data set also includes information
+on visitation split by <code>tent_campers</code>,
+<code>backcountry</code>, and <code>rv_campers</code>. We were
+interested in looking at the total visitation split by these three
+visitation types and by season.</p>
+<pre class="r"><code>visitation_data %&gt;% 
+  mutate(season = case_when(
+    month %in% c(12,1,2) ~ &quot;Winter&quot;, 
+    month %in% c(3,4,5) ~ &quot;Spring&quot;, 
+    month %in% c(6,7,8) ~ &quot;Summer&quot;, 
+    TRUE ~ &quot;Fall&quot;
+  )) %&gt;% 
+  group_by(season) %&gt;% 
+  summarize(total_tent = sum(tent_campers), 
+            backcountry_visits = sum(backcountry), 
+            total_rv = sum(rv_campers)) %&gt;% 
+  pivot_longer(
+    total_tent:total_rv, 
+    values_to = &quot;total_visit&quot;, 
+    names_to = &quot;type_visit&quot;,
+    names_prefix = &quot;total_&quot;
+  ) %&gt;% 
+  plot_ly(x = ~season, y = ~total_visit, color = ~type_visit, type = &quot;bar&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-0cc09a2c5533965f579b" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-0cc09a2c5533965f579b">{"x":{"visdat":{"95bca625272":["function () ","plotlyVisDat"]},"cur_data":"95bca625272","attrs":{"95bca625272":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"season","type":"category","categoryorder":"array","categoryarray":["Fall","Spring","Summer","Winter"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"total_visit"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["Fall","Spring","Summer","Winter"],"y":[8923850,8870832,21967980,2612085],"type":"bar","name":"backcountry_visits","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Fall","Spring","Summer","Winter"],"y":[13598415,11347748,23984404,4817747],"type":"bar","name":"rv","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Fall","Spring","Summer","Winter"],"y":[16583988,14005002,42337056,3754069],"type":"bar","name":"tent","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>In fall, winter, and spring, the highest visitation is
+<code>tent_campers</code>, with a peak summer. Interestingly and
+unsurprisingly, the highest visitation in winter is
+<code>rv_campers</code>. This is probably due to weather conditions not
+permitting tent camping, but allows for rv camping. For fall, winter,
+and spring there is a similar trend where <code>backcountry</code> has
+the lowest total visitation and <code>tent_campers</code> has the
+highest visitation. In winter, <code>rv_campers</code> has the highest
+total visitation, then <code>tent_campers</code>, and then
+<code>backcountry</code>.</p>
+</div>
+<div id="average-park-visitation-by-season-and-park-type"
+class="section level2">
+<h2><strong>Average Park Visitation by Season and Park
+Type</strong></h2>
+<p>Next, we were interested in seeing the trends in park visitation by
+season and park type.</p>
+<pre class="r"><code>park_types &lt;- unique(visitation_data$park_type)
+plots &lt;- list()
+for (i in seq_along(park_types)) {
+plots[[i]] &lt;- visitation_data %&gt;% 
+    filter(park_type == park_types[i]) %&gt;% 
+    mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ &quot;Winter&quot;, 
+      month %in% c(3, 4, 5) ~ &quot;Spring&quot;, 
+      month %in% c(6, 7, 8) ~ &quot;Summer&quot;, 
+      TRUE ~ &quot;Fall&quot;
+    )) %&gt;% 
+    group_by(season) %&gt;%
+    summarize(avg_visits = mean(recreation_visits, na.rm = TRUE)) %&gt;%
+    ggplot(aes(x = season, y = avg_visits, fill = season)) +
+    geom_col() +
+    ggtitle(paste( park_types[i])) 
+} </code></pre>
+<p>Most of the parks have a similar trend in average visitation, where
+summer is the highest and winter is the lowest.</p>
+</div>
+<div id="national-lakeshore-seasonal-trends-and-activities"
+class="section level2">
+<h2><strong>National Lakeshore Seasonal Trends and
+Activities</strong></h2>
+<p>For <code>national lakeshore</code> parks, there is a really stark
+difference in average visits between summer and the other seasons.</p>
+<pre class="r"><code>activities_count &lt;- 
+  combined_data %&gt;% 
+  filter(park_type == &quot;National Lakeshore&quot;) %&gt;% 
+  distinct(activities_name) %&gt;% 
+  nrow()
+
+combined_data %&gt;% 
+  filter(park_type == &quot;National Lakeshore&quot;) %&gt;% 
+  distinct(activities_name) %&gt;% 
+  head() %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Boating</td>
+</tr>
+<tr class="even">
+<td align="left">Motorized Boating</td>
+</tr>
+<tr class="odd">
+<td align="left">Sailing</td>
+</tr>
+<tr class="even">
+<td align="left">Boat Tour</td>
+</tr>
+<tr class="odd">
+<td align="left">Camping</td>
+</tr>
+<tr class="even">
+<td align="left">Backcountry Camping</td>
+</tr>
+</tbody>
+</table>
+<p>Based on the activities offered in National Lakeshore, we can see
+that most of the activities revolve around water, such as
+<code>boating</code>, <code>sailing</code>, and <code>boat tours</code>.
+Interestingly, at National Lakeshore, there are skiing activities, but
+the winter average visits are still the lowest.</p>
+</div>
+<div id="national-preserve-seasonal-trends-and-activities"
+class="section level2">
+<h2><strong>National Preserve Seasonal Trends and
+Activities</strong></h2>
+<pre class="r"><code>plots[10]</code></pre>
+<pre><code>## [[1]]</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Another interesting pattern is that in National Preserve, there is a
+higher average visitation in spring than summer and winter has a higher
+visitation than fall.</p>
+<pre class="r"><code>activities_count &lt;- 
+  combined_data %&gt;% 
+  filter(park_type == &quot;National Preserve&quot;) %&gt;% distinct(activities_name) %&gt;% nrow()
+combined_data %&gt;% 
+  filter(park_type == &quot;National Preserve&quot;) %&gt;% distinct(activities_name)  %&gt;% 
+  head() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Arts and Culture</td>
+</tr>
+<tr class="even">
+<td align="left">Cultural Demonstrations</td>
+</tr>
+<tr class="odd">
+<td align="left">Auto and ATV</td>
+</tr>
+<tr class="even">
+<td align="left">ATV Off-Roading</td>
+</tr>
+<tr class="odd">
+<td align="left">Scenic Driving</td>
+</tr>
+<tr class="even">
+<td align="left">Astronomy</td>
+</tr>
+</tbody>
+</table>
+<p>There are 63 activities offered at this park. It is near the middle
+of the distribution of total activities, so the trend is not due to
+having many more activities offered than other park types. It seems like
+there is a much bigger variety in the types of activities offered at
+these parks. There are tours, stargazing, biking, picnicking, hunting,
+water activities, wildlife watching, museums and stores, as well as
+winter activities like skiing, and snowshoeing.</p>
+</div>
+<div id="international-historic-site-seasonal-trends-and-activities"
+class="section level2">
+<h2><strong>International Historic Site Seasonal Trends and
+Activities</strong></h2>
+<pre class="r"><code>plots[18]</code></pre>
+<pre><code>## [[1]]</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>This plot is interesting because there is no average visitation in
+winter.</p>
+<pre class="r"><code>activities_count &lt;- 
+  combined_data %&gt;% 
+  filter(park_type == &quot;International Historic Site&quot;) %&gt;% distinct(activities_name) %&gt;% nrow()
+combined_data %&gt;% 
+  filter(park_type == &quot;International Historic Site&quot;) %&gt;% distinct(activities_name) %&gt;% 
+  head() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Paddling</td>
+</tr>
+<tr class="even">
+<td align="left">Junior Ranger Program</td>
+</tr>
+<tr class="odd">
+<td align="left">Wildlife Watching</td>
+</tr>
+</tbody>
+</table>
+<p>There are 3 activities offered at this park type. It makes sense that
+there is no visitation in the winter because the only activities offered
+are <code>paddling</code>, <code>junior ranger program</code> and
+<code>wildlife watching</code>. There are no activities that would
+really be done in the winter at these parks.</p>
+</div>
+<div id="average-visitation-by-visit-and-park-type"
+class="section level2">
+<h2><strong>Average Visitation by Visit and Park Type</strong></h2>
+<pre class="r"><code>park_types &lt;- unique(visitation_data$park_type)
+plots &lt;- list()
+
+for (i in seq_along(park_types)) {
+  visit_summary &lt;- visitation_data %&gt;% 
+    drop_na() %&gt;% 
+    filter(park_type == park_types[i]) %&gt;% 
+    mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ &quot;Winter&quot;, 
+      month %in% c(3, 4, 5) ~ &quot;Spring&quot;, 
+      month %in% c(6, 7, 8) ~ &quot;Summer&quot;, 
+      TRUE ~ &quot;Fall&quot;
+    )) %&gt;% 
+    group_by(season) %&gt;% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %&gt;% 
+    pivot_longer(
+      cols = starts_with(&quot;mean_&quot;), 
+      names_to = &quot;type_visit&quot;, 
+      values_to = &quot;mean&quot;, 
+      names_prefix = &quot;mean_&quot;
+    ) 
+  plots[[i]] &lt;- ggplot(visit_summary, aes(x = season, y = mean)) + 
+    geom_col() + 
+    facet_grid(~type_visit) +
+    ggtitle(paste(&quot;Average Visits for&quot;, park_types[i])) + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+} </code></pre>
+</div>
+<div id="no-visitation" class="section level2">
+<h2><strong>No Visitation</strong></h2>
+<pre class="r"><code>plots[[4]] + plots[[8]] + plots[[17]] + plots[[18]]</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>National Historic Sites, National Memorials, National Battlefield
+Parks, International Historic Sites all had no faceted average visits.
+These four park types do not have any <code>rv_campers</code>,
+<code>backcountry</code> or <code>tent_campers</code>.</p>
+</div>
+<div id="only-backcountry-visitation" class="section level2">
+<h2><strong>Only Backcountry Visitation</strong></h2>
+<pre class="r"><code>plots[[16]] + plots[[15]] + plots[[6]]</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><code>National Reserve</code> only had backcountry visitation in
+spring. <code>National Military Park</code> had backcountry visitation
+in all seasons, with mean visitation being highest in spring.
+<code>National Battlefield</code> had backcountry visitation in all
+seasons, with mean visitation being lowest in summer and highest in
+spring.</p>
+</div>
+<div id="no-rv-visitation" class="section level2">
+<h2><strong>No RV Visitation</strong></h2>
+<pre class="r"><code>plots[13]</code></pre>
+<pre><code>## [[1]]</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>National Wild and Scienic River has <code>backcountry</code> and
+<code>tent</code> visitation, no <code>rv</code> visitation.
+Interestingly though, the mean <code>tent</code> visitation is low for
+all seasons, with a slight peak in summer.</p>
+</div>
+<div id="park-other-visitation" class="section level2">
+<h2><strong>Park (Other) Visitation</strong></h2>
+<pre class="r"><code>plots[14]</code></pre>
+<pre><code>## [[1]]</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>This plot was interesting because the park type
+<code>Park (Other)</code> has high <code>tent</code> mean visitation,
+<code>rv</code> visitation, but low <code>backcountry</code> visitation.
+It is the highest in spring and summer.</p>
+<p>map of all national parks in US</p>
+<pre class="r"><code>leaflet(data = NPS_data) %&gt;% 
+  addTiles() %&gt;% 
+  addMarkers(~longitude, ~latitude) %&gt;%
+  setView(lng = -98.583, lat = 39.828, zoom = 4)
+
+g &lt;- list(
+  scope = &#39;usa&#39;,
+  projection = list(type = &#39;albers usa&#39;),
+  showland = TRUE,
+  landcolor = toRGB(&quot;gray95&quot;),
+  subunitcolor = toRGB(&quot;gray85&quot;),
+  countrycolor = toRGB(&quot;gray85&quot;),
+  countrywidth = 0.5,
+  subunitwidth = 0.5
+)
+
+fig &lt;- plot_geo(regional_data, lat = ~latitude, lon = ~longitude)
+fig &lt;- fig %&gt;% add_markers(
+    text = ~paste(full_name, states, sep = &quot;&lt;br /&gt;&quot;),
+    color = ~region, symbol = I(&quot;circle&quot;), size = I(8), hoverinfo = &quot;text&quot;
+  )
+
+fig &lt;- fig %&gt;% layout(
+    title = &#39;US National Parks&#39;, geo = g
+  )
+
+fig
+
+regional_data &lt;- NPS_data %&gt;% 
+  mutate(region = case_when(
+    states %in% c(&quot;CT&quot;, &quot;RI&quot;, &quot;NH&quot;, &quot;VT&quot;, &quot;NJ&quot;, &quot;NY&quot;, &quot;PA&quot;, &quot;MD&quot;, &quot;ME&quot;, &quot;MA&quot;) ~ &quot;northeast&quot;, 
+    states %in% c(&quot;IL&quot;,&quot;IN&quot;, &quot;MI&quot;, &quot;OH&quot;, &quot;WI&quot;, &quot;IA&quot;, &quot;KS&quot;, &quot;MN&quot;, &quot;MO&quot;, &quot;NE&quot;, &quot;ND&quot;, &quot;SD&quot;) ~ &quot;midwest&quot;, 
+    states %in% c(&quot;FL&quot;, &quot;GA&quot;, &quot;NC&quot;, &quot;SC&quot;, &quot;VA&quot;, &quot;DE&quot;, &quot;WV&quot;, &quot;AL&quot;, &quot;KY&quot;, &quot;MS&quot;, &quot;TN&quot;, &quot;AR&quot;, &quot;LA&quot;, &quot;OK&quot;, &quot;TX&quot;, &quot;DC&quot;) ~ &quot;south&quot;, 
+    states %in% c(&quot;AK&quot;, &quot;CA&quot;, &quot;HI&quot;, &quot;OR&quot;, &quot;WA&quot;, &quot;AZ&quot;, &quot;CO&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;NV&quot;, &quot;NM&quot;, &quot;UT&quot;, &quot;WY&quot;) ~ &quot;west&quot;,
+    states %in% c(&quot;VI&quot;, &quot;AS&quot;, &quot;GU&quot;, &quot;PR&quot;) ~ &quot;u.s. territory&quot;,
+    TRUE ~ &quot;no state data&quot;
+  ))</code></pre>
+</div>
+</div>
+<div id="regional-comparisons" class="section level1">
+<h1><strong>Regional Comparisons</strong></h1>
+<pre class="r"><code>region_data_vists &lt;- visitation_data %&gt;% 
+  mutate(region = case_when(
+    state %in% c(&quot;CT&quot;, &quot;RI&quot;, &quot;NH&quot;, &quot;VT&quot;, &quot;NJ&quot;, &quot;NY&quot;, &quot;PA&quot;, &quot;MD&quot;, &quot;ME&quot;, &quot;MA&quot;) ~ &quot;northeast&quot;, 
+    state %in% c(&quot;IL&quot;,&quot;IN&quot;, &quot;MI&quot;, &quot;OH&quot;, &quot;WI&quot;, &quot;IA&quot;, &quot;KS&quot;, &quot;MN&quot;, &quot;MO&quot;, &quot;NE&quot;, &quot;ND&quot;, &quot;SD&quot;) ~ &quot;midwest&quot;, 
+    state %in% c(&quot;FL&quot;, &quot;GA&quot;, &quot;NC&quot;, &quot;SC&quot;, &quot;VA&quot;, &quot;DE&quot;, &quot;WV&quot;, &quot;AL&quot;, &quot;KY&quot;, &quot;MS&quot;, &quot;TN&quot;, &quot;AR&quot;, &quot;LA&quot;, &quot;OK&quot;, &quot;TX&quot;, &quot;DC&quot;) ~ &quot;south&quot;, 
+    state %in% c(&quot;AK&quot;, &quot;CA&quot;, &quot;HI&quot;, &quot;OR&quot;, &quot;WA&quot;, &quot;AZ&quot;, &quot;CO&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;NV&quot;, &quot;NM&quot;, &quot;UT&quot;, &quot;WY&quot;) ~ &quot;west&quot;,
+    state %in% c(&quot;VI&quot;, &quot;AS&quot;, &quot;GU&quot;, &quot;PR&quot;) ~ &quot;u.s. territory&quot;,
+    TRUE ~ &quot;no state data&quot;
+  ))</code></pre>
+<pre class="r"><code>region_data &lt;- combined_data %&gt;% 
+  mutate(region = case_when(
+    state %in% c(&quot;CT&quot;, &quot;RI&quot;, &quot;NH&quot;, &quot;VT&quot;, &quot;NJ&quot;, &quot;NY&quot;, &quot;PA&quot;, &quot;MD&quot;, &quot;ME&quot;, &quot;MA&quot;) ~ &quot;northeast&quot;, 
+    state %in% c(&quot;IL&quot;,&quot;IN&quot;, &quot;MI&quot;, &quot;OH&quot;, &quot;WI&quot;, &quot;IA&quot;, &quot;KS&quot;, &quot;MN&quot;, &quot;MO&quot;, &quot;NE&quot;, &quot;ND&quot;, &quot;SD&quot;) ~ &quot;midwest&quot;, 
+    state %in% c(&quot;FL&quot;, &quot;GA&quot;, &quot;NC&quot;, &quot;SC&quot;, &quot;VA&quot;, &quot;DE&quot;, &quot;WV&quot;, &quot;AL&quot;, &quot;KY&quot;, &quot;MS&quot;, &quot;TN&quot;, &quot;AR&quot;, &quot;LA&quot;, &quot;OK&quot;, &quot;TX&quot;, &quot;DC&quot;) ~ &quot;south&quot;, 
+    state %in% c(&quot;AK&quot;, &quot;CA&quot;, &quot;HI&quot;, &quot;OR&quot;, &quot;WA&quot;, &quot;AZ&quot;, &quot;CO&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;NV&quot;, &quot;NM&quot;, &quot;UT&quot;, &quot;WY&quot;) ~ &quot;west&quot;,
+    state %in% c(&quot;VI&quot;, &quot;AS&quot;, &quot;GU&quot;, &quot;PR&quot;) ~ &quot;u.s. territory&quot;,
+    state == TRUE ~ &quot;no state data&quot;
+  )) %&gt;% select(c(-full_name.y, -topics_id, -topics_name, -activities_id))</code></pre>
+<div id="northeast" class="section level2">
+<h2><strong>Northeast</strong></h2>
+<pre class="r"><code>region_data %&gt;%
+  filter(region == &quot;northeast&quot;) %&gt;% 
+  distinct(activities_name) %&gt;% 
+  head() %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Arts and Culture</td>
+</tr>
+<tr class="even">
+<td align="left">Cultural Demonstrations</td>
+</tr>
+<tr class="odd">
+<td align="left">Astronomy</td>
+</tr>
+<tr class="even">
+<td align="left">Stargazing</td>
+</tr>
+<tr class="odd">
+<td align="left">Biking</td>
+</tr>
+<tr class="even">
+<td align="left">Boating</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>northeast_plot &lt;- region_data %&gt;%
+  filter(region == &quot;northeast&quot;) %&gt;% 
+  mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ &quot;Winter&quot;, 
+      month %in% c(3, 4, 5) ~ &quot;Spring&quot;, 
+      month %in% c(6, 7, 8) ~ &quot;Summer&quot;, 
+      TRUE ~ &quot;Fall&quot;
+    )) %&gt;% 
+    group_by(season) %&gt;% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %&gt;% 
+    pivot_longer(
+      cols = starts_with(&quot;mean_&quot;), 
+      names_to = &quot;type_visit&quot;, 
+      values_to = &quot;mean&quot;, 
+      names_prefix = &quot;mean_&quot;
+    ) %&gt;% ggplot(aes(x = season, y = mean)) + 
+  geom_col() +  
+  facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  labs(title = &quot;Visitation in Northeast by Season&quot;, 
+       x = &quot;Season&quot;, 
+       y = &quot;Average Visitation&quot;)
+northeast_plot</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="midwest" class="section level2">
+<h2><strong>Midwest</strong></h2>
+<pre class="r"><code>region_data %&gt;%
+  filter(region == &quot;midwest&quot;) %&gt;% distinct(activities_name) %&gt;% 
+  head() %&gt;%  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Arts and Culture</td>
+</tr>
+<tr class="even">
+<td align="left">Cultural Demonstrations</td>
+</tr>
+<tr class="odd">
+<td align="left">Astronomy</td>
+</tr>
+<tr class="even">
+<td align="left">Stargazing</td>
+</tr>
+<tr class="odd">
+<td align="left">Food</td>
+</tr>
+<tr class="even">
+<td align="left">Picnicking</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>midwest_plot &lt;- 
+  region_data %&gt;%
+  filter(region == &quot;midwest&quot;) %&gt;% 
+  mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ &quot;Winter&quot;, 
+      month %in% c(3, 4, 5) ~ &quot;Spring&quot;, 
+      month %in% c(6, 7, 8) ~ &quot;Summer&quot;, 
+      TRUE ~ &quot;Fall&quot;
+    )) %&gt;% 
+    group_by(season) %&gt;% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %&gt;% 
+    pivot_longer(
+      cols = starts_with(&quot;mean_&quot;), 
+      names_to = &quot;type_visit&quot;, 
+      values_to = &quot;mean&quot;, 
+      names_prefix = &quot;mean_&quot;
+    ) %&gt;% ggplot(aes(x = season, y = mean)) + 
+  geom_col() +  
+  facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  labs(title = &quot;Visitation in Midwest by Season&quot;, 
+       x = &quot;Season&quot;, 
+       y = &quot;Average Visitation&quot;)
+midwest_plot</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div id="south" class="section level2">
+<h2><strong>South</strong></h2>
+<pre class="r"><code>region_data %&gt;%
+  filter(region == &quot;south&quot;) %&gt;%
+  distinct(activities_name) %&gt;% 
+  head() %&gt;%  
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Astronomy</td>
+</tr>
+<tr class="even">
+<td align="left">Stargazing</td>
+</tr>
+<tr class="odd">
+<td align="left">Food</td>
+</tr>
+<tr class="even">
+<td align="left">Picnicking</td>
+</tr>
+<tr class="odd">
+<td align="left">Guided Tours</td>
+</tr>
+<tr class="even">
+<td align="left">Self-Guided Tours - Walking</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>south_plot &lt;- 
+  region_data %&gt;%
+  filter(region == &quot;south&quot;) %&gt;% 
+  mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ &quot;Winter&quot;, 
+      month %in% c(3, 4, 5) ~ &quot;Spring&quot;, 
+      month %in% c(6, 7, 8) ~ &quot;Summer&quot;, 
+      TRUE ~ &quot;Fall&quot;
+    )) %&gt;% 
+    group_by(season) %&gt;% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %&gt;% 
+    pivot_longer(
+      cols = starts_with(&quot;mean_&quot;), 
+      names_to = &quot;type_visit&quot;, 
+      values_to = &quot;mean&quot;, 
+      names_prefix = &quot;mean_&quot;
+    ) %&gt;% ggplot(aes(x = season, y = mean)) + 
+  geom_col() +  
+  facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  labs(title = &quot;Visitation South by Season&quot;, 
+       x = &quot;Season&quot;, 
+       y = &quot;Average Visitation&quot;)
+south_plot</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="west" class="section level2">
+<h2><strong>West</strong></h2>
+<pre class="r"><code>region_data %&gt;% filter(region == &quot;west&quot;) %&gt;% distinct(activities_name) %&gt;% 
+  head() %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Arts and Culture</td>
+</tr>
+<tr class="even">
+<td align="left">Astronomy</td>
+</tr>
+<tr class="odd">
+<td align="left">Stargazing</td>
+</tr>
+<tr class="even">
+<td align="left">Biking</td>
+</tr>
+<tr class="odd">
+<td align="left">Camping</td>
+</tr>
+<tr class="even">
+<td align="left">Backcountry Camping</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>west_plot &lt;- 
+  region_data %&gt;% 
+  filter(region == &quot;west&quot;) %&gt;% 
+  mutate(season = case_when(
+      month %in% c(12, 1, 2) ~ &quot;Winter&quot;, 
+      month %in% c(3, 4, 5) ~ &quot;Spring&quot;, 
+      month %in% c(6, 7, 8) ~ &quot;Summer&quot;, 
+      TRUE ~ &quot;Fall&quot;
+    )) %&gt;% 
+    group_by(season) %&gt;% 
+    summarize(
+      mean_tent = mean(tent_campers, na.rm = TRUE), 
+      mean_backcountry = mean(backcountry, na.rm = TRUE), 
+      mean_rv = mean(rv_campers, na.rm = TRUE)
+    ) %&gt;% 
+    pivot_longer(
+      cols = starts_with(&quot;mean_&quot;), 
+      names_to = &quot;type_visit&quot;, 
+      values_to = &quot;mean&quot;, 
+      names_prefix = &quot;mean_&quot;
+    ) %&gt;% ggplot(aes(x = season, y = mean)) + 
+  geom_col() +  
+  facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  labs(title = &quot;Visitation in West by Season&quot;, 
+       x = &quot;Season&quot;, 
+       y = &quot;Average Visitation&quot;) 
+
+northeast_plot + midwest_plot + south_plot + west_plot</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Across all regions, it seems that summer has the highest visitation
+across regions, with the exception of backcountry hiking, which has a
+peak in spring.</p>
+<p>For the Northeastern U.S. tent camping is by far the most popular
+visitation type. Interestingly, in this region of the United Sattes,
+there was hardly any visitation in winter in all three visitation types.
+This might be due to the fact that the Northeastern U.S. typically has
+colder temperatures and possibly snow during this time.</p>
+<p>For the Midwestern U.S., tent camping is the most popular visitation
+type, especially in the summer, but it is closely followed by
+backcountry hiking in summer. RV camping does seem to be higher in the
+midwest than in the northeastern region, especially during the summer.
+As before, there is hardly any visitation in the winter, and actually
+none for rv camping. This again might be due to weather conditions not
+permitting outdoor activities such as these. For the Southern U.S., tent
+camping has the highest average visitation in the summer time, closely
+followed by rv camping. In the south, rv camping is much more popular
+than in other regions around the U.S. Backcountry is lower, but does
+have an almost even spread among the seasons. This could be due to the
+more temperate conditions in the winter and other times of the year,
+allowing individuals to enjoy this activity year round.</p>
+<p>For the Western U.S., ten camping once again has the highest average
+visitation across all seasons. Interestingly, backcountry hiking and rv
+camping are equal in the summer time in this region. This region has
+some visitation in the winter, but less than the southern region.</p>
+</div>
+</div>
+<div id="comparing-regions" class="section level1">
+<h1><strong>Comparing Regions</strong></h1>
+<pre class="r"><code>region_data %&gt;% group_by(region) %&gt;% 
+  summarize(avg_visitation = mean(recreation_visits, na.rm = TRUE)) %&gt;% 
+  arrange(desc(avg_visitation)) %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">region</th>
+<th align="right">avg_visitation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">west</td>
+<td align="right">149106.067</td>
+</tr>
+<tr class="even">
+<td align="left">south</td>
+<td align="right">95613.721</td>
+</tr>
+<tr class="odd">
+<td align="left">northeast</td>
+<td align="right">83202.371</td>
+</tr>
+<tr class="even">
+<td align="left">midwest</td>
+<td align="right">44547.512</td>
+</tr>
+<tr class="odd">
+<td align="left">u.s. territory</td>
+<td align="right">31867.809</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">4264.793</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>region_long &lt;- region_data %&gt;%
+  pivot_longer(cols = c(recreation_visits, tent_campers, rv_campers, backcountry), 
+               names_to = &quot;visit_type&quot;, 
+               values_to = &quot;count&quot;) </code></pre>
+<p>The western region of the U.S. seems to have the highest average
+visitation of all regions, followed by the southern region.</p>
+<p>Looking at the amount of parks in each region will be helpful to
+determine if this is due to the fact that there are more parks in this
+region, or if there is something else going on.</p>
+<pre class="r"><code>region_data %&gt;% 
+  group_by(region) %&gt;% 
+  summarize(parks = n_distinct(park_code)) %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">region</th>
+<th align="right">parks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">midwest</td>
+<td align="right">46</td>
+</tr>
+<tr class="even">
+<td align="left">northeast</td>
+<td align="right">68</td>
+</tr>
+<tr class="odd">
+<td align="left">south</td>
+<td align="right">117</td>
+</tr>
+<tr class="even">
+<td align="left">u.s. territory</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="left">west</td>
+<td align="right">116</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">122</td>
+</tr>
+</tbody>
+</table>
+<p>From this table, we can see that actually the southern region has the
+most amount of parks in this dataset, followed by the western region. So
+this trend is visitation is not just due to the amount of parks in a
+specific region.</p>
+<pre class="r"><code>region_data %&gt;%
+  group_by(region) %&gt;%
+  summarize(
+    mean_tent = mean(tent_campers, na.rm = TRUE),
+    mean_backcountry = mean(backcountry, na.rm = TRUE),
+    mean_rv = mean(rv_campers, na.rm = TRUE)
+  ) %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;mean_&quot;),
+    names_to = &quot;type_visit&quot;,
+    values_to = &quot;mean&quot;,
+    names_prefix = &quot;mean_&quot;
+  ) %&gt;% ggplot(aes(x = region, y = mean)) + geom_col() + facet_grid(~type_visit) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))</code></pre>
+<p><img src="mos2128_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Now looking at the specific visits by region, we can see once again
+that west has the highest mean visitation among all the regions, with
+its highest being tent camping. Unsurprisingly, we see that the south
+has the second highest mean visitation. Interestingly, in backcountry
+hiking, the midwest has the second highest mean visitation, despite the
+fact that it has one of the lowest amount of parks in the dataset.</p>
+</div>
+>>>>>>> 6a7e1a8391b747ca81adcdc9bd389f08de5667b9
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -341,7 +1293,41 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
