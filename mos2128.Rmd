@@ -247,6 +247,39 @@ leaflet(data = NPS_data) %>%
   addTiles() %>% 
   addMarkers(~longitude, ~latitude) %>%
   setView(lng = -98.583, lat = 39.828, zoom = 4)
+
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  showland = TRUE,
+  landcolor = toRGB("gray95"),
+  subunitcolor = toRGB("gray85"),
+  countrycolor = toRGB("gray85"),
+  countrywidth = 0.5,
+  subunitwidth = 0.5
+)
+
+fig <- plot_geo(regional_data, lat = ~latitude, lon = ~longitude)
+fig <- fig %>% add_markers(
+    text = ~paste(full_name, states, sep = "<br />"),
+    color = ~region, symbol = I("circle"), size = I(8), hoverinfo = "text"
+  )
+
+fig <- fig %>% layout(
+    title = 'US National Parks', geo = g
+  )
+
+fig
+
+regional_data <- NPS_data %>% 
+  mutate(region = case_when(
+    states %in% c("CT", "RI", "NH", "VT", "NJ", "NY", "PA", "MD", "ME", "MA") ~ "northeast", 
+    states %in% c("IL","IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD") ~ "midwest", 
+    states %in% c("FL", "GA", "NC", "SC", "VA", "DE", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX", "DC") ~ "south", 
+    states %in% c("AK", "CA", "HI", "OR", "WA", "AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY") ~ "west",
+    states %in% c("VI", "AS", "GU", "PR") ~ "u.s. territory",
+    TRUE ~ "no state data"
+  ))
 ```
 
 # **Regional Comparisons**
@@ -427,7 +460,7 @@ For the Northeastern U.S. tent camping is by far the most popular visitation typ
 
 For the Midwestern U.S., tent camping is the most popular visitation type, especially in the summer, but it is closely followed by backcountry hiking in summer. RV camping does seem to be higher in the midwest than in the northeastern region, especially during the summer. As before, there is hardly any visitation in the winter, and actually none for rv camping. This again might be due to weather conditions not permitting outdoor activities such as these. For the Southern U.S., tent camping has the highest average visitation in the summer time, closely followed by rv camping. In the south, rv camping is much more popular than in other regions around the U.S. Backcountry is lower, but does have an almost even spread among the seasons. This could be due to the more temperate conditions in the winter and other times of the year, allowing individuals to enjoy this activity year round.
 
-For the Western U.S., ten camping once again has the highest average visitatino across all seasons. Interestingly, backcountry hiking and rv camping are equal in the summer time in this region. This region has some visitation in the winter, but less than the southern region.
+For the Western U.S., ten camping once again has the highest average visitation across all seasons. Interestingly, backcountry hiking and rv camping are equal in the summer time in this region. This region has some visitation in the winter, but less than the southern region.
 
 # **Comparing Regions**
 
