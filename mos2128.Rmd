@@ -4,6 +4,8 @@ author: "Mari Sanders"
 date: "`r Sys.Date()`"
 output: 
   html_document: 
+    toc: true
+    toc_float: true
     code_folding: hide
 ---
 
@@ -290,7 +292,9 @@ region_data %>%
   filter(region == "northeast") %>% drop_na() %>% 
   distinct(park_type) %>% knitr::kable()
 region_data %>%
-  filter(region == "northeast") %>% distinct(activities_name) %>% head() %>% knitr::kable()
+  filter(region == "northeast") %>% 
+  distinct(activities_name) %>% 
+  head() %>% knitr::kable()
 
 northeast_plot <- region_data %>%
   filter(region == "northeast") %>% 

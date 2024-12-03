@@ -31,6 +31,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
@@ -233,6 +236,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -240,6 +306,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -338,8 +414,8 @@ visitation_data &lt;-
 plot_ly(x = ~as.factor(month), y = ~total_visitation, type = &quot;scatter&quot;, mode = &quot;lines&quot;, color = ~park_type)</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;park_type&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-5bc83c37d2a293057354" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-5bc83c37d2a293057354">{"x":{"visdat":{"b66863fe721b":["function () ","plotlyVisDat"]},"cur_data":"b66863fe721b","attrs":{"b66863fe721b":{"x":{},"y":{},"mode":"lines","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"as.factor(month)","type":"category","categoryorder":"array","categoryarray":["1","2","3","4","5","6","7","8","9","10","11","12"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"total_visitation"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[0,0,0,599,10356,16227,29363,30037,23941,14894,564,0],"mode":"lines","type":"scatter","name":"International Historic Site","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[1835700,2000437,2732979,3477536,4231458,4625124,5724189,4699989,4010558,3979299,2628913,2097289],"mode":"lines","type":"scatter","name":"National Battlefield","marker":{"color":"rgba(181,176,137,1)","line":{"color":"rgba(181,176,137,1)"}},"textfont":{"color":"rgba(181,176,137,1)"},"error_y":{"color":"rgba(181,176,137,1)"},"error_x":{"color":"rgba(181,176,137,1)"},"line":{"color":"rgba(181,176,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[3035709,3414777,5457944,6826232,6160369,6226220,6536226,6026670,5931406,5497269,3981241,3068093],"mode":"lines","type":"scatter","name":"National Battlefield Park","marker":{"color":"rgba(233,153,110,1)","line":{"color":"rgba(233,153,110,1)"}},"textfont":{"color":"rgba(233,153,110,1)"},"error_y":{"color":"rgba(233,153,110,1)"},"error_x":{"color":"rgba(233,153,110,1)"},"line":{"color":"rgba(233,153,110,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[9258412,10193685,15294246,17856912,20207151,22885909,27636356,23779621,16401077,18356705,11748190,10769699],"mode":"lines","type":"scatter","name":"National Historic Site","marker":{"color":"rgba(232,146,123,1)","line":{"color":"rgba(232,146,123,1)"}},"textfont":{"color":"rgba(232,146,123,1)"},"error_y":{"color":"rgba(232,146,123,1)"},"error_x":{"color":"rgba(232,146,123,1)"},"line":{"color":"rgba(232,146,123,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[31239006,33061664,48684559,61995380,67522052,72278607,90818155,76557594,61023888,60702448,43984138,35531636],"mode":"lines","type":"scatter","name":"National Historical Park","marker":{"color":"rgba(191,154,166,1)","line":{"color":"rgba(191,154,166,1)"}},"textfont":{"color":"rgba(191,154,166,1)"},"error_y":{"color":"rgba(191,154,166,1)"},"error_x":{"color":"rgba(191,154,166,1)"},"line":{"color":"rgba(191,154,166,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[718521,986098,961710,1005468,2684380,7072850,15230514,13907841,5915613,3446764,716673,503122],"mode":"lines","type":"scatter","name":"National Lakeshore","marker":{"color":"rgba(147,159,203,1)","line":{"color":"rgba(147,159,203,1)"}},"textfont":{"color":"rgba(147,159,203,1)"},"error_y":{"color":"rgba(147,159,203,1)"},"error_x":{"color":"rgba(147,159,203,1)"},"line":{"color":"rgba(147,159,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[26557811,27010352,64765560,86562672,90202453,86519021,89327334,75466667,58890368,61033100,46581490,31888659],"mode":"lines","type":"scatter","name":"National Memorial","marker":{"color":"rgba(187,151,199,1)","line":{"color":"rgba(187,151,199,1)"}},"textfont":{"color":"rgba(187,151,199,1)"},"error_y":{"color":"rgba(187,151,199,1)"},"error_x":{"color":"rgba(187,151,199,1)"},"line":{"color":"rgba(187,151,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[5298439,5716701,9060144,11088267,12494668,12391930,13277112,10872010,9658933,10369806,7722062,5650839],"mode":"lines","type":"scatter","name":"National Military Park","marker":{"color":"rgba(222,141,196,1)","line":{"color":"rgba(222,141,196,1)"}},"textfont":{"color":"rgba(222,141,196,1)"},"error_y":{"color":"rgba(222,141,196,1)"},"error_x":{"color":"rgba(222,141,196,1)"},"line":{"color":"rgba(222,141,196,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[18255494,19593353,30867609,36687183,42767694,57835315,65449387,58924783,42811746,35270827,25462313,22950541],"mode":"lines","type":"scatter","name":"National Monument","marker":{"color":"rgba(217,164,165,1)","line":{"color":"rgba(217,164,165,1)"}},"textfont":{"color":"rgba(217,164,165,1)"},"error_y":{"color":"rgba(217,164,165,1)"},"error_x":{"color":"rgba(217,164,165,1)"},"line":{"color":"rgba(217,164,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[59236940,62808138,97933207,113157293,158894664,232320856,297636201,266671400,201579579,154105436,86602317,67460177],"mode":"lines","type":"scatter","name":"National Park","marker":{"color":"rgba(191,196,121,1)","line":{"color":"rgba(191,196,121,1)"}},"textfont":{"color":"rgba(191,196,121,1)"},"error_y":{"color":"rgba(191,196,121,1)"},"error_x":{"color":"rgba(191,196,121,1)"},"line":{"color":"rgba(191,196,121,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[30285562,31606136,43107457,58279104,68077913,83109235,89097710,86164579,77431897,78627098,58225525,37576708],"mode":"lines","type":"scatter","name":"National Parkway","marker":{"color":"rgba(178,216,80,1)","line":{"color":"rgba(178,216,80,1)"}},"textfont":{"color":"rgba(178,216,80,1)"},"error_y":{"color":"rgba(178,216,80,1)"},"error_x":{"color":"rgba(178,216,80,1)"},"line":{"color":"rgba(178,216,80,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[5878090,6674191,7270922,6687822,6626398,6514302,6863025,5528451,5096785,5924038,6572170,6052652],"mode":"lines","type":"scatter","name":"National Preserve","marker":{"color":"rgba(215,217,67,1)","line":{"color":"rgba(215,217,67,1)"}},"textfont":{"color":"rgba(215,217,67,1)"},"error_y":{"color":"rgba(215,217,67,1)"},"error_x":{"color":"rgba(215,217,67,1)"},"line":{"color":"rgba(215,217,67,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[61630736,65071163,80547578,91957344,111197887,134439990,148560538,137247131,109967246,90198310,74222212,62233895],"mode":"lines","type":"scatter","name":"National Recreation Area","marker":{"color":"rgba(250,217,50,1)","line":{"color":"rgba(250,217,50,1)"}},"textfont":{"color":"rgba(250,217,50,1)"},"error_y":{"color":"rgba(250,217,50,1)"},"error_x":{"color":"rgba(250,217,50,1)"},"line":{"color":"rgba(250,217,50,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[16676,15989,30495,106134,317856,382603,315811,296962,319773,246372,115628,56958],"mode":"lines","type":"scatter","name":"National Reserve","marker":{"color":"rgba(247,209,91,1)","line":{"color":"rgba(247,209,91,1)"}},"textfont":{"color":"rgba(247,209,91,1)"},"error_y":{"color":"rgba(247,209,91,1)"},"error_x":{"color":"rgba(247,209,91,1)"},"line":{"color":"rgba(247,209,91,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[2168489,2230975,4168130,5703574,8562306,12915137,14069859,11498152,8043638,6277573,4354400,2811624],"mode":"lines","type":"scatter","name":"National River","marker":{"color":"rgba(236,201,129,1)","line":{"color":"rgba(236,201,129,1)"}},"textfont":{"color":"rgba(236,201,129,1)"},"error_y":{"color":"rgba(236,201,129,1)"},"error_x":{"color":"rgba(236,201,129,1)"},"line":{"color":"rgba(236,201,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[17821304,19525799,27834322,33203275,42075207,53308675,69195472,64828994,44362725,32102519,23463637,18932104],"mode":"lines","type":"scatter","name":"National Seashore","marker":{"color":"rgba(221,193,154,1)","line":{"color":"rgba(221,193,154,1)"}},"textfont":{"color":"rgba(221,193,154,1)"},"error_y":{"color":"rgba(221,193,154,1)"},"error_x":{"color":"rgba(221,193,154,1)"},"line":{"color":"rgba(221,193,154,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[462761,451797,645232,1309304,2839267,4275237,6565939,6094566,3599440,1589023,705617,527685],"mode":"lines","type":"scatter","name":"National Wild & Scenic River","marker":{"color":"rgba(201,186,167,1)","line":{"color":"rgba(201,186,167,1)"}},"textfont":{"color":"rgba(201,186,167,1)"},"error_y":{"color":"rgba(201,186,167,1)"},"error_x":{"color":"rgba(201,186,167,1)"},"line":{"color":"rgba(201,186,167,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[10325188,7658954,13505529,21666637,18569279,22616232,29413856,23014639,17782685,16060519,10707291,12471296],"mode":"lines","type":"scatter","name":"Park (Other)","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-385921c4a3627d4391d7" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-385921c4a3627d4391d7">{"x":{"visdat":{"b8a02703448a":["function () ","plotlyVisDat"]},"cur_data":"b8a02703448a","attrs":{"b8a02703448a":{"x":{},"y":{},"mode":"lines","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"as.factor(month)","type":"category","categoryorder":"array","categoryarray":["1","2","3","4","5","6","7","8","9","10","11","12"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"total_visitation"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[0,0,0,599,10356,16227,29363,30037,23941,14894,564,0],"mode":"lines","type":"scatter","name":"International Historic Site","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[1835700,2000437,2732979,3477536,4231458,4625124,5724189,4699989,4010558,3979299,2628913,2097289],"mode":"lines","type":"scatter","name":"National Battlefield","marker":{"color":"rgba(181,176,137,1)","line":{"color":"rgba(181,176,137,1)"}},"textfont":{"color":"rgba(181,176,137,1)"},"error_y":{"color":"rgba(181,176,137,1)"},"error_x":{"color":"rgba(181,176,137,1)"},"line":{"color":"rgba(181,176,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[3035709,3414777,5457944,6826232,6160369,6226220,6536226,6026670,5931406,5497269,3981241,3068093],"mode":"lines","type":"scatter","name":"National Battlefield Park","marker":{"color":"rgba(233,153,110,1)","line":{"color":"rgba(233,153,110,1)"}},"textfont":{"color":"rgba(233,153,110,1)"},"error_y":{"color":"rgba(233,153,110,1)"},"error_x":{"color":"rgba(233,153,110,1)"},"line":{"color":"rgba(233,153,110,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[9258412,10193685,15294246,17856912,20207151,22885909,27636356,23779621,16401077,18356705,11748190,10769699],"mode":"lines","type":"scatter","name":"National Historic Site","marker":{"color":"rgba(232,146,123,1)","line":{"color":"rgba(232,146,123,1)"}},"textfont":{"color":"rgba(232,146,123,1)"},"error_y":{"color":"rgba(232,146,123,1)"},"error_x":{"color":"rgba(232,146,123,1)"},"line":{"color":"rgba(232,146,123,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[31239006,33061664,48684559,61995380,67522052,72278607,90818155,76557594,61023888,60702448,43984138,35531636],"mode":"lines","type":"scatter","name":"National Historical Park","marker":{"color":"rgba(191,154,166,1)","line":{"color":"rgba(191,154,166,1)"}},"textfont":{"color":"rgba(191,154,166,1)"},"error_y":{"color":"rgba(191,154,166,1)"},"error_x":{"color":"rgba(191,154,166,1)"},"line":{"color":"rgba(191,154,166,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[718521,986098,961710,1005468,2684380,7072850,15230514,13907841,5915613,3446764,716673,503122],"mode":"lines","type":"scatter","name":"National Lakeshore","marker":{"color":"rgba(147,159,203,1)","line":{"color":"rgba(147,159,203,1)"}},"textfont":{"color":"rgba(147,159,203,1)"},"error_y":{"color":"rgba(147,159,203,1)"},"error_x":{"color":"rgba(147,159,203,1)"},"line":{"color":"rgba(147,159,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[26557811,27010352,64765560,86562672,90202453,86519021,89327334,75466667,58890368,61033100,46581490,31888659],"mode":"lines","type":"scatter","name":"National Memorial","marker":{"color":"rgba(187,151,199,1)","line":{"color":"rgba(187,151,199,1)"}},"textfont":{"color":"rgba(187,151,199,1)"},"error_y":{"color":"rgba(187,151,199,1)"},"error_x":{"color":"rgba(187,151,199,1)"},"line":{"color":"rgba(187,151,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[5298439,5716701,9060144,11088267,12494668,12391930,13277112,10872010,9658933,10369806,7722062,5650839],"mode":"lines","type":"scatter","name":"National Military Park","marker":{"color":"rgba(222,141,196,1)","line":{"color":"rgba(222,141,196,1)"}},"textfont":{"color":"rgba(222,141,196,1)"},"error_y":{"color":"rgba(222,141,196,1)"},"error_x":{"color":"rgba(222,141,196,1)"},"line":{"color":"rgba(222,141,196,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[18255494,19593353,30867609,36687183,42767694,57835315,65449387,58924783,42811746,35270827,25462313,22950541],"mode":"lines","type":"scatter","name":"National Monument","marker":{"color":"rgba(217,164,165,1)","line":{"color":"rgba(217,164,165,1)"}},"textfont":{"color":"rgba(217,164,165,1)"},"error_y":{"color":"rgba(217,164,165,1)"},"error_x":{"color":"rgba(217,164,165,1)"},"line":{"color":"rgba(217,164,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[59236940,62808138,97933207,113157293,158894664,232320856,297636201,266671400,201579579,154105436,86602317,67460177],"mode":"lines","type":"scatter","name":"National Park","marker":{"color":"rgba(191,196,121,1)","line":{"color":"rgba(191,196,121,1)"}},"textfont":{"color":"rgba(191,196,121,1)"},"error_y":{"color":"rgba(191,196,121,1)"},"error_x":{"color":"rgba(191,196,121,1)"},"line":{"color":"rgba(191,196,121,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[30285562,31606136,43107457,58279104,68077913,83109235,89097710,86164579,77431897,78627098,58225525,37576708],"mode":"lines","type":"scatter","name":"National Parkway","marker":{"color":"rgba(178,216,80,1)","line":{"color":"rgba(178,216,80,1)"}},"textfont":{"color":"rgba(178,216,80,1)"},"error_y":{"color":"rgba(178,216,80,1)"},"error_x":{"color":"rgba(178,216,80,1)"},"line":{"color":"rgba(178,216,80,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[5878090,6674191,7270922,6687822,6626398,6514302,6863025,5528451,5096785,5924038,6572170,6052652],"mode":"lines","type":"scatter","name":"National Preserve","marker":{"color":"rgba(215,217,67,1)","line":{"color":"rgba(215,217,67,1)"}},"textfont":{"color":"rgba(215,217,67,1)"},"error_y":{"color":"rgba(215,217,67,1)"},"error_x":{"color":"rgba(215,217,67,1)"},"line":{"color":"rgba(215,217,67,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[61630736,65071163,80547578,91957344,111197887,134439990,148560538,137247131,109967246,90198310,74222212,62233895],"mode":"lines","type":"scatter","name":"National Recreation Area","marker":{"color":"rgba(250,217,50,1)","line":{"color":"rgba(250,217,50,1)"}},"textfont":{"color":"rgba(250,217,50,1)"},"error_y":{"color":"rgba(250,217,50,1)"},"error_x":{"color":"rgba(250,217,50,1)"},"line":{"color":"rgba(250,217,50,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[16676,15989,30495,106134,317856,382603,315811,296962,319773,246372,115628,56958],"mode":"lines","type":"scatter","name":"National Reserve","marker":{"color":"rgba(247,209,91,1)","line":{"color":"rgba(247,209,91,1)"}},"textfont":{"color":"rgba(247,209,91,1)"},"error_y":{"color":"rgba(247,209,91,1)"},"error_x":{"color":"rgba(247,209,91,1)"},"line":{"color":"rgba(247,209,91,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[2168489,2230975,4168130,5703574,8562306,12915137,14069859,11498152,8043638,6277573,4354400,2811624],"mode":"lines","type":"scatter","name":"National River","marker":{"color":"rgba(236,201,129,1)","line":{"color":"rgba(236,201,129,1)"}},"textfont":{"color":"rgba(236,201,129,1)"},"error_y":{"color":"rgba(236,201,129,1)"},"error_x":{"color":"rgba(236,201,129,1)"},"line":{"color":"rgba(236,201,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[17821304,19525799,27834322,33203275,42075207,53308675,69195472,64828994,44362725,32102519,23463637,18932104],"mode":"lines","type":"scatter","name":"National Seashore","marker":{"color":"rgba(221,193,154,1)","line":{"color":"rgba(221,193,154,1)"}},"textfont":{"color":"rgba(221,193,154,1)"},"error_y":{"color":"rgba(221,193,154,1)"},"error_x":{"color":"rgba(221,193,154,1)"},"line":{"color":"rgba(221,193,154,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[462761,451797,645232,1309304,2839267,4275237,6565939,6094566,3599440,1589023,705617,527685],"mode":"lines","type":"scatter","name":"National Wild & Scenic River","marker":{"color":"rgba(201,186,167,1)","line":{"color":"rgba(201,186,167,1)"}},"textfont":{"color":"rgba(201,186,167,1)"},"error_y":{"color":"rgba(201,186,167,1)"},"error_x":{"color":"rgba(201,186,167,1)"},"line":{"color":"rgba(201,186,167,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1","2","3","4","5","6","7","8","9","10","11","12"],"y":[10325188,7658954,13505529,21666637,18569279,22616232,29413856,23014639,17782685,16060519,10707291,12471296],"mode":"lines","type":"scatter","name":"Park (Other)","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>visitation_data %&gt;% 
   group_by(park_type) %&gt;% 
   summarize(parks = n_distinct(full_name)) %&gt;%
@@ -458,8 +534,8 @@ visitation types and by season.</p>
     names_prefix = &quot;total_&quot;
   ) %&gt;% 
   plot_ly(x = ~season, y = ~total_visit, color = ~type_visit, type = &quot;bar&quot;)</code></pre>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-9f72812045d6c9d8af11" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-9f72812045d6c9d8af11">{"x":{"visdat":{"b66812e65dce":["function () ","plotlyVisDat"]},"cur_data":"b66812e65dce","attrs":{"b66812e65dce":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"season","type":"category","categoryorder":"array","categoryarray":["Fall","Spring","Summer","Winter"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"total_visit"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["Fall","Spring","Summer","Winter"],"y":[8923850,8870832,21967980,2612085],"type":"bar","name":"backcountry_visits","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Fall","Spring","Summer","Winter"],"y":[13598415,11347748,23984404,4817747],"type":"bar","name":"rv","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Fall","Spring","Summer","Winter"],"y":[16583988,14005002,42337056,3754069],"type":"bar","name":"tent","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-1185126a998c6548ea19" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-1185126a998c6548ea19">{"x":{"visdat":{"b8a0f74793d":["function () ","plotlyVisDat"]},"cur_data":"b8a0f74793d","attrs":{"b8a0f74793d":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"season","type":"category","categoryorder":"array","categoryarray":["Fall","Spring","Summer","Winter"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"total_visit"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["Fall","Spring","Summer","Winter"],"y":[8923850,8870832,21967980,2612085],"type":"bar","name":"backcountry_visits","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Fall","Spring","Summer","Winter"],"y":[13598415,11347748,23984404,4817747],"type":"bar","name":"rv","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Fall","Spring","Summer","Winter"],"y":[16583988,14005002,42337056,3754069],"type":"bar","name":"tent","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>In fall, winter, and spring, the highest visitation is
 <code>tent_campers</code>, with a peak summer. Interestingly and
 unsurprisingly, the highest visitation in winter is
@@ -1084,6 +1160,85 @@ It is the highest in spring and summer.</p>
   )) %&gt;% select(c(-full_name.y, -topics_id, -topics_name, -activities_id))</code></pre>
 <div id="northeast" class="section level2">
 <h2>Northeast</h2>
+<pre class="r"><code>region_data %&gt;%
+  filter(region == &quot;northeast&quot;) %&gt;% drop_na() %&gt;% 
+  distinct(park_type) %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">park_type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">National Park</td>
+</tr>
+<tr class="even">
+<td align="left">National Historical Park</td>
+</tr>
+<tr class="odd">
+<td align="left">National Monument</td>
+</tr>
+<tr class="even">
+<td align="left">National Historic Site</td>
+</tr>
+<tr class="odd">
+<td align="left">National Battlefield</td>
+</tr>
+<tr class="even">
+<td align="left">National Seashore</td>
+</tr>
+<tr class="odd">
+<td align="left">Park (Other)</td>
+</tr>
+<tr class="even">
+<td align="left">National Recreation Area</td>
+</tr>
+<tr class="odd">
+<td align="left">National Memorial</td>
+</tr>
+<tr class="even">
+<td align="left">National Military Park</td>
+</tr>
+<tr class="odd">
+<td align="left">International Historic Site</td>
+</tr>
+<tr class="even">
+<td align="left">National Wild &amp; Scenic River</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>region_data %&gt;%
+  filter(region == &quot;northeast&quot;) %&gt;% 
+  distinct(activities_name) %&gt;% 
+  head() %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Arts and Culture</td>
+</tr>
+<tr class="even">
+<td align="left">Cultural Demonstrations</td>
+</tr>
+<tr class="odd">
+<td align="left">Astronomy</td>
+</tr>
+<tr class="even">
+<td align="left">Stargazing</td>
+</tr>
+<tr class="odd">
+<td align="left">Biking</td>
+</tr>
+<tr class="even">
+<td align="left">Boating</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>northeast_plot &lt;- region_data %&gt;%
   filter(region == &quot;northeast&quot;) %&gt;% 
   mutate(season = case_when(
@@ -1159,21 +1314,35 @@ It is the highest in spring and summer.</p>
 </tbody>
 </table>
 <pre class="r"><code>region_data %&gt;%
-  filter(region == &quot;midwest&quot;) %&gt;% distinct(activities_name) </code></pre>
-<pre><code>## # A tibble: 84 × 1
-##    activities_name            
-##    &lt;chr&gt;                      
-##  1 Arts and Culture           
-##  2 Cultural Demonstrations    
-##  3 Astronomy                  
-##  4 Stargazing                 
-##  5 Food                       
-##  6 Picnicking                 
-##  7 Guided Tours               
-##  8 Self-Guided Tours - Walking
-##  9 Hiking                     
-## 10 Junior Ranger Program      
-## # ℹ 74 more rows</code></pre>
+  filter(region == &quot;midwest&quot;) %&gt;% distinct(activities_name) %&gt;% 
+  head() %&gt;%  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Arts and Culture</td>
+</tr>
+<tr class="even">
+<td align="left">Cultural Demonstrations</td>
+</tr>
+<tr class="odd">
+<td align="left">Astronomy</td>
+</tr>
+<tr class="even">
+<td align="left">Stargazing</td>
+</tr>
+<tr class="odd">
+<td align="left">Food</td>
+</tr>
+<tr class="even">
+<td align="left">Picnicking</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>midwest_plot &lt;- 
   region_data %&gt;%
   filter(region == &quot;midwest&quot;) %&gt;% 
@@ -1264,21 +1433,36 @@ It is the highest in spring and summer.</p>
 </table>
 <pre class="r"><code>region_data %&gt;%
   filter(region == &quot;south&quot;) %&gt;%
-  distinct(activities_name) </code></pre>
-<pre><code>## # A tibble: 89 × 1
-##    activities_name            
-##    &lt;chr&gt;                      
-##  1 Astronomy                  
-##  2 Stargazing                 
-##  3 Food                       
-##  4 Picnicking                 
-##  5 Guided Tours               
-##  6 Self-Guided Tours - Walking
-##  7 Hands-On                   
-##  8 Junior Ranger Program      
-##  9 Wildlife Watching          
-## 10 Birdwatching               
-## # ℹ 79 more rows</code></pre>
+  distinct(activities_name) %&gt;% 
+  head() %&gt;%  
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Astronomy</td>
+</tr>
+<tr class="even">
+<td align="left">Stargazing</td>
+</tr>
+<tr class="odd">
+<td align="left">Food</td>
+</tr>
+<tr class="even">
+<td align="left">Picnicking</td>
+</tr>
+<tr class="odd">
+<td align="left">Guided Tours</td>
+</tr>
+<tr class="even">
+<td align="left">Self-Guided Tours - Walking</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>south_plot &lt;- 
   region_data %&gt;%
   filter(region == &quot;south&quot;) %&gt;% 
@@ -1349,21 +1533,35 @@ It is the highest in spring and summer.</p>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>region_data %&gt;% filter(region == &quot;west&quot;) %&gt;% distinct(activities_name) </code></pre>
-<pre><code>## # A tibble: 99 × 1
-##    activities_name             
-##    &lt;chr&gt;                       
-##  1 Arts and Culture            
-##  2 Astronomy                   
-##  3 Stargazing                  
-##  4 Biking                      
-##  5 Camping                     
-##  6 Backcountry Camping         
-##  7 Car or Front Country Camping
-##  8 Group Camping               
-##  9 Canyoneering                
-## 10 Climbing                    
-## # ℹ 89 more rows</code></pre>
+<pre class="r"><code>region_data %&gt;% filter(region == &quot;west&quot;) %&gt;% distinct(activities_name) %&gt;% 
+  head() %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">activities_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Arts and Culture</td>
+</tr>
+<tr class="even">
+<td align="left">Astronomy</td>
+</tr>
+<tr class="odd">
+<td align="left">Stargazing</td>
+</tr>
+<tr class="even">
+<td align="left">Biking</td>
+</tr>
+<tr class="odd">
+<td align="left">Camping</td>
+</tr>
+<tr class="even">
+<td align="left">Backcountry Camping</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>west_plot &lt;- 
   region_data %&gt;% 
   filter(region == &quot;west&quot;) %&gt;% 
@@ -1533,6 +1731,8 @@ fact that it has one of the lowest amount of parks in the dataset.</p>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -1570,6 +1770,35 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
