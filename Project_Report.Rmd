@@ -8,7 +8,7 @@ output: html_document
 
 # Significance - Mari 
 
-# Final Thoughts - Lizy 
+
 
 # Data
 
@@ -18,10 +18,16 @@ Visitation data by park was obtained from the Integrated Resource Management App
 
 ## Trends over Time - Mari (only a bit)
 
-### Seasonal Trends - Mari
+## Seasonal Trends - Mari
 
 ## Regional Trends - Mari 
+
+## New York State Trends - Lizy
 
 # Discussion
 
 # Limitations
+
+# Final Thoughts - Lizy 
+This project explored the patterns shaping national park visitation, revealing how seasonal trends, historical events, and regional preferences drive public engagement. While summer dominates camping activities, sites like Vanderbilt Mansion NHS face declining interest, highlighting the need for renewed strategies to sustain visitor enthusiasm. 
+For visitors, our findings offer insights to better plan trips and explore hidden gems. For park services, the analysis provides actionable knowledge to boost participation and adapt to shifting preferences. Our work opens doors to future questions—how do economic shifts, climate change, or digital outreach influence these trends? Conclusively, our findings emphasize the vital role of national parks as spaces for connection and legacy, reminding us of the need to preserve their appeal for future generations.

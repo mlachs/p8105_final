@@ -341,6 +341,9 @@ div.tocify {
 <li>
   <a href="jc6452.html">Lizy</a>
 </li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -372,7 +375,7 @@ data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% a
 
 NPS_data_visits=read_csv(&#39;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&#39;)</code></pre>
 <pre><code>## Rows: 101419 Columns: 35
-## ── Column specification ─────────────────────────────────────────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (10): ParkName, UnitCode, ParkType, Region, State, ParkNameTotal, UnitCo...
 ## dbl  (3): Year, Month, YearTotal
@@ -385,7 +388,8 @@ mutate(parkCode=str_to_upper(parkCode))%&gt;% full_join(NPS_data_visits,by=join_
 <pre><code>## Warning in full_join(., NPS_data_visits, by = join_by(&quot;parkCode&quot; == &quot;UnitCode&quot;)): Detected an unexpected many-to-many relationship between `x` and `y`.
 ## ℹ Row 1 of `x` matches multiple rows in `y`.
 ## ℹ Row 289 of `y` matches multiple rows in `x`.
-## ℹ If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to silence this warning.</code></pre>
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   &quot;many-to-many&quot;` to silence this warning.</code></pre>
 <p>There are many activities available to you when visiting a national
 park. Between all the parks there are 99 unique activities. Ranging from
 ATV Off-Roading to Wildlife Watching. This range of activites bring

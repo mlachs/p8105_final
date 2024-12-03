@@ -253,6 +253,15 @@ $(document).ready(function () {
 <li>
   <a href="project_proposal.html">Proposal</a>
 </li>
+<li>
+  <a href="mos2128.html">Mari</a>
+</li>
+<li>
+  <a href="jc6452.html">Lizy</a>
+</li>
+<li>
+  <a href="Project_Report.html">Project Report</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -283,7 +292,7 @@ data = res %&gt;% content(&quot;text&quot;) %&gt;% jsonlite::fromJSON() %&gt;% a
 
 NPS_data_visits=read_csv(&#39;data/Query Builder for Public Use Statistics (1979 - Last Calendar Year).csv&#39;)</code></pre>
 <pre><code>## Rows: 101419 Columns: 35
-## ── Column specification ────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (10): ParkName, UnitCode, ParkType, Region, State, ParkNameTotal, UnitCo...
 ## dbl  (3): Year, Month, YearTotal
@@ -293,8 +302,7 @@ NPS_data_visits=read_csv(&#39;data/Query Builder for Public Use Statistics (1979
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>NPS_Full=NPS_data_parks %&gt;%   mutate(entranceFees_cost=as.numeric(entranceFees_cost)) %&gt;% 
 mutate(parkCode=str_to_upper(parkCode))%&gt;% full_join(NPS_data_visits,by=join_by(&#39;parkCode&#39;==&#39;UnitCode&#39;))</code></pre>
-<pre><code>## Warning in full_join(., NPS_data_visits, by = join_by(&quot;parkCode&quot; == &quot;UnitCode&quot;)): Detected an unexpected many-to-many relationship between `x` and
-## `y`.
+<pre><code>## Warning in full_join(., NPS_data_visits, by = join_by(&quot;parkCode&quot; == &quot;UnitCode&quot;)): Detected an unexpected many-to-many relationship between `x` and `y`.
 ## ℹ Row 1 of `x` matches multiple rows in `y`.
 ## ℹ Row 289 of `y` matches multiple rows in `x`.
 ## ℹ If a many-to-many relationship is expected, set `relationship =
@@ -311,16 +319,16 @@ ggplot(aes(x=states,y=meanFee))+geom_point()</code></pre>
   group_by(fullName,entranceFees_cost,states) %&gt;% 
   summarise(avg_visit=mean(RecreationVisitsTotal)) %&gt;% 
   ggplot(aes(x=entranceFees_cost,y=avg_visit,colour = states))+geom_point()</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;,
-## &#39;entranceFees_cost&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## Warning: Removed 6 rows containing missing values or values outside the
-## scale range (`geom_point()`).</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;, &#39;entranceFees_cost&#39;. You
+## can override using the `.groups` argument.</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
 <p><img src="ml5222_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>NPS_Full %&gt;% group_by(fullName,UnitCodeTotal) %&gt;% summarise(n_act=(n_distinct(activities_name)), totalvisit=mean(RecreationVisitsTotal)) %&gt;% ggplot(aes(x=n_act,y=totalvisit))+geom_point()</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;. You can override
-## using the `.groups` argument.</code></pre>
-<pre><code>## Warning: Removed 7 rows containing missing values or values outside the
-## scale range (`geom_point()`).</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;. You can override using
+## the `.groups` argument.</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
 <p><img src="ml5222_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="r"><code>NPS_Full %&gt;% group_by(fullName)%&gt;% summarise(n=n_distinct(entranceFees_title)) %&gt;% view()</code></pre>
 <pre class="r"><code>NPS_Full %&gt;% 
@@ -328,13 +336,13 @@ ggplot(aes(x=states,y=meanFee))+geom_point()</code></pre>
   select(fullName,entranceFees_cost,RecreationVisits) %&gt;% group_by(fullName,entranceFees_cost) %&gt;% 
   summarise(avg_visit=mean(RecreationVisits)) %&gt;% 
   ggplot(aes(x=entranceFees_cost,y=avg_visit))+geom_point()+stat_smooth(method = &#39;lm&#39;)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;. You can override
-## using the `.groups` argument.
+<pre><code>## `summarise()` has grouped output by &#39;fullName&#39;. You can override using
+## the `.groups` argument.
 ## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 6 rows containing non-finite outside the scale range
 ## (`stat_smooth()`).</code></pre>
-<pre><code>## Warning: Removed 6 rows containing missing values or values outside the
-## scale range (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
 <p><img src="ml5222_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>NPS_Full %&gt;%
   filter(entranceFees_title==&#39;Entrance - Per Person&#39;) %&gt;% 
@@ -360,8 +368,8 @@ ggplot(aes(x=states,y=meanFee))+geom_point()</code></pre>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 6 rows containing non-finite outside the scale range
 ## (`stat_smooth()`).</code></pre>
-<pre><code>## Warning: Removed 6 rows containing missing values or values outside the
-## scale range (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
 <p><img src="ml5222_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>NPS_Full %&gt;% distinct(fullName,Month,Year,RecreationVisits,ParkType) %&gt;% group_by(ParkType) %&gt;% summarise(total_visit=sum(RecreationVisits)/n_distinct(fullName)) %&gt;% 
   mutate(ParkType=fct_reorder(ParkType,total_visit)) %&gt;% 
@@ -372,8 +380,8 @@ ggplot(aes(x=states,y=meanFee))+geom_point()</code></pre>
 ## ! `fct_reorder()` removing 1 missing value.
 ## ℹ Use `.na_rm = TRUE` to silence this message.
 ## ℹ Use `.na_rm = FALSE` to preserve NAs.</code></pre>
-<pre><code>## Warning: Removed 1 row containing missing values or values outside the scale
-## range (`geom_col()`).</code></pre>
+<pre><code>## Warning: Removed 1 row containing missing values or values outside the scale range
+## (`geom_col()`).</code></pre>
 <p><img src="ml5222_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code>NPS_Full %&gt;% distinct(fullName,activities_name,ParkType) %&gt;% group_by(ParkType) %&gt;% summarise(total_act=n_distinct(activities_name)) %&gt;% 
   mutate(ParkType=fct_reorder(ParkType,total_act)) %&gt;% 
