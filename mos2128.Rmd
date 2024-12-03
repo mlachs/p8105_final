@@ -242,11 +242,16 @@ This plot was interesting because the park type `Park (Other)` has high `tent` m
 
 map of all national parks in US
 
-```{r,eval = FALSE}
-leaflet(data = NPS_data) %>% 
-  addTiles() %>% 
-  addMarkers(~longitude, ~latitude) %>%
-  setView(lng = -98.583, lat = 39.828, zoom = 4)
+```{r}
+regional_data <- NPS_data %>% 
+  mutate(region = case_when(
+    states %in% c("CT", "RI", "NH", "VT", "NJ", "NY", "PA", "MD", "ME", "MA") ~ "northeast", 
+    states %in% c("IL","IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD") ~ "midwest", 
+    states %in% c("FL", "GA", "NC", "SC", "VA", "DE", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX", "DC") ~ "south", 
+    states %in% c("AK", "CA", "HI", "OR", "WA", "AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY") ~ "west",
+    states %in% c("VI", "AS", "GU", "PR") ~ "u.s. territory",
+    TRUE ~ "no state data"
+  ))
 
 g <- list(
   scope = 'usa',
@@ -271,15 +276,6 @@ fig <- fig %>% layout(
 
 fig
 
-regional_data <- NPS_data %>% 
-  mutate(region = case_when(
-    states %in% c("CT", "RI", "NH", "VT", "NJ", "NY", "PA", "MD", "ME", "MA") ~ "northeast", 
-    states %in% c("IL","IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD") ~ "midwest", 
-    states %in% c("FL", "GA", "NC", "SC", "VA", "DE", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX", "DC") ~ "south", 
-    states %in% c("AK", "CA", "HI", "OR", "WA", "AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY") ~ "west",
-    states %in% c("VI", "AS", "GU", "PR") ~ "u.s. territory",
-    TRUE ~ "no state data"
-  ))
 ```
 
 # **Regional Comparisons**
